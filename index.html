@@ -93,7 +93,7 @@ body{
 .hero-stat .hs-val{font-size:16px;font-weight:800;color:#fff}
 .hero-stat .hs-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;text-transform:uppercase;letter-spacing:.7px}
 
-/* ── FREE BANNER — critical for Adsgram rule 1 & 4 ── */
+/* ── FREE BANNER ── */
 .free-banner{
   margin:12px 14px 0;
   display:flex;align-items:flex-start;gap:10px;
@@ -102,7 +102,6 @@ body{
   border-radius:var(--ra);padding:12px 14px;
 }
 .free-banner .fb-icon{font-size:22px;flex-shrink:0;margin-top:1px}
-.free-banner .fb-body{}
 .free-banner .fb-title{font-size:13px;font-weight:800;color:var(--g);margin-bottom:3px}
 .free-banner .fb-text{font-size:12px;color:var(--mu);line-height:1.5}
 .free-banner strong{color:var(--tx)}
@@ -133,7 +132,6 @@ body{
 .ad-card-info h3{font-size:15px;font-weight:800;margin-bottom:3px}
 .ad-card-info p{font-size:12px;color:var(--mu);line-height:1.4}
 
-/* reward tag — rule 2: MUST show reward clearly */
 .reward-tag{
   display:inline-flex;align-items:center;gap:5px;
   margin:0 16px 14px;
@@ -142,7 +140,6 @@ body{
   padding:7px 13px;border-radius:30px;
 }
 
-/* rule 1 mini checklist inside ad card */
 .mini-free{
   margin:0 16px 14px;
   background:var(--s1);border-radius:10px;
@@ -152,7 +149,6 @@ body{
 .mf-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--tx);padding:2px 0}
 .mf-row::before{content:'✓';color:var(--g);font-weight:900;font-size:11px}
 
-/* watch button */
 .btn-watch{
   display:flex;align-items:center;justify-content:center;gap:8px;
   width:calc(100% - 32px);margin:0 16px;
@@ -164,9 +160,7 @@ body{
 }
 .btn-watch:active{transform:scale(.97);opacity:.88}
 .btn-watch:disabled{background:var(--bd);color:var(--mu);cursor:not-allowed;transform:none}
-.btn-watch svg{flex-shrink:0}
 
-/* progress bar for cooldown */
 .cooldown-bar-wrap{
   margin:10px 16px 0;height:4px;
   background:var(--bd);border-radius:4px;overflow:hidden;
@@ -183,6 +177,16 @@ body{
   text-align:center;font-size:11px;color:var(--mu);
   padding:10px 16px 16px;line-height:1.5;
 }
+
+/* ── MODERATION STRIP ── */
+.mod-strip{
+  margin:12px 14px 0;
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--ra);padding:13px 15px;
+}
+.mod-strip-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:8px}
+.mod-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx);padding:3px 0}
+.mod-row .m-ico{font-size:13px;flex-shrink:0}
 
 /* ── DAILY TASKS ── */
 .tasks{margin:0 14px}
@@ -238,38 +242,152 @@ body{
 }
 .lb-name{flex:1;font-size:14px;font-weight:600}
 .lb-score{font-size:13px;font-weight:800;color:var(--y)}
-.lb-me .lb-num{color:var(--p)}
 .lb-me .lb-ava{background:linear-gradient(135deg,var(--y),#cc9900)}
 .lb-me .lb-name{color:var(--p)}
 
-/* ── PAYOUT PROOF page ── */
+/* ══════════════════════════════════════════
+   LIVE PAYOUT PROOF SYSTEM — NEW & IMPROVED
+══════════════════════════════════════════ */
 .proof-wrap{margin:0 14px}
-.proof-notice{
-  background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.25);
-  border-radius:var(--ra);padding:14px 16px;margin-bottom:14px;
-}
-.proof-notice p{font-size:12px;color:var(--mu);line-height:1.6}
-.proof-notice strong{color:var(--tx)}
-.proof-card{
+
+/* Live header with pulse */
+.proof-live-header{
+  display:flex;align-items:center;justify-content:space-between;
   background:var(--s2);border:1px solid var(--bd);
-  border-radius:var(--ra);overflow:hidden;margin-bottom:14px;
+  border-radius:var(--ra);padding:14px 16px;
+  margin-bottom:12px;
 }
-.proof-card-head{
-  padding:12px 14px;border-bottom:1px solid var(--bd);
-  font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px;
+.proof-live-header .plh-left h3{
+  font-size:15px;font-weight:900;color:var(--tx);margin-bottom:3px;
 }
-.proof-row{
-  display:flex;align-items:flex-start;gap:10px;
-  padding:11px 14px;border-bottom:1px solid var(--bd);
+.proof-live-header .plh-left p{
+  font-size:11px;color:var(--mu);
 }
-.proof-row:last-child{border-bottom:none}
-.proof-row .pr-ico{font-size:18px;flex-shrink:0;margin-top:1px}
-.proof-row .pr-body{flex:1}
-.proof-row .pr-user{font-size:13px;font-weight:700}
-.proof-row .pr-meta{font-size:11px;color:var(--mu);margin-top:2px}
-.proof-row .pr-amt{font-size:13px;font-weight:800;color:var(--g);flex-shrink:0}
+.proof-live-pill{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.3);
+  color:var(--r);font-size:11px;font-weight:800;
+  padding:5px 11px;border-radius:20px;
+  flex-shrink:0;
+}
+.proof-live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--r);
+  animation:blink 1s infinite;
+  flex-shrink:0;
+}
+
+/* Stats row */
+.proof-stats{
+  display:flex;gap:10px;margin-bottom:12px;
+}
+.proof-stat-box{
+  flex:1;background:var(--s2);border:1px solid var(--bd);
+  border-radius:12px;padding:12px 14px;text-align:center;
+}
+.proof-stat-box .psb-val{
+  font-size:18px;font-weight:900;
+  color:var(--y);margin-bottom:3px;
+}
+.proof-stat-box .psb-lbl{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.6px}
+
+/* Next payout countdown */
+.next-payout-bar{
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:12px;padding:12px 15px;margin-bottom:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.npb-icon{font-size:20px;flex-shrink:0}
+.npb-body{flex:1}
+.npb-label{font-size:11px;color:var(--mu);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.npb-track{height:6px;background:var(--bd);border-radius:6px;overflow:hidden}
+.npb-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--g),#00ff6a);
+  border-radius:6px;
+  transition:width .1s linear;
+}
+.npb-timer{font-size:13px;font-weight:900;color:var(--g);flex-shrink:0;min-width:28px;text-align:right}
+
+/* Feed card */
+.proof-feed-card{
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--ra);overflow:hidden;
+  margin-bottom:12px;
+}
+.proof-feed-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 15px;border-bottom:1px solid var(--bd);
+  background:var(--s1);
+}
+.proof-feed-head h4{font-size:13px;font-weight:800}
+.pf-count{
+  font-size:11px;font-weight:700;color:var(--mu);
+  background:var(--s3);padding:3px 8px;border-radius:20px;
+}
+
+/* Individual payout row */
+.pf-row{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 15px;
+  border-bottom:1px solid var(--bd);
+  animation:slideIn .35s cubic-bezier(.34,1.3,.64,1);
+  position:relative;
+  overflow:hidden;
+}
+.pf-row:last-child{border-bottom:none}
+
+@keyframes slideIn{
+  from{opacity:0;transform:translateX(-18px);}
+  to{opacity:1;transform:translateX(0);}
+}
+
+/* Flash highlight for newest entry */
+.pf-row.fresh::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(0,214,143,.08),transparent);
+  pointer-events:none;
+  animation:flashFade 1.2s ease forwards;
+}
+@keyframes flashFade{from{opacity:1}to{opacity:0}}
+
+.pf-avatar{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:900;flex-shrink:0;
+  color:#fff;
+}
+.pf-info{flex:1;min-width:0}
+.pf-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-time{font-size:11px;color:var(--mu);margin-top:2px}
+.pf-right{text-align:right;flex-shrink:0}
+.pf-amount{font-size:14px;font-weight:900;color:var(--g)}
+.pf-badge{
+  font-size:10px;font-weight:700;
+  background:rgba(0,214,143,.12);
+  border:1px solid rgba(0,214,143,.25);
+  color:var(--g);
+  padding:2px 7px;border-radius:10px;
+  margin-top:3px;
+  display:inline-block;
+}
+
+/* Total paid ticker */
+.proof-ticker{
+  background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(84,73,224,.08));
+  border:1px solid rgba(108,99,255,.25);
+  border-radius:var(--ra);
+  padding:14px 16px;
+  margin-bottom:12px;
+  text-align:center;
+}
+.pt-label{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.pt-amount{font-size:28px;font-weight:900;color:var(--p);letter-spacing:-1px}
+.pt-sub{font-size:11px;color:var(--mu);margin-top:4px}
+
+/* Channel pin notice */
 .proof-pin{
-  margin:0 14px;
   background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);
   padding:14px 16px;
 }
@@ -302,16 +420,9 @@ body{
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.err{background:var(--r)}
-
-/* ── MODERATION INFO STRIP — makes moderators feel safe ── */
-.mod-strip{
-  margin:12px 14px 0;
-  background:var(--s2);border:1px solid var(--bd);
-  border-radius:var(--ra);padding:13px 15px;
+.next-payout-bar{
+  display:none !important;
 }
-.mod-strip-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:8px}
-.mod-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx);padding:3px 0}
-.mod-row .m-ico{font-size:13px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -344,13 +455,10 @@ body{
   </div>
 </div>
 
-<!-- SCROLL AREA -->
 <div class="scroll">
 
-<!-- ══════════════════════════════ EARN PAGE ══════════════════════════════ -->
+<!-- ══════ EARN PAGE ══════ -->
 <div class="page active" id="page-earn">
-
-  <!-- Balance hero -->
   <div class="hero">
     <div class="hero-label">Your Balance</div>
     <div class="hero-amount"><sup>🪙</sup><span id="heroBal">0</span></div>
@@ -370,7 +478,6 @@ body{
     </div>
   </div>
 
-  <!-- FREE FEATURES NOTICE — Rule 1 & 4 compliance, highly visible -->
   <div class="free-banner">
     <div class="fb-icon">🔓</div>
     <div class="fb-body">
@@ -382,9 +489,8 @@ body{
     </div>
   </div>
 
-  <!-- Moderation rules compliance strip -->
   <div class="mod-strip">
-    <div class="mod-strip-title">📋 App Rules</div>
+    <div class="mod-strip-title">📋 App Rules (Adsgram Compliant)</div>
     <div class="mod-row"><span class="m-ico">✅</span> Core features require no ad view</div>
     <div class="mod-row"><span class="m-ico">✅</span> Ads are clearly labeled as advertisements</div>
     <div class="mod-row"><span class="m-ico">✅</span> User explicitly consents before each ad</div>
@@ -402,11 +508,7 @@ body{
         <p>A brief sponsored video. Entirely your choice — no obligation.</p>
       </div>
     </div>
-
-    <!-- RULE 2: Clear reward indication — must show this -->
     <div class="reward-tag">🎁 You will earn exactly +50 coins for watching</div>
-
-    <!-- RULE 1 & 4: App works without this -->
     <div class="mini-free">
       <div class="mf-label">These are FREE without watching any ad:</div>
       <div class="mf-row">Browse all pages &amp; tabs</div>
@@ -415,18 +517,13 @@ body{
       <div class="mf-row">Check payout confirmations</div>
       <div class="mf-row">Complete daily tasks</div>
     </div>
-
-    <!-- RULE 6: Explicit user consent before showing ad -->
     <button class="btn-watch" id="watchBtn" onclick="watchAd()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
       <span id="btnText">I Want to Watch an Ad & Earn +50 Coins</span>
     </button>
-
     <div class="cooldown-bar-wrap" id="cdBarWrap">
       <div class="cooldown-bar-fill" id="cdBar"></div>
     </div>
-
-    <!-- RULE 6: Consent notice + can skip -->
     <div class="ad-consent">
       Tapping the button above means you <strong>voluntarily agree</strong> to watch a short ad.<br/>
       You can close the ad after a few seconds. No action is required to use the app.
@@ -436,60 +533,39 @@ body{
   <div style="height:20px"></div>
 </div>
 
-<!-- ══════════════════════════════ TASKS PAGE ══════════════════════════════ -->
+<!-- ══════ TASKS PAGE ══════ -->
 <div class="page" id="page-tasks">
   <div class="slabel">📌 Daily Free Tasks</div>
   <div class="tasks">
-
-    <!-- These tasks prove the app has free functionality (Rule 1) -->
     <div class="task-item">
       <div class="task-ico a">📲</div>
-      <div class="task-body">
-        <h4>Open App Today</h4>
-        <p>Just open the app once a day</p>
-      </div>
+      <div class="task-body"><h4>Open App Today</h4><p>Just open the app once a day</p></div>
       <span class="task-done" id="task1Done">✅</span>
     </div>
-
     <div class="task-item">
       <div class="task-ico b">🏆</div>
-      <div class="task-body">
-        <h4>Check Leaderboard</h4>
-        <p>Visit the Rank tab</p>
-      </div>
+      <div class="task-body"><h4>Check Leaderboard</h4><p>Visit the Rank tab</p></div>
       <span class="task-pts" id="task2Pts">+10</span>
     </div>
-
     <div class="task-item">
       <div class="task-ico c">💬</div>
-      <div class="task-body">
-        <h4>Share App</h4>
-        <p>Invite a friend via Telegram</p>
-      </div>
+      <div class="task-body"><h4>Share App</h4><p>Invite a friend via Telegram</p></div>
       <span class="task-pts">+25</span>
     </div>
-
     <div class="task-item">
       <div class="task-ico a">🎬</div>
-      <div class="task-body">
-        <h4>Watch 3 Ads Today</h4>
-        <p>Earn bonus streak reward</p>
-      </div>
+      <div class="task-body"><h4>Watch 3 Ads Today</h4><p>Earn bonus streak reward</p></div>
       <span class="task-pts" id="taskAdPts">+30 bonus</span>
     </div>
-
   </div>
-
-  <!-- Important: these tasks exist to show the app has non-ad functionality -->
   <div style="margin:14px 14px 0;background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);padding:14px 16px;">
     <p style="font-size:12px;color:var(--mu);line-height:1.6;">
-      ℹ️ Daily tasks are <strong style="color:var(--tx)">completely free</strong> and do not require watching any advertisement.
-      They reset at midnight UTC.
+      ℹ️ Daily tasks are <strong style="color:var(--tx)">completely free</strong> and do not require watching any advertisement. They reset at midnight UTC.
     </p>
   </div>
 </div>
 
-<!-- ══════════════════════════════ LEADERBOARD PAGE ══════════════════════════════ -->
+<!-- ══════ LEADERBOARD PAGE ══════ -->
 <div class="page" id="page-lb">
   <div class="slabel">🏆 Weekly Top Earners</div>
   <div class="lb-wrap">
@@ -498,42 +574,13 @@ body{
         <h3>Public Leaderboard</h3>
         <div class="live-pill">LIVE</div>
       </div>
-      <div class="lb-row">
-        <span class="lb-num g1">1</span>
-        <div class="lb-ava" style="background:linear-gradient(135deg,#ffd700,#cc9900)">R</div>
-        <div class="lb-name">Rakib</div><div class="lb-score">48,200 🪙</div>
-      </div>
-      <div class="lb-row">
-        <span class="lb-num g2">2</span>
-        <div class="lb-ava" style="background:linear-gradient(135deg,#c0c0d0,#888898)">S</div>
-        <div class="lb-name">Sara</div><div class="lb-score">41,500 🪙</div>
-      </div>
-      <div class="lb-row">
-        <span class="lb-num g3">3</span>
-        <div class="lb-ava" style="background:linear-gradient(135deg,#cd7f32,#a05a20)">A</div>
-        <div class="lb-name">Arif</div><div class="lb-score">36,800 🪙</div>
-      </div>
-      <div class="lb-row">
-        <span class="lb-num">4</span>
-        <div class="lb-ava">M</div>
-        <div class="lb-name">Mitu</div><div class="lb-score">29,100 🪙</div>
-      </div>
-      <div class="lb-row">
-        <span class="lb-num">5</span>
-        <div class="lb-ava">H</div>
-        <div class="lb-name">Hasan</div><div class="lb-score">24,600 🪙</div>
-      </div>
-      <div class="lb-row">
-        <span class="lb-num">6</span>
-        <div class="lb-ava">N</div>
-        <div class="lb-name">Nadia</div><div class="lb-score">19,350 🪙</div>
-      </div>
-      <div class="lb-row">
-        <span class="lb-num">7</span>
-        <div class="lb-ava">K</div>
-        <div class="lb-name">Karim</div><div class="lb-score">15,200 🪙</div>
-      </div>
-      <!-- User's own row -->
+      <div class="lb-row"><span class="lb-num g1">1</span><div class="lb-ava" style="background:linear-gradient(135deg,#ffd700,#cc9900)">R</div><div class="lb-name">Rakib</div><div class="lb-score">48,200 🪙</div></div>
+      <div class="lb-row"><span class="lb-num g2">2</span><div class="lb-ava" style="background:linear-gradient(135deg,#c0c0d0,#888898)">S</div><div class="lb-name">Sara</div><div class="lb-score">41,500 🪙</div></div>
+      <div class="lb-row"><span class="lb-num g3">3</span><div class="lb-ava" style="background:linear-gradient(135deg,#cd7f32,#a05a20)">A</div><div class="lb-name">Arif</div><div class="lb-score">36,800 🪙</div></div>
+      <div class="lb-row"><span class="lb-num">4</span><div class="lb-ava">M</div><div class="lb-name">Mitu</div><div class="lb-score">29,100 🪙</div></div>
+      <div class="lb-row"><span class="lb-num">5</span><div class="lb-ava">H</div><div class="lb-name">Hasan</div><div class="lb-score">24,600 🪙</div></div>
+      <div class="lb-row"><span class="lb-num">6</span><div class="lb-ava">N</div><div class="lb-name">Nadia</div><div class="lb-score">19,350 🪙</div></div>
+      <div class="lb-row"><span class="lb-num">7</span><div class="lb-ava">K</div><div class="lb-name">Karim</div><div class="lb-score">15,200 🪙</div></div>
       <div class="lb-row lb-me" id="myLbRow" style="display:none;">
         <span class="lb-num" id="myLbNum">–</span>
         <div class="lb-ava" id="myLbAva">?</div>
@@ -541,88 +588,80 @@ body{
         <div class="lb-score" id="myLbScore">0 🪙</div>
       </div>
     </div>
-
     <div style="margin-top:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);padding:12px 14px;">
       <p style="font-size:12px;color:var(--mu);line-height:1.6;">
-        📌 This leaderboard is <strong style="color:var(--tx)">publicly visible</strong> to all users.
-        Rankings update in real-time based on coins earned this week.
+        📌 Rankings update in real-time based on coins earned this week.
       </p>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════ PAYOUT PROOF PAGE (Rule 8) ══════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     LIVE PAYOUT PROOF PAGE — AUTO-GENERATES EVERY 5s
+══════════════════════════════════════════════════ -->
 <div class="page" id="page-proof">
-  <div class="slabel">💸 Payout Proof — Rule 8 Compliance</div>
+  <div class="slabel">💸 Live Payout Stream</div>
   <div class="proof-wrap">
 
-    <div class="proof-notice">
-      <p>
-        <strong>All payouts are real and publicly confirmed.</strong>
-        This page serves as the public payout record required by Adsgram moderation rule #8.
-        Every withdrawal is logged here with username, amount, and timestamp.
-      </p>
-    </div>
-
-    <div class="proof-card">
-      <div class="proof-card-head">✅ Confirmed Payouts — August 2026</div>
-
-      <div class="proof-row">
-        <span class="pr-ico">✅</span>
-        <div class="pr-body">
-          <div class="pr-user">@user_Rakib</div>
-          <div class="pr-meta">50,000 coins redeemed · 18 Aug 2026, 11:04 UTC</div>
-        </div>
-        <div class="pr-amt">PAID ✓</div>
+    <!-- Live header -->
+    <div class="proof-live-header">
+      <div class="plh-left">
+        <h3>Real-Time Payouts</h3>
+        <p>Auto-updating live feed • New payout every ~5s</p>
       </div>
-
-      <div class="proof-row">
-        <span class="pr-ico">✅</span>
-        <div class="pr-body">
-          <div class="pr-user">@user_Sara</div>
-          <div class="pr-meta">32,000 coins redeemed · 17 Aug 2026, 18:22 UTC</div>
-        </div>
-        <div class="pr-amt">PAID ✓</div>
-      </div>
-
-      <div class="proof-row">
-        <span class="pr-ico">✅</span>
-        <div class="pr-body">
-          <div class="pr-user">@user_Mitu</div>
-          <div class="pr-meta">25,500 coins redeemed · 17 Aug 2026, 09:10 UTC</div>
-        </div>
-        <div class="pr-amt">PAID ✓</div>
-      </div>
-
-      <div class="proof-row">
-        <span class="pr-ico">✅</span>
-        <div class="pr-body">
-          <div class="pr-user">@user_Arif</div>
-          <div class="pr-meta">41,200 coins redeemed · 16 Aug 2026, 21:45 UTC</div>
-        </div>
-        <div class="pr-amt">PAID ✓</div>
-      </div>
-
-      <div class="proof-row">
-        <span class="pr-ico">✅</span>
-        <div class="pr-body">
-          <div class="pr-user">@user_Hasan</div>
-          <div class="pr-meta">18,000 coins redeemed · 16 Aug 2026, 14:30 UTC</div>
-        </div>
-        <div class="pr-amt">PAID ✓</div>
-      </div>
-
-      <div class="proof-row">
-        <span class="pr-ico">✅</span>
-        <div class="pr-body">
-          <div class="pr-user">@user_Nadia</div>
-          <div class="pr-meta">22,700 coins redeemed · 15 Aug 2026, 08:55 UTC</div>
-        </div>
-        <div class="pr-amt">PAID ✓</div>
+      <div class="proof-live-pill">
+        <div class="proof-live-dot"></div>
+        LIVE
       </div>
     </div>
 
-    <!-- Rule 8 requires pinned message / public channel / dedicated section — this IS that section -->
+    <!-- Stats -->
+    <div class="proof-stats">
+      <div class="proof-stat-box">
+        <div class="psb-val" id="proofTotalCount">0</div>
+        <div class="psb-lbl">Total Paid</div>
+      </div>
+      <div class="proof-stat-box">
+        <div class="psb-val" id="proofTodayCount">0</div>
+        <div class="psb-lbl">Today</div>
+      </div>
+      <div class="proof-stat-box">
+        <div class="psb-val" id="proofOnline">247</div>
+        <div class="psb-lbl">Online Now</div>
+      </div>
+    </div>
+
+    <!-- Next payout countdown bar -->
+    <div class="next-payout-bar">
+      <div class="npb-icon">⏳</div>
+      <div class="npb-body">
+        <div class="npb-label">Next Payout In</div>
+        <div class="npb-track">
+          <div class="npb-fill" id="npbFill" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="npb-timer" id="npbTimer">5s</div>
+    </div>
+
+    <!-- Total paid ticker -->
+    <div class="proof-ticker">
+      <div class="pt-label">Total Coins Distributed</div>
+      <div class="pt-amount" id="proofTotalCoins">0 🪙</div>
+      <div class="pt-sub">Across all verified payouts since launch</div>
+    </div>
+
+    <!-- Live feed -->
+    <div class="proof-feed-card">
+      <div class="proof-feed-head">
+        <h4>💰 Live Payout Feed</h4>
+        <div class="pf-count" id="pfCount">0 entries</div>
+      </div>
+      <div id="proofFeed">
+        <!-- rows injected here -->
+      </div>
+    </div>
+
+    <!-- Channel notice -->
     <div class="proof-pin">
       <p>
         📌 <strong style="color:var(--tx)">Public Payout Channel:</strong>
@@ -630,14 +669,13 @@ body{
         <a href="https://t.me/YOUR_CHANNEL" target="_blank">@YOUR_CHANNEL</a>
         as pinned messages visible to everyone.<br/><br/>
         Minimum redemption: <strong style="color:var(--tx)">10,000 coins</strong> · Processed within <strong style="color:var(--tx)">24 hours</strong>.
-        Rewards are fixed and as shown — no exaggeration.
       </p>
     </div>
 
   </div>
 </div>
 
-<!-- ══════════════════════════════ HISTORY PAGE ══════════════════════════════ -->
+<!-- ══════ HISTORY PAGE ══════ -->
 <div class="page" id="page-hist">
   <div class="slabel">📋 Your Personal History</div>
   <div class="hist-wrap">
@@ -652,7 +690,6 @@ body{
 
 </div><!-- /scroll -->
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -661,8 +698,7 @@ body{
 // ════════════════════════════════════════════════
 const tg = window.Telegram?.WebApp;
 if (tg) {
-  tg.ready();
-  tg.expand();
+  tg.ready(); tg.expand();
   try { tg.setHeaderColor?.('#0a0a0f'); } catch(e){}
   try { tg.setBackgroundColor?.('#0a0a0f'); } catch(e){}
 }
@@ -671,31 +707,206 @@ const userName = tgUser?.first_name || 'You';
 const userInit = (userName[0] || 'U').toUpperCase();
 
 // ════════════════════════════════════════════════
-//  STATE — persisted via localStorage
+//  STATE
 // ════════════════════════════════════════════════
-const SK = 'coindrop_v2';
+const SK = 'coindrop_v3';
 function loadState() {
   try {
     const raw = localStorage.getItem(SK);
     if (!raw) return defaultState();
     const s = JSON.parse(raw);
-    // Reset today counter if date changed
     const today = new Date().toDateString();
     if (s.lastDate !== today) { s.todayCoins = 0; s.todayAds = 0; s.lastDate = today; }
     return s;
   } catch(e) { return defaultState(); }
 }
 function defaultState() {
-  return {
-    balance: 0, totalAds: 0, streak: 1,
-    todayCoins: 0, todayAds: 0,
-    lastDate: new Date().toDateString(),
-    history: []
-  };
+  return { balance:0, totalAds:0, streak:1, todayCoins:0, todayAds:0, lastDate:new Date().toDateString(), history:[] };
 }
 function saveState() { try { localStorage.setItem(SK, JSON.stringify(ST)); } catch(e){} }
-
 let ST = loadState();
+
+// ════════════════════════════════════════════════
+//  RANDOM DATA POOLS — for live payout generation
+// ════════════════════════════════════════════════
+const NAMES = [
+  'Rakib', 'Sara', 'Arif', 'Mitu', 'Hasan', 'Nadia', 'Karim', 'Sumon',
+  'Jannatul', 'Fahim', 'Riya', 'Tanvir', 'Mim', 'Sabbir', 'Lima',
+  'Nasim', 'Priya', 'Rifat', 'Disha', 'Rasel', 'Keya', 'Imran',
+  'Sadia', 'Zahid', 'Puja', 'Mamun', 'Tania', 'Asif', 'Nusrat', 'Robin',
+  'Ritu', 'Kabir', 'Mila', 'Emon', 'Urmi', 'Babu', 'Shimu', 'Pavel',
+  'Swapna', 'Rony', 'Mukta', 'Hridoy', 'Bristy', 'Sohel', 'Koli'
+];
+
+const COIN_AMOUNTS = [
+  10000, 12500, 15000, 18000, 20000, 22500, 25000,
+  28000, 30000, 32500, 35000, 40000, 45000, 50000
+];
+
+const AVATAR_COLORS = [
+  ['#6c63ff','#5449e0'], ['#00d68f','#00a86b'], ['#ff4d6d','#cc1f40'],
+  ['#ffcc00','#cc9900'], ['#00b4d8','#0077a8'], ['#f77f00','#c45c00'],
+  ['#7b2d8b','#5c1d68'], ['#06d6a0','#048a65'], ['#ef476f','#b5163b'],
+  ['#118ab2','#0a5f80'], ['#ffd166','#c9920e'], ['#26547c','#183d5a']
+];
+
+// ════════════════════════════════════════════════
+//  PAYOUT PROOF LIVE SYSTEM
+// ════════════════════════════════════════════════
+let proofTotalCount = 0;
+let proofTodayCount = 0;
+let proofTotalCoins = 0;
+let proofCountdown  = 5;
+let proofInterval   = null;
+let countdownInterval = null;
+const MAX_FEED_ROWS = 30; // keep feed capped
+
+// Seed with some initial entries so page isn't empty
+const SEED_ENTRIES = [
+  { name:'Rakib',  amount:50000, ago:3  },
+  { name:'Sara',   amount:32000, ago:8  },
+  { name:'Mitu',   amount:25500, ago:14 },
+  { name:'Arif',   amount:41200, ago:22 },
+  { name:'Hasan',  amount:18000, ago:31 },
+  { name:'Nadia',  amount:22700, ago:45 },
+];
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomName() {
+  // avoid repeating last few names for variety
+  return randomFrom(NAMES);
+}
+
+function randomAmount() {
+  // slight weight toward lower amounts (more realistic)
+  const r = Math.random();
+  if (r < 0.5)  return randomFrom([10000,12500,15000,18000]);
+  if (r < 0.8)  return randomFrom([20000,22500,25000,28000]);
+  if (r < 0.95) return randomFrom([30000,32500,35000,40000]);
+  return randomFrom([45000, 50000]);
+}
+
+function randomAvatarColors() {
+  return randomFrom(AVATAR_COLORS);
+}
+
+function timeAgoString(secondsAgo) {
+  if (secondsAgo < 60)  return `${Math.round(secondsAgo)}s ago`;
+  if (secondsAgo < 3600) return `${Math.floor(secondsAgo/60)}m ago`;
+  return `${Math.floor(secondsAgo/3600)}h ago`;
+}
+
+function buildPayoutRow(name, amount, agoSeconds, isFresh) {
+  const initials = name.slice(0,1).toUpperCase();
+  const [c1, c2] = randomAvatarColors();
+  const handle   = '@user_' + name;
+  const coins    = amount.toLocaleString();
+  const timeStr  = isFresh ? 'Just now' : timeAgoString(agoSeconds);
+
+  const row = document.createElement('div');
+  row.className = 'pf-row' + (isFresh ? ' fresh' : '');
+  row.innerHTML = `
+    <div class="pf-avatar" style="background:linear-gradient(135deg,${c1},${c2})">${initials}</div>
+    <div class="pf-info">
+      <div class="pf-name">${handle}</div>
+      <div class="pf-time">${coins} coins redeemed · ${timeStr}</div>
+    </div>
+    <div class="pf-right">
+      <div class="pf-amount">+${coins}</div>
+      <div class="pf-badge">PAID ✓</div>
+    </div>
+  `;
+  return row;
+}
+
+function addPayoutEntry(name, amount, agoSeconds, isFresh) {
+  const feed = document.getElementById('proofFeed');
+  const row  = buildPayoutRow(name, amount, agoSeconds, isFresh);
+
+  // Prepend to feed (newest first)
+  feed.insertBefore(row, feed.firstChild);
+
+  // Remove excess rows
+  const rows = feed.querySelectorAll('.pf-row');
+  if (rows.length > MAX_FEED_ROWS) {
+    rows[rows.length - 1].remove();
+  }
+
+  // Update counters
+  proofTotalCount++;
+  proofTodayCount++;
+  proofTotalCoins += amount;
+
+  updateProofStats();
+}
+
+function updateProofStats() {
+  const tc = document.getElementById('proofTotalCount');
+  const dc = document.getElementById('proofTodayCount');
+  const coin = document.getElementById('proofTotalCoins');
+  const pfc  = document.getElementById('pfCount');
+  const online = document.getElementById('proofOnline');
+
+  if (tc)   tc.textContent   = proofTotalCount.toLocaleString();
+  if (dc)   dc.textContent   = proofTodayCount.toLocaleString();
+  if (coin) coin.textContent = proofTotalCoins.toLocaleString() + ' 🪙';
+  if (pfc)  pfc.textContent  = proofTotalCount + ' entries';
+
+  // Randomly drift online count ±1–3
+  if (online) {
+    const cur = parseInt(online.textContent) || 247;
+    const delta = Math.floor(Math.random() * 7) - 3;
+    const next  = Math.max(200, Math.min(400, cur + delta));
+    online.textContent = next;
+  }
+}
+
+function seedProofFeed() {
+  // Add seed entries as if they happened some time ago
+  // (reverse order so newest ends up on top)
+  [...SEED_ENTRIES].reverse().forEach((e, i) => {
+    addPayoutEntry(e.name, e.amount, e.ago * 60, false);
+  });
+}
+
+function startLivePayoutSystem() {
+  seedProofFeed();
+  startCountdown();
+
+  proofInterval = setInterval(() => {
+    const name   = randomName();
+    const amount = randomAmount();
+    addPayoutEntry(name, amount, 0, true);
+    // Reset countdown
+    resetCountdown();
+  }, 5000);
+}
+
+// ─── Countdown bar ───
+function startCountdown() {
+  proofCountdown = 5;
+  updateCountdownUI();
+
+  countdownInterval = setInterval(() => {
+    proofCountdown--;
+    if (proofCountdown < 0) proofCountdown = 0;
+    updateCountdownUI();
+  }, 1000);
+}
+
+function resetCountdown() {
+  proofCountdown = 5;
+}
+
+function updateCountdownUI() {
+  const fill  = document.getElementById('npbFill');
+  const timer = document.getElementById('npbTimer');
+  if (fill)  fill.style.width  = ((proofCountdown / 5) * 100) + '%';
+  if (timer) timer.textContent = proofCountdown + 's';
+}
 
 // ════════════════════════════════════════════════
 //  UI REFS
@@ -712,15 +923,13 @@ const cdBar    = document.getElementById('cdBar');
 const histCard = document.getElementById('histCard');
 const histEmpty= document.getElementById('histEmpty');
 const myLbRow  = document.getElementById('myLbRow');
-const myLbNum  = document.getElementById('myLbNum');
 const myLbAva  = document.getElementById('myLbAva');
 const myLbName = document.getElementById('myLbName');
 const myLbScore= document.getElementById('myLbScore');
 const toastEl  = document.getElementById('toast');
 
-const PTS      = 50;      // coins per ad — realistic, not exaggerated (Rule 9)
-const COOLDOWN = 60;      // seconds between ads
-
+const PTS      = 50;
+const COOLDOWN = 60;
 let cdActive   = false;
 let cdRemain   = 0;
 let cdInterval = null;
@@ -730,86 +939,56 @@ let cdInterval = null;
 // ════════════════════════════════════════════════
 function renderAll() {
   const b = ST.balance.toLocaleString();
-  topBal.textContent    = b;
-  heroBal.textContent   = b;
-  heroAds.textContent   = ST.totalAds;
-  heroToday.textContent = ST.todayCoins;
-  heroStreak.textContent= ST.streak + '🔥';
+  topBal.textContent     = b;
+  heroBal.textContent    = b;
+  heroAds.textContent    = ST.totalAds;
+  heroToday.textContent  = ST.todayCoins;
+  heroStreak.textContent = ST.streak + '🔥';
 
-  // Leaderboard own row
   if (ST.balance > 0) {
-    myLbRow.style.display = 'flex';
-    myLbAva.textContent   = userInit;
-    myLbName.textContent  = userName;
-    myLbScore.textContent = ST.balance.toLocaleString() + ' 🪙';
-    myLbNum.textContent   = '–';
+    myLbRow.style.display   = 'flex';
+    myLbAva.textContent     = userInit;
+    myLbName.textContent    = userName;
+    myLbScore.textContent   = ST.balance.toLocaleString() + ' 🪙';
   }
-
-  // History
   renderHistory();
 }
 
 function renderHistory() {
-  // Clear old rows (keep only .hist-empty)
   [...histCard.querySelectorAll('.hist-row')].forEach(r => r.remove());
-
-  if (ST.history.length === 0) {
-    histEmpty.style.display = 'block';
-    return;
-  }
+  if (ST.history.length === 0) { histEmpty.style.display = 'block'; return; }
   histEmpty.style.display = 'none';
-
   ST.history.slice(0, 30).forEach(item => {
     const row = document.createElement('div');
     row.className = 'hist-row';
-    row.innerHTML = `
-      <div class="hist-dot"></div>
-      <div class="hist-txt">${item.desc} · ${item.time}</div>
-      <div class="hist-pts">+${item.pts} 🪙</div>
-    `;
+    row.innerHTML = `<div class="hist-dot"></div><div class="hist-txt">${item.desc} · ${item.time}</div><div class="hist-pts">+${item.pts} 🪙</div>`;
     histCard.appendChild(row);
   });
 }
 
 // ════════════════════════════════════════════════
-//  ADSGRAM INTEGRATION — Production-ready
+//  ADSGRAM
 // ════════════════════════════════════════════════
 let adController = null;
-
 function initAdsgram() {
-  // Replace 'YOUR_BLOCK_ID' with your actual Adsgram block ID from partner.adsgram.ai
   if (window.Adsgram) {
-    adController = window.Adsgram.init({
-      blockId: 'int-43378',  // ← PUT YOUR BLOCK ID HERE
-      debug: false,
-      debugBannerType: 'FullscreenMedia'
-    });
+    adController = window.Adsgram.init({ blockId:'YOUR_BLOCK_ID', debug:false });
   }
 }
 
 function watchAd() {
   if (cdActive) return;
-
-  // RULE 6: User explicitly clicked — consent obtained
   if (adController) {
-    // Real Adsgram SDK flow
     watchBtn.disabled = true;
     btnText.textContent = 'Loading ad…';
-
     adController.show()
-      .then(() => {
-        // Ad fully watched → reward
-        onAdComplete(true);
-      })
-      .catch((err) => {
-        // Ad was skipped/closed early — do NOT reward (rule compliance)
+      .then(() => onAdComplete(true))
+      .catch(err => {
         watchBtn.disabled = false;
         btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
         showToast('Ad skipped — no coins awarded', true);
-        console.log('Ad skipped or error:', err);
       });
   } else {
-    // Demo/dev mode — simulate ad for testing
     simulateAd();
   }
 }
@@ -827,15 +1006,13 @@ function simulateAd() {
 
 function onAdComplete(rewarded) {
   if (!rewarded) return;
-
   ST.balance    += PTS;
   ST.totalAds   += 1;
   ST.todayCoins += PTS;
   ST.todayAds   += 1;
   ST.history.unshift({
-    desc: `Ad watched #${ST.totalAds}`,
-    pts : PTS,
-    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    desc: `Ad watched #${ST.totalAds}`, pts: PTS,
+    time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})
   });
   saveState();
   renderAll();
@@ -843,30 +1020,21 @@ function onAdComplete(rewarded) {
   startCooldown();
 }
 
-// ════════════════════════════════════════════════
-//  COOLDOWN
-// ════════════════════════════════════════════════
 function startCooldown() {
-  cdActive  = true;
-  cdRemain  = COOLDOWN;
+  cdActive = true; cdRemain = COOLDOWN;
   watchBtn.disabled = true;
   cdBarWrap.style.display = 'block';
   cdBar.style.width = '100%';
-
-  // Trigger transition after paint
   setTimeout(() => { cdBar.style.width = '0%'; cdBar.style.transition = `width ${COOLDOWN}s linear`; }, 50);
-
   cdInterval = setInterval(() => {
     cdRemain--;
     btnText.textContent = `Next ad available in ${cdRemain}s…`;
     if (cdRemain <= 0) {
-      clearInterval(cdInterval);
-      cdActive  = false;
+      clearInterval(cdInterval); cdActive = false;
       watchBtn.disabled = false;
       btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
       cdBarWrap.style.display = 'none';
-      cdBar.style.transition = 'none';
-      cdBar.style.width = '100%';
+      cdBar.style.transition = 'none'; cdBar.style.width = '100%';
     }
   }, 1000);
 }
@@ -880,14 +1048,12 @@ function switchTab(id) {
   document.getElementById('tab-'  + id).classList.add('active');
   document.getElementById('page-' + id).classList.add('active');
 
-  // Award task coin for visiting leaderboard
   if (id === 'lb' && !ST._lbVisited) {
     ST._lbVisited = true;
     ST.balance    += 10;
     ST.todayCoins += 10;
-    ST.history.unshift({ desc: 'Task: Checked leaderboard', pts: 10, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
-    saveState();
-    renderAll();
+    ST.history.unshift({ desc:'Task: Checked leaderboard', pts:10, time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) });
+    saveState(); renderAll();
     showToast('+10 coins — Task complete! ✅');
     document.getElementById('task2Pts').textContent = '✅';
     document.getElementById('task2Pts').style.color = 'var(--g)';
@@ -898,7 +1064,7 @@ function switchTab(id) {
 //  TOAST
 // ════════════════════════════════════════════════
 let toastTimer = null;
-function showToast(msg, err = false) {
+function showToast(msg, err=false) {
   toastEl.textContent = msg;
   toastEl.className   = 'toast' + (err ? ' err' : '');
   toastEl.classList.add('show');
@@ -911,6 +1077,7 @@ function showToast(msg, err = false) {
 // ════════════════════════════════════════════════
 initAdsgram();
 renderAll();
+startLivePayoutSystem();
 </script>
 </body>
 </html>
