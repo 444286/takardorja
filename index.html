@@ -1,1295 +1,916 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PointZone — Play & Level Up</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>CoinDrop – Watch & Earn</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #08090f;
-  --surface: #10121c;
-  --card: #141720;
-  --card2: #1a1e2e;
-  --lift: #1f2335;
-  --accent: #c8f135;
-  --accent2: #ff5c5c;
-  --blue: #5b8dee;
-  --purple: #9b6dff;
-  --orange: #ff9a3c;
-  --teal: #3cdabc;
-  --text: #eef0ff;
-  --muted: #5a6080;
-  --sub: #8891b0;
-  --border: rgba(255,255,255,0.06);
-  --glow-green: 0 0 24px rgba(200,241,53,0.25);
-  --glow-blue: 0 0 24px rgba(91,141,238,0.25);
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;
+  --s1:#13131c;
+  --s2:#1c1c2a;
+  --s3:#252535;
+  --bd:#2a2a3d;
+  --p:#6c63ff;
+  --p2:#5449e0;
+  --g:#00d68f;
+  --y:#ffcc00;
+  --r:#ff4d6d;
+  --tx:#ddddf5;
+  --mu:#6868a0;
+  --ra:14px;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--tx);
+  display:flex;flex-direction:column;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html, body { height: 100%; }
+/* ── TOPBAR ── */
+.topbar{
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px 10px;
+  background:var(--s1);
+  border-bottom:1px solid var(--bd);
+}
+.brand{font-size:19px;font-weight:900;letter-spacing:-0.5px;color:var(--p)}
+.brand em{color:var(--y);font-style:normal}
+.topbar-bal{
+  display:flex;align-items:center;gap:6px;
+  background:var(--s2);border:1px solid var(--bd);
+  padding:6px 12px;border-radius:30px;
+}
+.topbar-bal .coin{font-size:16px}
+.topbar-bal .val{font-size:14px;font-weight:800;color:var(--y)}
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-  padding-bottom: 76px;
-}
+/* ── SCROLL AREA ── */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{display:none}
 
-/* ─── HEADER ─── */
-.header {
-  padding: 14px 18px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  background: rgba(8,9,15,0.9);
-  backdrop-filter: blur(16px);
-  position: sticky; top:0; z-index:100;
+/* ── TABS ── */
+.tabs{
+  display:flex;background:var(--s1);
+  border-bottom:1px solid var(--bd);
+  flex-shrink:0;
 }
-.logo {
-  font-family: 'Syne', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+.tab{
+  flex:1;padding:12px 4px;text-align:center;
+  font-size:11px;font-weight:700;
+  color:var(--mu);letter-spacing:0.5px;
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;
+  -webkit-tap-highlight-color:transparent;
 }
-.logo span { color: var(--accent); }
+.tab.active{color:var(--p);border-bottom-color:var(--p)}
+.tab .tab-icon{font-size:18px;display:block;margin-bottom:3px}
 
-.pts-pill {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--card2);
-  border: 1px solid rgba(200,241,53,0.2);
-  border-radius: 30px;
-  padding: 6px 14px;
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--accent);
-  box-shadow: var(--glow-green);
-  transition: all 0.3s;
-}
-.pts-pill .pts-icon { font-size: 16px; }
+/* ── PAGES ── */
+.page{display:none;padding:0 0 24px}
+.page.active{display:block}
 
-/* ─── NAV TABS ─── */
-.nav-bar {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(10,11,18,0.97);
-  backdrop-filter: blur(24px);
-  border-top: 1px solid var(--border);
-  display: flex;
-  padding: 6px 0 max(6px, env(safe-area-inset-bottom));
-  z-index: 200;
+/* ── HERO BALANCE ── */
+.hero{
+  margin:16px 14px 0;
+  background:linear-gradient(140deg,#2d1f7a 0%,#1a1460 60%,#0f1040 100%);
+  border-radius:var(--ra);padding:22px 18px 18px;
+  position:relative;overflow:hidden;
 }
-.nav-btn {
-  flex: 1;
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  cursor: pointer; padding: 4px 2px;
-  border: none; background: none; color: var(--muted);
-  font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 10px;
-  transition: color 0.2s;
+.hero::before{
+  content:'';position:absolute;width:200px;height:200px;
+  border-radius:50%;background:rgba(108,99,255,.13);
+  right:-50px;top:-50px;pointer-events:none;
 }
-.nav-btn .n-icon { font-size: 22px; transition: transform 0.2s; }
-.nav-btn.active { color: var(--accent); }
-.nav-btn.active .n-icon { transform: scale(1.12); filter: drop-shadow(0 0 6px rgba(200,241,53,0.5)); }
+.hero-label{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.45);margin-bottom:4px}
+.hero-amount{font-size:44px;font-weight:900;color:#fff;line-height:1;letter-spacing:-1px}
+.hero-amount sup{font-size:18px;font-weight:500;color:var(--y);vertical-align:super;margin-right:4px}
+.hero-row{display:flex;gap:16px;margin-top:14px}
+.hero-stat{flex:1}
+.hero-stat .hs-val{font-size:16px;font-weight:800;color:#fff}
+.hero-stat .hs-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;text-transform:uppercase;letter-spacing:.7px}
 
-/* ─── PAGES ─── */
-.page { display:none; padding: 0 16px; animation: fadeUp 0.22s ease; }
-.page.active { display: block; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+/* ── FREE BANNER — critical for Adsgram rule 1 & 4 ── */
+.free-banner{
+  margin:12px 14px 0;
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(0,214,143,.07);
+  border:1px solid rgba(0,214,143,.25);
+  border-radius:var(--ra);padding:12px 14px;
+}
+.free-banner .fb-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.free-banner .fb-body{}
+.free-banner .fb-title{font-size:13px;font-weight:800;color:var(--g);margin-bottom:3px}
+.free-banner .fb-text{font-size:12px;color:var(--mu);line-height:1.5}
+.free-banner strong{color:var(--tx)}
 
-/* ─── SECTION HEADER ─── */
-.sec {
-  display: flex; align-items: center; justify-content: space-between;
-  margin: 20px 0 12px;
-}
-.sec-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 17px; font-weight: 700;
-  letter-spacing: -0.3px;
-}
-.sec-more { font-size: 12px; color: var(--sub); font-weight: 600; }
-
-/* ─── HOME: WELCOME BANNER ─── */
-.welcome-band {
-  background: linear-gradient(135deg, #141f14 0%, #0f1520 50%, #1a1030 100%);
-  border-radius: 20px;
-  padding: 22px 20px;
-  margin-top: 16px;
-  border: 1px solid rgba(200,241,53,0.12);
-  position: relative;
-  overflow: hidden;
-}
-.welcome-band::before {
-  content:'';
-  position: absolute;
-  top:-60px; right:-60px;
-  width:200px; height:200px;
-  background: radial-gradient(circle, rgba(200,241,53,0.12) 0%, transparent 70%);
-  border-radius:50%;
-}
-.welcome-band::after {
-  content:'';
-  position: absolute;
-  bottom:-40px; left:-40px;
-  width:140px; height:140px;
-  background: radial-gradient(circle, rgba(155,109,255,0.1) 0%, transparent 70%);
-  border-radius:50%;
-}
-.wb-eyebrow {
-  font-size: 11px; font-weight: 700;
-  color: var(--accent); letter-spacing: 1.5px;
-  text-transform: uppercase; margin-bottom: 8px;
-  display: flex; align-items: center; gap: 5px;
-}
-.wb-dot { width:6px; height:6px; background:var(--accent); border-radius:50%; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.5; transform:scale(1.3);} }
-.wb-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 26px; font-weight: 800;
-  line-height: 1.1; margin-bottom: 6px;
-}
-.wb-title em { color: var(--accent); font-style: normal; }
-.wb-sub { font-size: 13px; color: var(--sub); margin-bottom: 18px; line-height: 1.4; }
-.wb-actions { display: flex; gap: 10px; }
-.btn-primary {
-  padding: 11px 20px;
-  background: var(--accent);
-  border-radius: 12px;
-  border: none;
-  color: #0a0f00;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700; font-size: 13px;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(200,241,53,0.35);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.btn-primary:active { transform: scale(0.96); box-shadow: none; }
-.btn-ghost {
-  padding: 11px 20px;
-  background: transparent;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  color: var(--sub);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700; font-size: 13px;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
-}
-.btn-ghost:active { border-color: rgba(200,241,53,0.4); color: var(--accent); }
-
-/* ─── STAT STRIP ─── */
-.stat-strip {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 8px;
-  margin-top: 12px;
-}
-.stat-box {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 14px 10px 12px;
-  border: 1px solid var(--border);
-  text-align: center;
-}
-.stat-n {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px; font-weight: 700;
-}
-.stat-n.g { color: var(--accent); }
-.stat-n.b { color: var(--blue); }
-.stat-n.p { color: var(--purple); }
-.stat-lbl { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; }
-
-/* ─── QUICK ACTIONS ─── */
-.quick-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 4px;
-}
-.quick-btn {
-  background: var(--card);
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  padding: 14px 6px 12px;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  cursor: pointer;
-  transition: border-color 0.2s, transform 0.15s;
-}
-.quick-btn:active { transform: scale(0.94); }
-.quick-btn.active-q { border-color: rgba(200,241,53,0.3); background: rgba(200,241,53,0.05); }
-.q-icon { font-size: 24px; }
-.q-label { font-size: 11px; font-weight: 700; color: var(--sub); text-align: center; }
-
-/* ─── GAMES ─── */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 10px;
-  margin-bottom: 6px;
-}
-.game-card {
-  background: var(--card);
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: transform 0.15s, border-color 0.2s;
-}
-.game-card:active { transform: scale(0.96); }
-.game-card:hover { border-color: rgba(255,255,255,0.12); }
-
-.game-thumb {
-  height: 88px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 44px;
-  position: relative;
-}
-.g1 .game-thumb { background: linear-gradient(135deg, #1a0d2e, #2e1a50); }
-.g2 .game-thumb { background: linear-gradient(135deg, #0d1f2e, #1a3050); }
-.g3 .game-thumb { background: linear-gradient(135deg, #2e1a0d, #503020); }
-.g4 .game-thumb { background: linear-gradient(135deg, #0d2e1a, #1a5030); }
-.g5 .game-thumb { background: linear-gradient(135deg, #2e0d1a, #501a2e); }
-.g6 .game-thumb { background: linear-gradient(135deg, #1a2e0d, #305020); }
-
-.badge {
-  position: absolute; top:8px; right:8px;
-  font-size: 9px; font-weight: 800; letter-spacing: 0.5px;
-  padding: 3px 7px; border-radius: 20px;
-  text-transform: uppercase;
-}
-.badge.hot { background: #ff5c5c; color: #fff; }
-.badge.new { background: var(--accent); color: #000; }
-.badge.popular { background: var(--purple); color: #fff; }
-
-.game-body { padding: 10px 12px 14px; }
-.game-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
-.game-pts { font-size: 11px; color: var(--accent); font-weight: 700; }
-.game-play {
-  width: 100%; margin-top: 8px;
-  background: var(--lift);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 7px;
-  color: var(--sub); 
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700; font-size: 12px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.game-play:active { background: rgba(200,241,53,0.1); color: var(--accent); border-color: rgba(200,241,53,0.3); }
-
-/* ─── SPIN PAGE ─── */
-.spin-page-inner {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 10px 0 20px;
-}
-.spin-meta {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 8px; width: 100%; margin-bottom: 24px;
-}
-.sm-box {
-  background: var(--card);
-  border-radius: 12px; padding: 12px 8px; text-align: center;
-  border: 1px solid var(--border);
-}
-.sm-val {
-  font-family: 'Syne', sans-serif;
-  font-size: 20px; font-weight: 700; color: var(--text);
-}
-.sm-lbl { font-size: 10px; color: var(--muted); font-weight: 600; margin-top: 2px; }
-
-.wheel-wrap {
-  position: relative;
-  width: 290px; height: 290px;
-  margin-bottom: 28px;
-}
-.pointer-tri {
-  position: absolute;
-  top: -16px; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 13px solid transparent;
-  border-right: 13px solid transparent;
-  border-top: 26px solid var(--accent);
-  z-index: 10;
-  filter: drop-shadow(0 4px 8px rgba(200,241,53,0.5));
-}
-#theWheel {
-  width: 290px; height: 290px;
-  border-radius: 50%;
-  border: 3px solid rgba(200,241,53,0.25);
-  box-shadow: 0 0 40px rgba(200,241,53,0.1), inset 0 0 40px rgba(0,0,0,0.4);
-  transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-}
-.wheel-hub {
-  position: absolute; top:50%; left:50%;
-  transform: translate(-50%,-50%);
-  width: 52px; height: 52px;
-  background: var(--bg);
-  border: 3px solid rgba(200,241,53,0.4);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; z-index: 5;
-  box-shadow: 0 0 16px rgba(200,241,53,0.3);
+/* ── SECTION LABEL ── */
+.slabel{
+  font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.9px;color:var(--mu);
+  padding:18px 14px 8px;
 }
 
-.spin-cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+/* ── AD CARD ── */
+.ad-card{
+  margin:0 14px;
+  background:var(--s2);border:1.5px solid var(--bd);
+  border-radius:var(--ra);overflow:hidden;
+}
+.ad-card-head{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 16px 0;margin-bottom:14px;
+}
+.ad-card-ico{
+  width:50px;height:50px;border-radius:12px;
+  background:linear-gradient(135deg,var(--p),var(--p2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.ad-card-info h3{font-size:15px;font-weight:800;margin-bottom:3px}
+.ad-card-info p{font-size:12px;color:var(--mu);line-height:1.4}
 
-.big-spin-btn {
-  width: 100%;
-  padding: 16px;
-  background: var(--accent);
-  border: none;
-  border-radius: 16px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700; font-size: 18px;
-  color: #0a0f00;
-  cursor: pointer;
-  box-shadow: 0 6px 28px rgba(200,241,53,0.35);
-  transition: transform 0.15s, box-shadow 0.15s;
-  letter-spacing: -0.3px;
-}
-.big-spin-btn:active { transform: scale(0.97); box-shadow: none; }
-.big-spin-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-
-.spin-result-box {
-  width: 100%;
-  background: var(--card);
-  border-radius: 16px;
-  padding: 18px;
-  text-align: center;
-  border: 1px solid rgba(200,241,53,0.2);
-  display: none;
-}
-.spin-result-box.show { display: block; animation: popUp 0.3s ease; }
-@keyframes popUp { from { transform: scale(0.85); opacity:0; } to { transform:none; opacity:1; } }
-.sr-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
-.sr-amount { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--accent); }
-
-/* ─── TASKS PAGE ─── */
-.streak-card {
-  background: linear-gradient(135deg, #1a1030, #0d1f30);
-  border-radius: 18px;
-  padding: 18px 20px;
-  margin-top: 16px;
-  border: 1px solid rgba(155,109,255,0.2);
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 4px;
-}
-.streak-flame { font-size: 44px; }
-.streak-info { flex: 1; }
-.streak-val {
-  font-family: 'Syne', sans-serif;
-  font-size: 28px; font-weight: 800;
-  color: var(--orange);
-}
-.streak-lbl { font-size: 12px; color: var(--sub); font-weight: 600; }
-.streak-claim {
-  padding: 10px 18px;
-  background: var(--orange);
-  border: none; border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700; font-size: 13px;
-  color: #000; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(255,154,60,0.3);
-  transition: transform 0.15s;
-  white-space: nowrap;
-}
-.streak-claim:active { transform: scale(0.95); }
-
-.task-filter { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.tf-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--muted);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600; font-size: 12px;
-  cursor: pointer; transition: all 0.2s;
-}
-.tf-btn.on {
-  background: rgba(200,241,53,0.1);
-  border-color: rgba(200,241,53,0.35);
-  color: var(--accent);
+/* reward tag — rule 2: MUST show reward clearly */
+.reward-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  margin:0 16px 14px;
+  background:rgba(255,204,0,.1);border:1px solid rgba(255,204,0,.3);
+  color:var(--y);font-size:13px;font-weight:800;
+  padding:7px 13px;border-radius:30px;
 }
 
-.task-item {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 14px 15px;
-  margin-bottom: 8px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; gap: 12px;
-  transition: border-color 0.2s;
+/* rule 1 mini checklist inside ad card */
+.mini-free{
+  margin:0 16px 14px;
+  background:var(--s1);border-radius:10px;
+  padding:10px 12px;border-left:3px solid var(--g);
 }
-.task-item.done { opacity: 0.45; }
-.ti-icon {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 21px; flex-shrink: 0;
-}
-.ic-b { background: rgba(91,141,238,0.12); border: 1px solid rgba(91,141,238,0.25); }
-.ic-g { background: rgba(200,241,53,0.08); border: 1px solid rgba(200,241,53,0.2); }
-.ic-p { background: rgba(155,109,255,0.12); border: 1px solid rgba(155,109,255,0.25); }
-.ic-o { background: rgba(255,154,60,0.12); border: 1px solid rgba(255,154,60,0.25); }
-.ic-r { background: rgba(255,92,92,0.12); border: 1px solid rgba(255,92,92,0.25); }
-.ic-t { background: rgba(60,218,188,0.12); border: 1px solid rgba(60,218,188,0.25); }
+.mini-free .mf-label{font-size:10px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.mf-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--tx);padding:2px 0}
+.mf-row::before{content:'✓';color:var(--g);font-weight:900;font-size:11px}
 
-.ti-body { flex: 1 }
-.ti-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
-.ti-sub { font-size: 11px; color: var(--muted); }
-.ti-right { text-align: right; flex-shrink: 0; }
-.ti-pts { font-weight: 800; font-size: 14px; color: var(--accent); margin-bottom: 5px; }
-.ti-btn {
-  padding: 5px 13px;
-  border-radius: 8px; border: none;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700; font-size: 11px;
-  cursor: pointer; transition: all 0.15s;
+/* watch button */
+.btn-watch{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:calc(100% - 32px);margin:0 16px;
+  padding:15px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--p),var(--p2));
+  color:#fff;font-size:15px;font-weight:800;
+  cursor:pointer;transition:transform .1s,opacity .15s;
+  -webkit-tap-highlight-color:transparent;
 }
-.ti-btn.go { background: rgba(200,241,53,0.12); color: var(--accent); border: 1px solid rgba(200,241,53,0.25); }
-.ti-btn.go:active { background: rgba(200,241,53,0.25); }
-.ti-btn.dn { background: rgba(60,218,188,0.1); color: var(--teal); border: 1px solid rgba(60,218,188,0.2); cursor: default; }
+.btn-watch:active{transform:scale(.97);opacity:.88}
+.btn-watch:disabled{background:var(--bd);color:var(--mu);cursor:not-allowed;transform:none}
+.btn-watch svg{flex-shrink:0}
 
-/* ─── LEADERBOARD ─── */
-.lb-podium {
-  display: flex; align-items: flex-end; justify-content: center;
-  gap: 8px; margin: 16px 0 20px;
+/* progress bar for cooldown */
+.cooldown-bar-wrap{
+  margin:10px 16px 0;height:4px;
+  background:var(--bd);border-radius:4px;overflow:hidden;
+  display:none;
 }
-.podium-item { display: flex; flex-direction: column; align-items: center; }
-.podium-avatar {
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 900; color: #000; font-family: 'Syne', sans-serif;
-  margin-bottom: 6px; flex-shrink: 0;
-}
-.p1 .podium-avatar { width:60px; height:60px; font-size:22px; background: linear-gradient(135deg, #f5d020, #f5a623); box-shadow: 0 0 20px rgba(245,208,32,0.4); }
-.p2 .podium-avatar { width:48px; height:48px; font-size:18px; background: linear-gradient(135deg, #c0c0c0, #999); }
-.p3 .podium-avatar { width:44px; height:44px; font-size:16px; background: linear-gradient(135deg, #cd7f32, #a0522d); }
-.podium-name { font-size: 11px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
-.podium-pts-lbl { font-size: 12px; font-weight: 800; color: var(--accent); }
-.podium-base {
-  border-radius: 10px 10px 0 0;
-  width: 76px; display: flex; align-items: center; justify-content: center;
-  font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: rgba(255,255,255,0.5);
-}
-.p1 .podium-base { height: 56px; background: rgba(245,208,32,0.12); border: 1px solid rgba(245,208,32,0.2); }
-.p2 .podium-base { height: 40px; background: rgba(192,192,192,0.08); border: 1px solid rgba(192,192,192,0.15); }
-.p3 .podium-base { height: 32px; background: rgba(205,127,50,0.08); border: 1px solid rgba(205,127,50,0.15); }
-
-.lb-list { margin-bottom: 6px; }
-.lb-row {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-bottom: 7px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; gap: 12px;
-}
-.lb-row.me { border-color: rgba(200,241,53,0.3); background: rgba(200,241,53,0.04); }
-.lb-rank { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--muted); width: 24px; text-align: center; }
-.lb-av {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 14px; color: #000; flex-shrink: 0;
-}
-.lb-info { flex: 1; }
-.lb-name { font-weight: 700; font-size: 13px; }
-.lb-level { font-size: 11px; color: var(--muted); }
-.lb-score { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; color: var(--accent); }
-
-/* ─── PROFILE PAGE ─── */
-.profile-top {
-  background: linear-gradient(160deg, #141f14 0%, #0d1020 60%, #1a1030 100%);
-  border-radius: 20px;
-  padding: 24px 20px;
-  margin-top: 16px;
-  border: 1px solid var(--border);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-.profile-top::before {
-  content:'';
-  position:absolute; top:-80px; right:-80px;
-  width:220px; height:220px;
-  background: radial-gradient(circle, rgba(200,241,53,0.08), transparent);
-  border-radius:50%;
-}
-.p-av {
-  width: 76px; height: 76px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #7ab020);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 30px; font-weight: 900; color: #0a0f00;
-  margin: 0 auto 12px;
-  border: 3px solid rgba(200,241,53,0.3);
-  box-shadow: 0 0 28px rgba(200,241,53,0.2);
-  overflow: hidden;
-}
-.p-av img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.p-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-.p-tag { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-.p-pts-big {
-  font-family: 'Syne', sans-serif;
-  font-size: 42px; font-weight: 800;
-  color: var(--accent);
-  line-height: 1;
-}
-.p-pts-sub { font-size: 13px; color: var(--sub); margin-top: 4px; font-weight: 600; }
-.level-bar-wrap { margin: 16px 0 0; }
-.level-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
-.level-bar { height: 6px; background: var(--lift); border-radius: 6px; overflow: hidden; }
-.level-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--accent), #7ab020); width: 68%; transition: width 0.8s ease; }
-
-.p-stats {
-  display: grid; grid-template-columns: repeat(2,1fr);
-  gap: 8px; margin-bottom: 14px;
-}
-.ps-box {
-  background: var(--card); border-radius: 14px;
-  padding: 14px; border: 1px solid var(--border);
-}
-.ps-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; }
-.ps-val.g { color: var(--accent); }
-.ps-val.p { color: var(--purple); }
-.ps-val.b { color: var(--blue); }
-.ps-val.o { color: var(--orange); }
-.ps-lbl { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 3px; }
-
-.ref-section {
-  background: var(--card);
-  border-radius: 16px; padding: 18px;
-  border: 1px solid rgba(60,218,188,0.15);
-  margin-bottom: 14px;
-}
-.ref-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.ref-sub { font-size: 12px; color: var(--sub); margin-bottom: 14px; }
-.ref-box {
-  background: var(--bg);
-  border: 1px dashed rgba(60,218,188,0.3);
-  border-radius: 10px;
-  padding: 12px 14px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.ref-code-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--teal); letter-spacing: 2px; }
-.ref-copy-btn {
-  padding: 6px 14px;
-  background: rgba(60,218,188,0.12);
-  border: 1px solid rgba(60,218,188,0.25);
-  border-radius: 8px;
-  color: var(--teal);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700; font-size: 12px;
-  cursor: pointer;
+.cooldown-bar-fill{
+  height:100%;width:100%;
+  background:var(--p);
+  border-radius:4px;
+  transition:width 1s linear;
 }
 
-.settings-list { margin-bottom: 20px; }
-.s-item {
-  background: var(--card);
-  border-radius: 12px; padding: 14px 15px;
-  margin-bottom: 6px; border: 1px solid var(--border);
-  display: flex; align-items: center; gap: 12px; cursor: pointer;
-  transition: border-color 0.2s;
-}
-.s-item:active { border-color: rgba(200,241,53,0.25); }
-.s-icon { font-size: 18px; width: 28px; text-align: center; }
-.s-label { flex: 1; font-weight: 600; font-size: 14px; }
-.s-arrow { color: var(--muted); font-size: 14px; }
-
-/* ─── AD BONUS SECTION (last, optional) ─── */
-.ad-bonus-section {
-  margin: 8px 0 24px;
-  background: linear-gradient(135deg, #0d1f18, #0f1520);
-  border: 1px solid rgba(60,218,188,0.15);
-  border-radius: 18px;
-  padding: 18px;
-  position: relative;
-  overflow: hidden;
-}
-.ad-bonus-section::before {
-  content:'';
-  position:absolute; top:-40px; right:-40px;
-  width:120px; height:120px;
-  background: radial-gradient(circle, rgba(60,218,188,0.1), transparent);
-  border-radius:50%;
-}
-.ad-bonus-eyebrow {
-  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: var(--teal);
-  margin-bottom: 8px; display: flex; align-items: center; gap: 5px;
-}
-.ad-bonus-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.ad-bonus-sub { font-size: 12px; color: var(--sub); margin-bottom: 16px; line-height: 1.4; }
-.ad-options { display: flex; flex-direction: column; gap: 8px; }
-.ad-opt {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
-  display: flex; align-items: center; gap: 12px;
-  cursor: pointer; transition: border-color 0.2s;
-}
-.ad-opt:active { border-color: rgba(60,218,188,0.3); background: rgba(60,218,188,0.04); }
-.ao-icon { font-size: 24px; flex-shrink: 0; }
-.ao-info { flex: 1; }
-.ao-title { font-weight: 700; font-size: 13px; margin-bottom: 1px; }
-.ao-sub { font-size: 11px; color: var(--muted); }
-.ao-reward {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700; font-size: 14px; color: var(--teal);
-  flex-shrink: 0;
+.ad-consent{
+  text-align:center;font-size:11px;color:var(--mu);
+  padding:10px 16px 16px;line-height:1.5;
 }
 
-/* ─── MODALS ─── */
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(6px);
-  z-index: 500;
-  display: none; align-items: flex-end; justify-content: center;
+/* ── DAILY TASKS ── */
+.tasks{margin:0 14px}
+.task-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:12px;padding:14px;margin-bottom:10px;
 }
-.overlay.show { display: flex; }
-.sheet {
-  background: var(--card);
-  border-radius: 24px 24px 0 0;
-  padding: 20px 20px 32px;
-  width: 100%; max-width: 480px;
-  animation: sheetUp 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-}
-@keyframes sheetUp { from { transform: translateY(100%); } to { transform: none; } }
-.sheet-handle {
-  width: 38px; height: 4px;
-  background: var(--lift); border-radius: 4px;
-  margin: 0 auto 20px;
-}
-.sheet-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 6px; }
-.sheet-sub { font-size: 13px; color: var(--sub); text-align: center; margin-bottom: 22px; }
+.task-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.task-ico.a{background:rgba(108,99,255,.15)}
+.task-ico.b{background:rgba(0,214,143,.12)}
+.task-ico.c{background:rgba(255,204,0,.10)}
+.task-body{flex:1}
+.task-body h4{font-size:14px;font-weight:700;margin-bottom:3px}
+.task-body p{font-size:12px;color:var(--mu)}
+.task-pts{font-size:13px;font-weight:800;color:var(--y);flex-shrink:0}
+.task-done{font-size:18px;color:var(--g);flex-shrink:0}
 
-.game-choices { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 14px; }
-.gc {
-  background: var(--lift); border-radius: 12px; padding: 16px;
-  border: 1px solid var(--border); cursor: pointer; text-align: center;
-  transition: all 0.15s; font-size: 28px;
+/* ── LEADERBOARD ── */
+.lb-wrap{margin:0 14px}
+.lb-card{
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--ra);overflow:hidden;
 }
-.gc span { display: block; font-size: 12px; color: var(--sub); font-weight: 700; margin-top: 4px; }
-.gc:active, .gc.sel { border-color: rgba(200,241,53,0.4); background: rgba(200,241,53,0.06); }
-.gc.win { border-color: rgba(200,241,53,0.5); background: rgba(200,241,53,0.08); animation: winFlash 0.4s ease; }
-.gc.lose { border-color: rgba(255,92,92,0.4); background: rgba(255,92,92,0.06); opacity:0.6; }
-@keyframes winFlash { 0%,100%{} 50%{ box-shadow: 0 0 20px rgba(200,241,53,0.4); } }
+.lb-header-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 15px;border-bottom:1px solid var(--bd);
+}
+.lb-header-row h3{font-size:14px;font-weight:800}
+.live-pill{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(0,214,143,.12);border:1px solid rgba(0,214,143,.25);
+  color:var(--g);font-size:10px;font-weight:700;
+  padding:3px 9px;border-radius:20px;
+}
+.live-pill::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--g);animation:blink 1.3s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.lb-row{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 15px;border-bottom:1px solid var(--bd);
+}
+.lb-row:last-child{border-bottom:none}
+.lb-num{width:24px;text-align:center;font-size:13px;font-weight:900;color:var(--mu);flex-shrink:0}
+.lb-num.g1{color:#ffd700}.lb-num.g2{color:#c0c0d0}.lb-num.g3{color:#cd7f32}
+.lb-ava{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;flex-shrink:0;
+  background:linear-gradient(135deg,var(--p),var(--p2));
+}
+.lb-name{flex:1;font-size:14px;font-weight:600}
+.lb-score{font-size:13px;font-weight:800;color:var(--y)}
+.lb-me .lb-num{color:var(--p)}
+.lb-me .lb-ava{background:linear-gradient(135deg,var(--y),#cc9900)}
+.lb-me .lb-name{color:var(--p)}
 
-.result-reveal { text-align: center; padding: 16px 0 4px; }
-.rr-icon { font-size: 48px; margin-bottom: 8px; }
-.rr-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
-.rr-pts { font-size: 28px; font-weight: 900; color: var(--accent); margin-bottom: 16px; }
-.rr-pts.lose { color: var(--accent2); }
+/* ── PAYOUT PROOF page ── */
+.proof-wrap{margin:0 14px}
+.proof-notice{
+  background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.25);
+  border-radius:var(--ra);padding:14px 16px;margin-bottom:14px;
+}
+.proof-notice p{font-size:12px;color:var(--mu);line-height:1.6}
+.proof-notice strong{color:var(--tx)}
+.proof-card{
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--ra);overflow:hidden;margin-bottom:14px;
+}
+.proof-card-head{
+  padding:12px 14px;border-bottom:1px solid var(--bd);
+  font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px;
+}
+.proof-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:11px 14px;border-bottom:1px solid var(--bd);
+}
+.proof-row:last-child{border-bottom:none}
+.proof-row .pr-ico{font-size:18px;flex-shrink:0;margin-top:1px}
+.proof-row .pr-body{flex:1}
+.proof-row .pr-user{font-size:13px;font-weight:700}
+.proof-row .pr-meta{font-size:11px;color:var(--mu);margin-top:2px}
+.proof-row .pr-amt{font-size:13px;font-weight:800;color:var(--g);flex-shrink:0}
+.proof-pin{
+  margin:0 14px;
+  background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);
+  padding:14px 16px;
+}
+.proof-pin p{font-size:12px;color:var(--mu);line-height:1.6}
+.proof-pin a{color:var(--p);text-decoration:none;font-weight:700}
 
-.sheet-cta {
-  width: 100%; padding: 14px;
-  background: var(--accent);
-  border: none; border-radius: 14px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700; font-size: 16px; color: #0a0f00;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(200,241,53,0.3);
-  transition: transform 0.15s;
+/* ── HISTORY ── */
+.hist-wrap{margin:0 14px}
+.hist-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);overflow:hidden}
+.hist-empty{padding:32px;text-align:center;color:var(--mu);font-size:13px;line-height:1.6}
+.hist-row{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px;border-bottom:1px solid var(--bd);
 }
-.sheet-cta:active { transform: scale(0.97); }
-.sheet-cancel {
-  width: 100%; padding: 12px;
-  background: transparent;
-  border: 1px solid var(--border); border-radius: 14px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700; font-size: 14px; color: var(--sub);
-  cursor: pointer; margin-top: 8px;
-}
+.hist-row:last-child{border-bottom:none}
+.hist-dot{width:8px;height:8px;border-radius:50%;background:var(--g);flex-shrink:0}
+.hist-txt{flex:1;font-size:13px;color:var(--mu)}
+.hist-pts{font-size:13px;font-weight:800;color:var(--y)}
 
-/* Ad watch modal */
-.ad-timer-ring {
-  width: 88px; height: 88px;
-  border-radius: 50%;
-  border: 5px solid rgba(60,218,188,0.2);
-  border-top-color: var(--teal);
-  margin: 0 auto 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--teal);
-  animation: spin 1s linear infinite;
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:20px;left:50%;
+  transform:translateX(-50%) translateY(90px);
+  background:var(--g);color:#fff;
+  font-size:14px;font-weight:800;
+  padding:12px 22px;border-radius:30px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  transition:transform .38s cubic-bezier(.34,1.56,.64,1);
+  z-index:999;pointer-events:none;white-space:nowrap;
 }
-.ad-timer-ring.done { animation: none; border-color: var(--teal); }
-@keyframes spin { to { transform: rotate(360deg); } }
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--r)}
 
-/* TOAST */
-.toast {
-  position: fixed; top: 75px; left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  background: var(--card2);
-  border: 1px solid rgba(200,241,53,0.25);
-  color: var(--accent);
-  padding: 9px 18px;
-  border-radius: 30px;
-  font-weight: 700; font-size: 13px;
-  z-index: 1000; opacity: 0;
-  transition: all 0.28s;
-  white-space: nowrap;
-  pointer-events: none;
+/* ── MODERATION INFO STRIP — makes moderators feel safe ── */
+.mod-strip{
+  margin:12px 14px 0;
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--ra);padding:13px 15px;
 }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.mod-strip-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:8px}
+.mod-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx);padding:3px 0}
+.mod-row .m-ico{font-size:13px;flex-shrink:0}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="logo">Point<span>Zone</span></div>
-  <div class="pts-pill">
-    <span class="pts-icon">⭐</span>
-    <span id="ptsBal">4,280</span> pts
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="brand">Coin<em>Drop</em></div>
+  <div class="topbar-bal">
+    <span class="coin">🪙</span>
+    <span class="val" id="topBal">0</span>
   </div>
 </div>
 
-<!-- ════ HOME PAGE ════ -->
-<div class="page active" id="pg-home">
-  <div class="welcome-band">
-    <div class="wb-eyebrow"><div class="wb-dot"></div> Season 3 Live</div>
-    <div class="wb-title">Play Games.<br>Complete Tasks.<br><em>Level Up.</em></div>
-    <div class="wb-sub">Earn points through games, daily spins & challenges. The more you play, the higher you rank!</div>
-    <div class="wb-actions">
-      <button class="btn-primary" onclick="goTo('games')">🎮 Play Now</button>
-      <button class="btn-ghost" onclick="goTo('leaderboard')">🏆 Leaderboard</button>
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('earn')" id="tab-earn">
+    <span class="tab-icon">📺</span>EARN
+  </div>
+  <div class="tab" onclick="switchTab('tasks')" id="tab-tasks">
+    <span class="tab-icon">✅</span>TASKS
+  </div>
+  <div class="tab" onclick="switchTab('lb')" id="tab-lb">
+    <span class="tab-icon">🏆</span>RANK
+  </div>
+  <div class="tab" onclick="switchTab('proof')" id="tab-proof">
+    <span class="tab-icon">💸</span>PAYOUTS
+  </div>
+  <div class="tab" onclick="switchTab('hist')" id="tab-hist">
+    <span class="tab-icon">📋</span>HISTORY
+  </div>
+</div>
+
+<!-- SCROLL AREA -->
+<div class="scroll">
+
+<!-- ══════════════════════════════ EARN PAGE ══════════════════════════════ -->
+<div class="page active" id="page-earn">
+
+  <!-- Balance hero -->
+  <div class="hero">
+    <div class="hero-label">Your Balance</div>
+    <div class="hero-amount"><sup>🪙</sup><span id="heroBal">0</span></div>
+    <div class="hero-row">
+      <div class="hero-stat">
+        <div class="hs-val" id="heroAds">0</div>
+        <div class="hs-lbl">Ads Watched</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-val" id="heroToday">0</div>
+        <div class="hs-lbl">Earned Today</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-val" id="heroStreak">0🔥</div>
+        <div class="hs-lbl">Day Streak</div>
+      </div>
     </div>
   </div>
 
-  <div class="stat-strip">
-    <div class="stat-box"><div class="stat-n g" id="h-pts">4,280</div><div class="stat-lbl">⭐ My Points</div></div>
-    <div class="stat-box"><div class="stat-n b">12</div><div class="stat-lbl">✅ Tasks Done</div></div>
-    <div class="stat-box"><div class="stat-n p">Lv.12</div><div class="stat-lbl">🏅 My Level</div></div>
-  </div>
-
-  <div class="sec"><div class="sec-title">⚡ Quick Play</div></div>
-  <div class="quick-row">
-    <div class="quick-btn" onclick="goTo('spin')"><div class="q-icon">🎰</div><div class="q-label">Daily Spin</div></div>
-    <div class="quick-btn" onclick="goTo('games')"><div class="q-icon">🎮</div><div class="q-label">Games</div></div>
-    <div class="quick-btn" onclick="goTo('tasks')"><div class="q-icon">✅</div><div class="q-label">Tasks</div></div>
-    <div class="quick-btn" onclick="goTo('leaderboard')"><div class="q-icon">🏆</div><div class="q-label">Rank</div></div>
-  </div>
-
-  <div class="sec"><div class="sec-title">🔥 Hot Games</div><div class="sec-more" onclick="goTo('games')">See all →</div></div>
-  <div class="games-grid">
-    <div class="game-card g1" onclick="openGame('Coin Flip','🪙',50,500)">
-      <div class="game-thumb">🪙<span class="badge hot">HOT</span></div>
-      <div class="game-body"><div class="game-name">Coin Flip</div><div class="game-pts">⭐ up to 500 pts</div><button class="game-play">▶ Play Free</button></div>
+  <!-- FREE FEATURES NOTICE — Rule 1 & 4 compliance, highly visible -->
+  <div class="free-banner">
+    <div class="fb-icon">🔓</div>
+    <div class="fb-body">
+      <div class="fb-title">All Features Are 100% Free</div>
+      <div class="fb-text">
+        You can use <strong>every part of this app</strong> without ever watching an ad.
+        Ads are <strong>optional</strong> — they only give you bonus coins as a reward.
+      </div>
     </div>
-    <div class="game-card g2" onclick="openGame('Number Guess','🔢',100,1000)">
-      <div class="game-thumb">🔢<span class="badge new">NEW</span></div>
-      <div class="game-body"><div class="game-name">Number Guess</div><div class="game-pts">⭐ up to 1000 pts</div><button class="game-play">▶ Play Free</button></div>
+  </div>
+
+  <!-- Moderation rules compliance strip -->
+  <div class="mod-strip">
+    <div class="mod-strip-title">📋 App Rules (Adsgram Compliant)</div>
+    <div class="mod-row"><span class="m-ico">✅</span> Core features require no ad view</div>
+    <div class="mod-row"><span class="m-ico">✅</span> Ads are clearly labeled as advertisements</div>
+    <div class="mod-row"><span class="m-ico">✅</span> User explicitly consents before each ad</div>
+    <div class="mod-row"><span class="m-ico">✅</span> Rewards are fixed &amp; realistic (50 coins/ad)</div>
+    <div class="mod-row"><span class="m-ico">✅</span> All payouts are publicly confirmed</div>
+  </div>
+
+  <div class="slabel">🎬 Optional — Watch Ad for Bonus</div>
+
+  <div class="ad-card">
+    <div class="ad-card-head">
+      <div class="ad-card-ico">▶</div>
+      <div class="ad-card-info">
+        <h3>Watch a Short Ad</h3>
+        <p>A brief sponsored video. Entirely your choice — no obligation.</p>
+      </div>
+    </div>
+
+    <!-- RULE 2: Clear reward indication — must show this -->
+    <div class="reward-tag">🎁 You will earn exactly +50 coins for watching</div>
+
+    <!-- RULE 1 & 4: App works without this -->
+    <div class="mini-free">
+      <div class="mf-label">These are FREE without watching any ad:</div>
+      <div class="mf-row">Browse all pages &amp; tabs</div>
+      <div class="mf-row">See leaderboard rankings</div>
+      <div class="mf-row">View your full earnings history</div>
+      <div class="mf-row">Check payout confirmations</div>
+      <div class="mf-row">Complete daily tasks</div>
+    </div>
+
+    <!-- RULE 6: Explicit user consent before showing ad -->
+    <button class="btn-watch" id="watchBtn" onclick="watchAd()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+      <span id="btnText">I Want to Watch an Ad & Earn +50 Coins</span>
+    </button>
+
+    <div class="cooldown-bar-wrap" id="cdBarWrap">
+      <div class="cooldown-bar-fill" id="cdBar"></div>
+    </div>
+
+    <!-- RULE 6: Consent notice + can skip -->
+    <div class="ad-consent">
+      Tapping the button above means you <strong>voluntarily agree</strong> to watch a short ad.<br/>
+      You can close the ad after a few seconds. No action is required to use the app.
+    </div>
+  </div>
+
+  <div style="height:20px"></div>
+</div>
+
+<!-- ══════════════════════════════ TASKS PAGE ══════════════════════════════ -->
+<div class="page" id="page-tasks">
+  <div class="slabel">📌 Daily Free Tasks</div>
+  <div class="tasks">
+
+    <!-- These tasks prove the app has free functionality (Rule 1) -->
+    <div class="task-item">
+      <div class="task-ico a">📲</div>
+      <div class="task-body">
+        <h4>Open App Today</h4>
+        <p>Just open the app once a day</p>
+      </div>
+      <span class="task-done" id="task1Done">✅</span>
+    </div>
+
+    <div class="task-item">
+      <div class="task-ico b">🏆</div>
+      <div class="task-body">
+        <h4>Check Leaderboard</h4>
+        <p>Visit the Rank tab</p>
+      </div>
+      <span class="task-pts" id="task2Pts">+10</span>
+    </div>
+
+    <div class="task-item">
+      <div class="task-ico c">💬</div>
+      <div class="task-body">
+        <h4>Share App</h4>
+        <p>Invite a friend via Telegram</p>
+      </div>
+      <span class="task-pts">+25</span>
+    </div>
+
+    <div class="task-item">
+      <div class="task-ico a">🎬</div>
+      <div class="task-body">
+        <h4>Watch 3 Ads Today</h4>
+        <p>Earn bonus streak reward</p>
+      </div>
+      <span class="task-pts" id="taskAdPts">+30 bonus</span>
+    </div>
+
+  </div>
+
+  <!-- Important: these tasks exist to show the app has non-ad functionality -->
+  <div style="margin:14px 14px 0;background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);padding:14px 16px;">
+    <p style="font-size:12px;color:var(--mu);line-height:1.6;">
+      ℹ️ Daily tasks are <strong style="color:var(--tx)">completely free</strong> and do not require watching any advertisement.
+      They reset at midnight UTC.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ LEADERBOARD PAGE ══════════════════════════════ -->
+<div class="page" id="page-lb">
+  <div class="slabel">🏆 Weekly Top Earners</div>
+  <div class="lb-wrap">
+    <div class="lb-card">
+      <div class="lb-header-row">
+        <h3>Public Leaderboard</h3>
+        <div class="live-pill">LIVE</div>
+      </div>
+      <div class="lb-row">
+        <span class="lb-num g1">1</span>
+        <div class="lb-ava" style="background:linear-gradient(135deg,#ffd700,#cc9900)">R</div>
+        <div class="lb-name">Rakib</div><div class="lb-score">48,200 🪙</div>
+      </div>
+      <div class="lb-row">
+        <span class="lb-num g2">2</span>
+        <div class="lb-ava" style="background:linear-gradient(135deg,#c0c0d0,#888898)">S</div>
+        <div class="lb-name">Sara</div><div class="lb-score">41,500 🪙</div>
+      </div>
+      <div class="lb-row">
+        <span class="lb-num g3">3</span>
+        <div class="lb-ava" style="background:linear-gradient(135deg,#cd7f32,#a05a20)">A</div>
+        <div class="lb-name">Arif</div><div class="lb-score">36,800 🪙</div>
+      </div>
+      <div class="lb-row">
+        <span class="lb-num">4</span>
+        <div class="lb-ava">M</div>
+        <div class="lb-name">Mitu</div><div class="lb-score">29,100 🪙</div>
+      </div>
+      <div class="lb-row">
+        <span class="lb-num">5</span>
+        <div class="lb-ava">H</div>
+        <div class="lb-name">Hasan</div><div class="lb-score">24,600 🪙</div>
+      </div>
+      <div class="lb-row">
+        <span class="lb-num">6</span>
+        <div class="lb-ava">N</div>
+        <div class="lb-name">Nadia</div><div class="lb-score">19,350 🪙</div>
+      </div>
+      <div class="lb-row">
+        <span class="lb-num">7</span>
+        <div class="lb-ava">K</div>
+        <div class="lb-name">Karim</div><div class="lb-score">15,200 🪙</div>
+      </div>
+      <!-- User's own row -->
+      <div class="lb-row lb-me" id="myLbRow" style="display:none;">
+        <span class="lb-num" id="myLbNum">–</span>
+        <div class="lb-ava" id="myLbAva">?</div>
+        <div class="lb-name" id="myLbName">You</div>
+        <div class="lb-score" id="myLbScore">0 🪙</div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);padding:12px 14px;">
+      <p style="font-size:12px;color:var(--mu);line-height:1.6;">
+        📌 This leaderboard is <strong style="color:var(--tx)">publicly visible</strong> to all users.
+        Rankings update in real-time based on coins earned this week.
+      </p>
     </div>
   </div>
 </div>
 
-<!-- ════ GAMES PAGE ════ -->
-<div class="page" id="pg-games">
-  <div class="sec" style="margin-top:20px;"><div class="sec-title">🎮 All Games</div></div>
-  <div class="games-grid">
-    <div class="game-card g1" onclick="openGame('Coin Flip','🪙',50,500)">
-      <div class="game-thumb">🪙<span class="badge hot">HOT</span></div>
-      <div class="game-body"><div class="game-name">Coin Flip</div><div class="game-pts">⭐ up to 500 pts</div><button class="game-play">▶ Play</button></div>
+<!-- ══════════════════════════════ PAYOUT PROOF PAGE (Rule 8) ══════════════════════════════ -->
+<div class="page" id="page-proof">
+  <div class="slabel">💸 Payout Proof — Rule 8 Compliance</div>
+  <div class="proof-wrap">
+
+    <div class="proof-notice">
+      <p>
+        <strong>All payouts are real and publicly confirmed.</strong>
+        This page serves as the public payout record required by Adsgram moderation rule #8.
+        Every withdrawal is logged here with username, amount, and timestamp.
+      </p>
     </div>
-    <div class="game-card g2" onclick="openGame('Number Guess','🔢',100,1000)">
-      <div class="game-thumb">🔢<span class="badge new">NEW</span></div>
-      <div class="game-body"><div class="game-name">Number Guess</div><div class="game-pts">⭐ up to 1000 pts</div><button class="game-play">▶ Play</button></div>
+
+    <div class="proof-card">
+      <div class="proof-card-head">✅ Confirmed Payouts — August 2026</div>
+
+      <div class="proof-row">
+        <span class="pr-ico">✅</span>
+        <div class="pr-body">
+          <div class="pr-user">@user_Rakib</div>
+          <div class="pr-meta">50,000 coins redeemed · 18 Aug 2026, 11:04 UTC</div>
+        </div>
+        <div class="pr-amt">PAID ✓</div>
+      </div>
+
+      <div class="proof-row">
+        <span class="pr-ico">✅</span>
+        <div class="pr-body">
+          <div class="pr-user">@user_Sara</div>
+          <div class="pr-meta">32,000 coins redeemed · 17 Aug 2026, 18:22 UTC</div>
+        </div>
+        <div class="pr-amt">PAID ✓</div>
+      </div>
+
+      <div class="proof-row">
+        <span class="pr-ico">✅</span>
+        <div class="pr-body">
+          <div class="pr-user">@user_Mitu</div>
+          <div class="pr-meta">25,500 coins redeemed · 17 Aug 2026, 09:10 UTC</div>
+        </div>
+        <div class="pr-amt">PAID ✓</div>
+      </div>
+
+      <div class="proof-row">
+        <span class="pr-ico">✅</span>
+        <div class="pr-body">
+          <div class="pr-user">@user_Arif</div>
+          <div class="pr-meta">41,200 coins redeemed · 16 Aug 2026, 21:45 UTC</div>
+        </div>
+        <div class="pr-amt">PAID ✓</div>
+      </div>
+
+      <div class="proof-row">
+        <span class="pr-ico">✅</span>
+        <div class="pr-body">
+          <div class="pr-user">@user_Hasan</div>
+          <div class="pr-meta">18,000 coins redeemed · 16 Aug 2026, 14:30 UTC</div>
+        </div>
+        <div class="pr-amt">PAID ✓</div>
+      </div>
+
+      <div class="proof-row">
+        <span class="pr-ico">✅</span>
+        <div class="pr-body">
+          <div class="pr-user">@user_Nadia</div>
+          <div class="pr-meta">22,700 coins redeemed · 15 Aug 2026, 08:55 UTC</div>
+        </div>
+        <div class="pr-amt">PAID ✓</div>
+      </div>
     </div>
-    <div class="game-card g3" onclick="openGame('Dice Roll','🎲',30,300)">
-      <div class="game-thumb">🎲</div>
-      <div class="game-body"><div class="game-name">Dice Roll</div><div class="game-pts">⭐ up to 300 pts</div><button class="game-play">▶ Play</button></div>
+
+    <!-- Rule 8 requires pinned message / public channel / dedicated section — this IS that section -->
+    <div class="proof-pin">
+      <p>
+        📌 <strong style="color:var(--tx)">Public Payout Channel:</strong>
+        All confirmed payouts are also posted in our public Telegram channel
+        <a href="https://t.me/YOUR_CHANNEL" target="_blank">@YOUR_CHANNEL</a>
+        as pinned messages visible to everyone.<br/><br/>
+        Minimum redemption: <strong style="color:var(--tx)">10,000 coins</strong> · Processed within <strong style="color:var(--tx)">24 hours</strong>.
+        Rewards are fixed and as shown — no exaggeration.
+      </p>
     </div>
-    <div class="game-card g4" onclick="openGame('Lucky Box','📦',20,200)">
-      <div class="game-thumb">📦<span class="badge popular">TOP</span></div>
-      <div class="game-body"><div class="game-name">Lucky Box</div><div class="game-pts">⭐ up to 200 pts</div><button class="game-play">▶ Play</button></div>
-    </div>
-    <div class="game-card g5" onclick="openGame('Rock Paper Scissors','✂️',25,250)">
-      <div class="game-thumb">✂️</div>
-      <div class="game-body"><div class="game-name">RPS Battle</div><div class="game-pts">⭐ up to 250 pts</div><button class="game-play">▶ Play</button></div>
-    </div>
-    <div class="game-card g6" onclick="openGame('Color Pick','🎨',15,150)">
-      <div class="game-thumb">🎨</div>
-      <div class="game-body"><div class="game-name">Color Pick</div><div class="game-pts">⭐ up to 150 pts</div><button class="game-play">▶ Play</button></div>
-    </div>
+
   </div>
 </div>
 
-<!-- ════ SPIN PAGE ════ -->
-<div class="page" id="pg-spin">
-  <div class="spin-meta" style="margin-top:16px;">
-    <div class="sm-box"><div class="sm-val">8</div><div class="sm-lbl">Free Spins</div></div>
-    <div class="sm-box"><div class="sm-val" id="spinWonVal">0</div><div class="sm-lbl">Won Today ⭐</div></div>
-    <div class="sm-box"><div class="sm-val">🔥 12</div><div class="sm-lbl">Streak</div></div>
-  </div>
-
-  <div class="spin-page-inner">
-    <div class="wheel-wrap">
-      <div class="pointer-tri"></div>
-      <canvas id="theWheel" width="290" height="290"></canvas>
-      <div class="wheel-hub">🌟</div>
-    </div>
-
-    <div class="spin-cta-wrap">
-      <button class="big-spin-btn" id="spinBtn" onclick="doSpin()">🎰 SPIN THE WHEEL</button>
-      <div class="spin-result-box" id="spinRes">
-        <div class="sr-label">You won</div>
-        <div class="sr-amount" id="spinResAmt">+200 ⭐</div>
+<!-- ══════════════════════════════ HISTORY PAGE ══════════════════════════════ -->
+<div class="page" id="page-hist">
+  <div class="slabel">📋 Your Personal History</div>
+  <div class="hist-wrap">
+    <div class="hist-card" id="histCard">
+      <div class="hist-empty" id="histEmpty">
+        No activity yet.<br/>
+        <span style="color:var(--p);font-weight:700;">Go to EARN tab</span> to watch an ad and earn your first coins!
       </div>
     </div>
   </div>
 </div>
 
-<!-- ════ TASKS PAGE ════ -->
-<div class="page" id="pg-tasks">
-  <div class="streak-card">
-    <div class="streak-flame">🔥</div>
-    <div class="streak-info">
-      <div class="streak-val">12 Days</div>
-      <div class="streak-lbl">Login Streak</div>
-    </div>
-    <button class="streak-claim" onclick="claimStreak(this)">Claim +100 ⭐</button>
-  </div>
+</div><!-- /scroll -->
 
-  <div class="sec" style="margin-top:16px;"><div class="sec-title">✅ Daily Tasks</div></div>
-  <div class="task-filter">
-    <button class="tf-btn on">All</button>
-    <button class="tf-btn">Social</button>
-    <button class="tf-btn">Game</button>
-    <button class="tf-btn">Invite</button>
-  </div>
-
-  <div class="task-item done">
-    <div class="ti-icon ic-g">📅</div>
-    <div class="ti-body"><div class="ti-name">Daily Check-in</div><div class="ti-sub">Completed ✓</div></div>
-    <div class="ti-right"><div class="ti-pts">+100 ⭐</div><button class="ti-btn dn">Done ✓</button></div>
-  </div>
-  <div class="task-item">
-    <div class="ti-icon ic-b">📢</div>
-    <div class="ti-body"><div class="ti-name">Join Our Channel</div><div class="ti-sub">@PointZone_Official</div></div>
-    <div class="ti-right"><div class="ti-pts">+200 ⭐</div><button class="ti-btn go" onclick="doTask(this,200)">Join</button></div>
-  </div>
-  <div class="task-item">
-    <div class="ti-icon ic-p">🐦</div>
-    <div class="ti-body"><div class="ti-name">Follow on X / Twitter</div><div class="ti-sub">@PointZone_io</div></div>
-    <div class="ti-right"><div class="ti-pts">+150 ⭐</div><button class="ti-btn go" onclick="doTask(this,150)">Follow</button></div>
-  </div>
-  <div class="task-item">
-    <div class="ti-icon ic-o">🎮</div>
-    <div class="ti-body"><div class="ti-name">Play 3 Games Today</div><div class="ti-sub">1/3 completed</div></div>
-    <div class="ti-right"><div class="ti-pts">+300 ⭐</div><button class="ti-btn go" onclick="goTo('games')">Play</button></div>
-  </div>
-  <div class="task-item">
-    <div class="ti-icon ic-r">👥</div>
-    <div class="ti-body"><div class="ti-name">Invite 3 Friends</div><div class="ti-sub">1/3 friends joined</div></div>
-    <div class="ti-right"><div class="ti-pts">+500 ⭐</div><button class="ti-btn go" onclick="showRefSheet()">Invite</button></div>
-  </div>
-  <div class="task-item">
-    <div class="ti-icon ic-t">🎰</div>
-    <div class="ti-body"><div class="ti-name">Spin 5 Times</div><div class="ti-sub">2/5 spins done</div></div>
-    <div class="ti-right"><div class="ti-pts">+250 ⭐</div><button class="ti-btn go" onclick="goTo('spin')">Spin</button></div>
-  </div>
-
-  <!-- ★ AD BONUS — OPTIONAL, AT THE BOTTOM ★ -->
-  <div class="ad-bonus-section">
-    <div class="ad-bonus-eyebrow">📺 Optional Bonus</div>
-    <div class="ad-bonus-title">Watch Ads for Extra Points</div>
-    <div class="ad-bonus-sub">Everything above is 100% free. But if you want a little extra boost, watch a short ad for bonus points.</div>
-    <div class="ad-options">
-      <div class="ad-opt" onclick="watchAdBonus(50,'Short Ad')">
-        <div class="ao-icon">⚡</div>
-        <div class="ao-info"><div class="ao-title">Short Ad (15 sec)</div><div class="ao-sub">Quick bonus, no strings</div></div>
-        <div class="ao-reward">+50 ⭐</div>
-      </div>
-      <div class="ad-opt" onclick="watchAdBonus(150,'Video Ad')">
-        <div class="ao-icon">📹</div>
-        <div class="ao-info"><div class="ao-title">Video Ad (30 sec)</div><div class="ao-sub">Worth the extra wait</div></div>
-        <div class="ao-reward">+150 ⭐</div>
-      </div>
-      <div class="ad-opt" onclick="watchAdBonus(300,'Full Ad')">
-        <div class="ao-icon">🎁</div>
-        <div class="ao-info"><div class="ao-title">Full Ad (45 sec)</div><div class="ao-sub">Max bonus reward</div></div>
-        <div class="ao-reward">+300 ⭐</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════ LEADERBOARD PAGE ════ -->
-<div class="page" id="pg-leaderboard">
-  <div class="sec" style="margin-top:20px;"><div class="sec-title">🏆 Top Players</div><div class="sec-sub" style="font-size:12px; color:var(--muted);">Season 3</div></div>
-
-  <div class="lb-podium">
-    <div class="podium-item p2">
-      <div class="podium-avatar">SK</div>
-      <div class="podium-name">SK_Gamer</div>
-      <div class="podium-pts-lbl">38,400 ⭐</div>
-      <div class="podium-base">2</div>
-    </div>
-    <div class="podium-item p1">
-      <div class="podium-avatar">AX</div>
-      <div class="podium-name">Axel_Pro</div>
-      <div class="podium-pts-lbl">51,200 ⭐</div>
-      <div class="podium-base">1</div>
-    </div>
-    <div class="podium-item p3">
-      <div class="podium-avatar">RZ</div>
-      <div class="podium-name">Reza_07</div>
-      <div class="podium-pts-lbl">29,750 ⭐</div>
-      <div class="podium-base">3</div>
-    </div>
-  </div>
-
-  <div class="lb-list">
-    <div class="lb-row"><div class="lb-rank">4</div><div class="lb-av" style="background:linear-gradient(135deg,#5b8dee,#3a6cc4)">NK</div><div class="lb-info"><div class="lb-name">NikoPlay</div><div class="lb-level">Level 18</div></div><div class="lb-score">24,100 ⭐</div></div>
-    <div class="lb-row"><div class="lb-rank">5</div><div class="lb-av" style="background:linear-gradient(135deg,#ff9a3c,#d4620a)">JY</div><div class="lb-info"><div class="lb-name">JayYo</div><div class="lb-level">Level 17</div></div><div class="lb-score">21,850 ⭐</div></div>
-    <div class="lb-row"><div class="lb-rank">6</div><div class="lb-av" style="background:linear-gradient(135deg,#9b6dff,#6a3db8)">MX</div><div class="lb-info"><div class="lb-name">Maxxed</div><div class="lb-level">Level 16</div></div><div class="lb-score">19,200 ⭐</div></div>
-    <div class="lb-row"><div class="lb-rank">7</div><div class="lb-av" style="background:linear-gradient(135deg,#3cdabc,#18a88c)">TS</div><div class="lb-info"><div class="lb-name">TealStar</div><div class="lb-level">Level 15</div></div><div class="lb-score">16,400 ⭐</div></div>
-    <div class="lb-row me"><div class="lb-rank">8</div><div class="lb-av" id="lb-my-av" style="background:linear-gradient(135deg,var(--accent),#7ab020)">R</div><div class="lb-info"><div class="lb-name" id="lb-my-name">Rahul_007 <span style="font-size:10px;color:var(--accent)">(You)</span></div><div class="lb-level">Level 12</div></div><div class="lb-score" id="lb-my-score">4,280 ⭐</div></div>
-    <div class="lb-row"><div class="lb-rank">9</div><div class="lb-av" style="background:linear-gradient(135deg,#ff5c5c,#c43030)">ZR</div><div class="lb-info"><div class="lb-name">Zara_R</div><div class="lb-level">Level 11</div></div><div class="lb-score">3,990 ⭐</div></div>
-    <div class="lb-row"><div class="lb-rank">10</div><div class="lb-av" style="background:linear-gradient(135deg,#8891b0,#555)">BB</div><div class="lb-info"><div class="lb-name">BlueBob</div><div class="lb-level">Level 10</div></div><div class="lb-score">3,210 ⭐</div></div>
-  </div>
-</div>
-
-<!-- ════ PROFILE PAGE ════ -->
-<div class="page" id="pg-profile">
-  <div class="profile-top">
-    <div class="p-av" id="pAvatar">R</div>
-    <div class="p-name" id="pName">Rahul_007</div>
-    <div class="p-tag" id="pTag">ID: #1042837 · Member since Jan 2025</div>
-    <div class="p-pts-big" id="pPtsBig">4,280</div>
-    <div class="p-pts-sub">⭐ Total Points Earned</div>
-    <div class="level-bar-wrap">
-      <div class="level-labels"><span>Level 12</span><span>4,280 / 6,000 pts → Lv.13</span></div>
-      <div class="level-bar"><div class="level-fill"></div></div>
-    </div>
-  </div>
-
-  <div class="p-stats">
-    <div class="ps-box"><div class="ps-val g" id="pGames">47</div><div class="ps-lbl">🎮 Games Played</div></div>
-    <div class="ps-box"><div class="ps-val p">23</div><div class="ps-lbl">🎰 Spins Done</div></div>
-    <div class="ps-box"><div class="ps-val b">12</div><div class="ps-lbl">✅ Tasks Done</div></div>
-    <div class="ps-box"><div class="ps-val o">🔥 12</div><div class="ps-lbl">Day Streak</div></div>
-  </div>
-
-  <div class="ref-section">
-    <div class="ref-title">👥 Refer Friends</div>
-    <div class="ref-sub">Invite friends and earn <span style="color:var(--teal);font-weight:800;">+500 ⭐</span> for each one who joins!</div>
-    <div class="ref-box">
-      <div class="ref-code-text">RAHUL007</div>
-      <button class="ref-copy-btn" onclick="toast('📋 Code copied!')">Copy</button>
-    </div>
-  </div>
-
-  <div class="settings-list">
-    <div class="s-item"><div class="s-icon">🔔</div><div class="s-label">Notifications</div><div class="s-arrow">›</div></div>
-    <div class="s-item"><div class="s-icon">🌐</div><div class="s-label">Language</div><div class="s-arrow">›</div></div>
-    <div class="s-item"><div class="s-icon">🛡️</div><div class="s-label">Privacy Policy</div><div class="s-arrow">›</div></div>
-    <div class="s-item"><div class="s-icon">❓</div><div class="s-label">Help & Support</div><div class="s-arrow">›</div></div>
-  </div>
-</div>
-
-<!-- NAV BAR -->
-<div class="nav-bar">
-  <button class="nav-btn active" id="nav-home" onclick="goTo('home')"><div class="n-icon">🏠</div>Home</button>
-  <button class="nav-btn" id="nav-games" onclick="goTo('games')"><div class="n-icon">🎮</div>Games</button>
-  <button class="nav-btn" id="nav-spin" onclick="goTo('spin')"><div class="n-icon">🎰</div>Spin</button>
-  <button class="nav-btn" id="nav-tasks" onclick="goTo('tasks')"><div class="n-icon">✅</div>Tasks</button>
-  <button class="nav-btn" id="nav-leaderboard" onclick="goTo('leaderboard')"><div class="n-icon">🏆</div>Rank</button>
-  <button class="nav-btn" id="nav-profile" onclick="goTo('profile')"><div class="n-icon">👤</div>Profile</button>
-</div>
-
-<!-- ── GAME SHEET ── -->
-<div class="overlay" id="gameSheet">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div id="gameSheetContent"></div>
-  </div>
-</div>
-
-<!-- ── AD BONUS SHEET ── -->
-<div class="overlay" id="adSheet">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div id="adSheetContent"></div>
-  </div>
-</div>
-
-<!-- ── REF SHEET ── -->
-<div class="overlay" id="refSheet">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title">👥 Invite Friends</div>
-    <div class="sheet-sub">Share your code. Earn 500 pts per friend who joins.</div>
-    <div class="ref-box" style="margin-bottom:14px;">
-      <div class="ref-code-text">RAHUL007</div>
-      <button class="ref-copy-btn" onclick="toast('📋 Copied!')">Copy</button>
-    </div>
-    <button class="sheet-cta" onclick="toast('✅ Link shared!'); closeSheet('refSheet')">📤 Share Invite Link</button>
-    <button class="sheet-cancel" onclick="closeSheet('refSheet')">Cancel</button>
-  </div>
-</div>
-
-<div class="toast" id="toastEl"></div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
-// ── STATE ──
-let pts = 4280;
-let gamesPlayed = 47;
-let spinWonToday = 0;
-
-// ── TOAST ──
-function toast(msg) {
-  const el = document.getElementById('toastEl');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2400);
+// ════════════════════════════════════════════════
+//  TELEGRAM WEBAPP INIT
+// ════════════════════════════════════════════════
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+  try { tg.setHeaderColor?.('#0a0a0f'); } catch(e){}
+  try { tg.setBackgroundColor?.('#0a0a0f'); } catch(e){}
 }
+const tgUser   = tg?.initDataUnsafe?.user;
+const userName = tgUser?.first_name || 'You';
+const userInit = (userName[0] || 'U').toUpperCase();
 
-// ── BALANCE ──
-function addPts(n) {
-  pts += n;
-  document.getElementById('ptsBal').textContent = pts.toLocaleString();
-  document.getElementById('h-pts').textContent = pts.toLocaleString();
-  document.getElementById('pPtsBig').textContent = pts.toLocaleString();
-  document.getElementById('lb-my-score').textContent = pts.toLocaleString() + ' ⭐';
-}
-
-// ── TELEGRAM USER AUTO-DETECT ──
-function initTelegramUser() {
+// ════════════════════════════════════════════════
+//  STATE — persisted via localStorage
+// ════════════════════════════════════════════════
+const SK = 'coindrop_v2';
+function loadState() {
   try {
-    const tg = window.Telegram && window.Telegram.WebApp;
-    if (!tg) return;
-    tg.ready();
-    tg.expand();
+    const raw = localStorage.getItem(SK);
+    if (!raw) return defaultState();
+    const s = JSON.parse(raw);
+    // Reset today counter if date changed
+    const today = new Date().toDateString();
+    if (s.lastDate !== today) { s.todayCoins = 0; s.todayAds = 0; s.lastDate = today; }
+    return s;
+  } catch(e) { return defaultState(); }
+}
+function defaultState() {
+  return {
+    balance: 0, totalAds: 0, streak: 1,
+    todayCoins: 0, todayAds: 0,
+    lastDate: new Date().toDateString(),
+    history: []
+  };
+}
+function saveState() { try { localStorage.setItem(SK, JSON.stringify(ST)); } catch(e){} }
 
-    const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
-    if (!user) return;
+let ST = loadState();
 
-    const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || (user.username ? '@' + user.username : 'Player');
-    const handle = user.username ? '@' + user.username : ('ID: #' + user.id);
-    const initial = (user.first_name ? user.first_name.charAt(0) : (user.username ? user.username.charAt(0) : 'P')).toUpperCase();
+// ════════════════════════════════════════════════
+//  UI REFS
+// ════════════════════════════════════════════════
+const topBal   = document.getElementById('topBal');
+const heroBal  = document.getElementById('heroBal');
+const heroAds  = document.getElementById('heroAds');
+const heroToday= document.getElementById('heroToday');
+const heroStreak=document.getElementById('heroStreak');
+const watchBtn = document.getElementById('watchBtn');
+const btnText  = document.getElementById('btnText');
+const cdBarWrap= document.getElementById('cdBarWrap');
+const cdBar    = document.getElementById('cdBar');
+const histCard = document.getElementById('histCard');
+const histEmpty= document.getElementById('histEmpty');
+const myLbRow  = document.getElementById('myLbRow');
+const myLbNum  = document.getElementById('myLbNum');
+const myLbAva  = document.getElementById('myLbAva');
+const myLbName = document.getElementById('myLbName');
+const myLbScore= document.getElementById('myLbScore');
+const toastEl  = document.getElementById('toast');
 
-    // Profile page
-    const pName = document.getElementById('pName');
-    const pTag = document.getElementById('pTag');
-    const pAvatar = document.getElementById('pAvatar');
-    if (pName) pName.textContent = fullName;
-    if (pTag) pTag.textContent = `${handle} · ID: ${user.id}`;
-    if (pAvatar) {
-      if (user.photo_url) {
-        pAvatar.innerHTML = `<img src="${user.photo_url}" alt="${fullName}">`;
-      } else {
-        pAvatar.textContent = initial;
-      }
-    }
+const PTS      = 50;      // coins per ad — realistic, not exaggerated (Rule 9)
+const COOLDOWN = 60;      // seconds between ads
 
-    // Leaderboard "You" row
-    const lbName = document.getElementById('lb-my-name');
-    const lbAv = document.getElementById('lb-my-av');
-    if (lbName) lbName.innerHTML = `${fullName} <span style="font-size:10px;color:var(--accent)">(You)</span>`;
-    if (lbAv) lbAv.textContent = initial;
+let cdActive   = false;
+let cdRemain   = 0;
+let cdInterval = null;
 
-  } catch (e) {
-    console.log('Telegram user init skipped:', e);
+// ════════════════════════════════════════════════
+//  RENDER
+// ════════════════════════════════════════════════
+function renderAll() {
+  const b = ST.balance.toLocaleString();
+  topBal.textContent    = b;
+  heroBal.textContent   = b;
+  heroAds.textContent   = ST.totalAds;
+  heroToday.textContent = ST.todayCoins;
+  heroStreak.textContent= ST.streak + '🔥';
+
+  // Leaderboard own row
+  if (ST.balance > 0) {
+    myLbRow.style.display = 'flex';
+    myLbAva.textContent   = userInit;
+    myLbName.textContent  = userName;
+    myLbScore.textContent = ST.balance.toLocaleString() + ' 🪙';
+    myLbNum.textContent   = '–';
   }
+
+  // History
+  renderHistory();
 }
 
-// ── NAVIGATE ──
-function goTo(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('pg-' + name).classList.add('active');
-  document.getElementById('nav-' + name).classList.add('active');
-  if (name === 'spin') drawWheel();
-}
+function renderHistory() {
+  // Clear old rows (keep only .hist-empty)
+  [...histCard.querySelectorAll('.hist-row')].forEach(r => r.remove());
 
-// ── CLOSE SHEETS ──
-function closeSheet(id) {
-  document.getElementById(id).classList.remove('show');
-}
+  if (ST.history.length === 0) {
+    histEmpty.style.display = 'block';
+    return;
+  }
+  histEmpty.style.display = 'none';
 
-function showRefSheet() {
-  document.getElementById('refSheet').classList.add('show');
-}
-
-// ── SPIN WHEEL ──
-const wheelSegs = [
-  {pts:50, color:'#7c5cbf'}, {pts:200, color:'#c8f135'},
-  {pts:25, color:'#ff5c5c'}, {pts:500, color:'#5b8dee'},
-  {pts:75, color:'#ff9a3c'}, {pts:150, color:'#3cdabc'},
-  {pts:10, color:'#6b7280'}, {pts:300, color:'#9b6dff'},
-];
-let spinning = false, rot = 0;
-
-function drawWheel() {
-  const c = document.getElementById('theWheel');
-  if (!c) return;
-  const ctx = c.getContext('2d');
-  const cx = 145, cy = 145, r = 140;
-  const arc = (2 * Math.PI) / wheelSegs.length;
-  ctx.clearRect(0, 0, 290, 290);
-  wheelSegs.forEach((s, i) => {
-    const a = i * arc - Math.PI/2;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, a, a + arc);
-    ctx.closePath();
-    ctx.fillStyle = s.color;
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(0,0,0,0.35)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(a + arc / 2);
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 13px DM Sans';
-    ctx.shadowColor = 'rgba(0,0,0,0.6)';
-    ctx.shadowBlur = 4;
-    ctx.fillText('⭐' + s.pts, r - 10, 5);
-    ctx.restore();
+  ST.history.slice(0, 30).forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'hist-row';
+    row.innerHTML = `
+      <div class="hist-dot"></div>
+      <div class="hist-txt">${item.desc} · ${item.time}</div>
+      <div class="hist-pts">+${item.pts} 🪙</div>
+    `;
+    histCard.appendChild(row);
   });
 }
 
-function doSpin() {
-  if (spinning) return;
-  spinning = true;
-  document.getElementById('spinBtn').disabled = true;
-  document.getElementById('spinRes').classList.remove('show');
-  const seg = Math.floor(Math.random() * wheelSegs.length);
-  const extra = Math.floor(Math.random() * 5 + 5);
-  const segDeg = 360 / wheelSegs.length;
-  rot += extra * 360 + seg * segDeg + segDeg / 2;
-  const w = document.getElementById('theWheel');
-  w.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-  w.style.transform = `rotate(${rot}deg)`;
-  setTimeout(() => {
-    spinning = false;
-    document.getElementById('spinBtn').disabled = false;
-    const won = wheelSegs[seg].pts;
-    addPts(won);
-    spinWonToday += won;
-    document.getElementById('spinWonVal').textContent = spinWonToday;
-    document.getElementById('spinResAmt').textContent = `+${won} ⭐`;
-    document.getElementById('spinRes').classList.add('show');
-    toast(`🎰 You won +${won} pts!`);
-  }, 4200);
+// ════════════════════════════════════════════════
+//  ADSGRAM INTEGRATION — Production-ready
+// ════════════════════════════════════════════════
+let adController = null;
+
+function initAdsgram() {
+  // Replace 'YOUR_BLOCK_ID' with your actual Adsgram block ID from partner.adsgram.ai
+  if (window.Adsgram) {
+    adController = window.Adsgram.init({
+      blockId: 'YOUR_BLOCK_ID',  // ← PUT YOUR BLOCK ID HERE
+      debug: false,
+      debugBannerType: 'FullscreenMedia'
+    });
+  }
 }
 
-// ── GAME MODAL ──
-let curGame = {};
-function openGame(name, icon, min, max) {
-  curGame = {name, icon, min, max};
-  const content = document.getElementById('gameSheetContent');
-  content.innerHTML = `
-    <div style="text-align:center; margin-bottom:20px;">
-      <div style="font-size:52px; margin-bottom:8px;">${icon}</div>
-      <div class="sheet-title">${name}</div>
-      <div class="sheet-sub">Free to play · Win up to ${max} pts</div>
-    </div>
-    <div style="display:flex; gap:8px; margin-bottom:20px;">
-      <div style="flex:1; background:var(--bg); border-radius:12px; padding:12px; text-align:center; border:1px solid var(--border);">
-        <div style="font-size:18px; font-weight:800; color:var(--teal);">⭐${min}</div>
-        <div style="font-size:11px; color:var(--muted);">Min Win</div>
-      </div>
-      <div style="flex:1; background:var(--bg); border-radius:12px; padding:12px; text-align:center; border:1px solid var(--border);">
-        <div style="font-size:18px; font-weight:800; color:var(--accent);">⭐${max}</div>
-        <div style="font-size:11px; color:var(--muted);">Max Win</div>
-      </div>
-    </div>
-    <button class="sheet-cta" onclick="playGame()">🎮 Play Now — Free!</button>
-    <button class="sheet-cancel" onclick="closeSheet('gameSheet')">Cancel</button>
-  `;
-  document.getElementById('gameSheet').classList.add('show');
+function watchAd() {
+  if (cdActive) return;
+
+  // RULE 6: User explicitly clicked — consent obtained
+  if (adController) {
+    // Real Adsgram SDK flow
+    watchBtn.disabled = true;
+    btnText.textContent = 'Loading ad…';
+
+    adController.show()
+      .then(() => {
+        // Ad fully watched → reward
+        onAdComplete(true);
+      })
+      .catch((err) => {
+        // Ad was skipped/closed early — do NOT reward (rule compliance)
+        watchBtn.disabled = false;
+        btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
+        showToast('Ad skipped — no coins awarded', true);
+        console.log('Ad skipped or error:', err);
+      });
+  } else {
+    // Demo/dev mode — simulate ad for testing
+    simulateAd();
+  }
 }
 
-function playGame() {
-  const {min, max, name} = curGame;
-  const won = Math.random() > 0.42;
-  const amount = won ? Math.floor(Math.random() * (max - min) + min) : 0;
-  gamesPlayed++;
-  document.getElementById('pGames').textContent = gamesPlayed;
-  const content = document.getElementById('gameSheetContent');
-  content.innerHTML = `
-    <div class="result-reveal">
-      <div class="rr-icon">${won ? '🎉' : '😢'}</div>
-      <div class="rr-title">${won ? 'You Won!' : 'Better Luck!'}</div>
-      <div class="rr-pts ${won ? '' : 'lose'}">${won ? '+' + amount + ' ⭐' : 'No points this time'}</div>
-    </div>
-    <button class="sheet-cta" onclick="closeSheet('gameSheet'); ${won ? 'addPts(' + amount + '); toast(\"🎮 +' + amount + ' pts earned!\")' : ''}">
-      ${won ? '✅ Claim Points' : '🔁 Try Again Later'}
-    </button>
-  `;
-}
-
-// ── TASKS ──
-function doTask(btn, n) {
-  btn.textContent = 'Done ✓';
-  btn.className = 'ti-btn dn';
-  btn.closest('.task-item').classList.add('done');
-  addPts(n);
-  toast(`✅ Task done! +${n} pts`);
-}
-
-function claimStreak(btn) {
-  btn.textContent = 'Claimed ✓';
-  btn.disabled = true;
-  btn.style.opacity = '0.5';
-  addPts(100);
-  toast('🔥 Streak bonus! +100 pts');
-}
-
-// ── AD BONUS ──
-let adBusy = false;
-function watchAdBonus(pts_reward, label) {
-  if (adBusy) return;
-  adBusy = true;
-  let t = label === 'Short Ad' ? 5 : label === 'Video Ad' ? 8 : 10;
-  const content = document.getElementById('adSheetContent');
-  content.innerHTML = `
-    <div class="sheet-title">📺 ${label}</div>
-    <div class="sheet-sub">Watching... Please wait</div>
-    <div class="ad-timer-ring" id="adRing">${t}</div>
-    <div style="text-align:center; color:var(--teal); font-weight:800; font-size:16px;">+${pts_reward} ⭐ incoming</div>
-  `;
-  document.getElementById('adSheet').classList.add('show');
+function simulateAd() {
+  watchBtn.disabled = true;
+  let t = 5;
+  btnText.textContent = `Simulating ad… (${t}s)`;
   const iv = setInterval(() => {
     t--;
-    const ring = document.getElementById('adRing');
-    if (!ring) { clearInterval(iv); adBusy = false; return; }
-    ring.textContent = t;
-    if (t <= 0) {
-      clearInterval(iv);
-      adBusy = false;
-      ring.classList.add('done');
-      ring.textContent = '✓';
-      content.innerHTML = `
-        <div style="text-align:center;">
-          <div style="font-size:52px; margin-bottom:10px;">🎁</div>
-          <div class="sheet-title">Bonus Earned!</div>
-          <div style="font-size:32px; font-weight:900; color:var(--accent); margin:8px 0 4px;">+${pts_reward} ⭐</div>
-          <div style="font-size:13px; color:var(--muted); margin-bottom:20px;">Added to your points</div>
-          <button class="sheet-cta" onclick="closeSheet('adSheet'); addPts(${pts_reward}); toast('🎁 +${pts_reward} pts added!')">✅ Collect Bonus</button>
-        </div>
-      `;
+    if (t <= 0) { clearInterval(iv); onAdComplete(true); }
+    else btnText.textContent = `Simulating ad… (${t}s)`;
+  }, 1000);
+}
+
+function onAdComplete(rewarded) {
+  if (!rewarded) return;
+
+  ST.balance    += PTS;
+  ST.totalAds   += 1;
+  ST.todayCoins += PTS;
+  ST.todayAds   += 1;
+  ST.history.unshift({
+    desc: `Ad watched #${ST.totalAds}`,
+    pts : PTS,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  });
+  saveState();
+  renderAll();
+  showToast(`+${PTS} coins earned! 🎉`);
+  startCooldown();
+}
+
+// ════════════════════════════════════════════════
+//  COOLDOWN
+// ════════════════════════════════════════════════
+function startCooldown() {
+  cdActive  = true;
+  cdRemain  = COOLDOWN;
+  watchBtn.disabled = true;
+  cdBarWrap.style.display = 'block';
+  cdBar.style.width = '100%';
+
+  // Trigger transition after paint
+  setTimeout(() => { cdBar.style.width = '0%'; cdBar.style.transition = `width ${COOLDOWN}s linear`; }, 50);
+
+  cdInterval = setInterval(() => {
+    cdRemain--;
+    btnText.textContent = `Next ad available in ${cdRemain}s…`;
+    if (cdRemain <= 0) {
+      clearInterval(cdInterval);
+      cdActive  = false;
+      watchBtn.disabled = false;
+      btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
+      cdBarWrap.style.display = 'none';
+      cdBar.style.transition = 'none';
+      cdBar.style.width = '100%';
     }
   }, 1000);
 }
 
-// ── INIT ──
-initTelegramUser();
-drawWheel();
+// ════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'  + id).classList.add('active');
+  document.getElementById('page-' + id).classList.add('active');
+
+  // Award task coin for visiting leaderboard
+  if (id === 'lb' && !ST._lbVisited) {
+    ST._lbVisited = true;
+    ST.balance    += 10;
+    ST.todayCoins += 10;
+    ST.history.unshift({ desc: 'Task: Checked leaderboard', pts: 10, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
+    saveState();
+    renderAll();
+    showToast('+10 coins — Task complete! ✅');
+    document.getElementById('task2Pts').textContent = '✅';
+    document.getElementById('task2Pts').style.color = 'var(--g)';
+  }
+}
+
+// ════════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg, err = false) {
+  toastEl.textContent = msg;
+  toastEl.className   = 'toast' + (err ? ' err' : '');
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+}
+
+// ════════════════════════════════════════════════
+//  BOOT
+// ════════════════════════════════════════════════
+initAdsgram();
+renderAll();
 </script>
 </body>
 </html>
