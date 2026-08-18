@@ -6,9 +6,6 @@
 <title>PointZone — Play & Level Up</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
-
-
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -728,66 +725,6 @@ body {
 .ad-timer-ring.done { animation: none; border-color: var(--teal); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ─── TOP NOTICE / NOTIFICATION CARD ─── */
-.notice-wrap {
-  position: fixed;
-  top: 10px; left: 0; right: 0;
-  display: flex; justify-content: center;
-  z-index: 2000;
-  padding: 0 10px;
-  pointer-events: none;
-}
-.notice-card {
-  pointer-events: auto;
-  width: 100%; max-width: 440px;
-  background: rgba(20,23,32,0.92);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-  padding: 12px 14px;
-  display: flex; align-items: flex-start; gap: 10px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(200,241,53,0.06);
-  transform: translateY(-140%);
-  opacity: 0;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s;
-  cursor: pointer;
-}
-.notice-card.show { transform: translateY(0); opacity: 1; }
-.notice-card:active { transform: scale(0.98); }
-.notice-icon {
-  width: 38px; height: 38px; flex-shrink: 0;
-  border-radius: 11px;
-  background: linear-gradient(135deg, rgba(200,241,53,0.18), rgba(200,241,53,0.06));
-  border: 1px solid rgba(200,241,53,0.25);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 19px;
-}
-.notice-body { flex: 1; min-width: 0; }
-.notice-top-row {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 8px; margin-bottom: 2px;
-}
-.notice-app {
-  font-family: 'Syne', sans-serif;
-  font-size: 12px; font-weight: 700; color: var(--sub);
-  display: flex; align-items: center; gap: 5px;
-}
-.notice-app b { color: var(--accent); font-weight: 800; }
-.notice-time { font-size: 10.5px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
-.notice-title { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; line-height: 1.3; }
-.notice-msg { font-size: 12px; color: var(--sub); line-height: 1.4; }
-.notice-close {
-  flex-shrink: 0;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  border: none; color: var(--muted);
-  font-size: 13px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-.notice-close:active { background: rgba(255,255,255,0.14); }
-
 /* TOAST */
 .toast {
   position: fixed; top: 75px; left: 50%;
@@ -804,71 +741,9 @@ body {
   pointer-events: none;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-
-
-
-.notice-marquee{
-  margin:14px 0;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background:var(--card);
-  border:1px solid rgba(200,241,53,.2);
-  border-radius:14px;
-  padding:10px 14px;
-  overflow:hidden;
-}
-
-.notice-label{
-  color:var(--accent);
-  font-weight:800;
-  white-space:nowrap;
-  font-size:13px;
-}
-
-.marquee-wrap{
-  flex:1;
-  overflow:hidden;
-  white-space:nowrap;
-}
-
-.marquee-text{
-  display:inline-block;
-  color:var(--text);
-  font-size:13px;
-  animation:noticeMove 18s linear infinite;
-}
-
-@keyframes noticeMove{
-  0%{
-    transform:translateX(100%);
-  }
-  100%{
-    transform:translateX(-100%);
-  }
-}
-
-
 </style>
 </head>
 <body>
-
-<!-- ── TOP NOTICE (system-notification style) ── -->
-<div class="notice-wrap" id="noticeWrap">
-  <div class="notice-card" id="noticeCard" onclick="handleNoticeTap()">
-    <div class="notice-icon" id="noticeIcon">⚠️</div>
-    <div class="notice-body">
-      <div class="notice-top-row">
-        <div class="notice-app">Point<b>Zone</b> · now</div>
-        <div class="notice-time" id="noticeTime">now</div>
-      </div>
-      <div class="notice-title" id="noticeTitle">⚠️ জরুরি নোটিশ</div>
-      <div class="notice-msg" id="noticeMsg">⚠️অনিবার্য কারণবশত আমাদের সাইটে আপডেটের কাজ চলমান আছে। আপাতত সবাই ৮-১২ঘন্টা কাজ বন্ধ রাখুন।⚠️ 🛑কেউ বিভ্রান্ত হবেন না। আপনাদের ব্যালেন্স এবং তথ্য ১০০% সুরক্ষিত আছে। খুব শীঘ্রই আবার কাজ শুরু করতে পারবেন।🛑</div>
-    </div>
-    <button class="notice-close" onclick="event.stopPropagation(); hideNotice()">✕</button>
-  </div>
-</div>
 
 <!-- HEADER -->
 <div class="header">
@@ -890,21 +765,6 @@ body {
       <button class="btn-ghost" onclick="goTo('leaderboard')">🏆 Leaderboard</button>
     </div>
   </div>
-
-
-
-
-<div class="notice-marquee">
-  <span class="notice-label">⚠️ নোটিশ</span>
-  <div class="marquee-wrap">
-    <div class="marquee-text">
-      ⚠️অনিবার্য কারণবশত সাইট আপডেটের কাজ চলমান।তাই সকলে কিছুক্ষণ কাজ করতে পারবেন না। আপডেট শেষ হওয়া পর্যন্ত অপেক্ষা করুন। •
-    </div>
-  </div>
-</div>
-
-
-
 
   <div class="stat-strip">
     <div class="stat-box"><div class="stat-n g" id="h-pts">4,280</div><div class="stat-lbl">⭐ My Points</div></div>
@@ -1427,48 +1287,9 @@ function watchAdBonus(pts_reward, label) {
   }, 1000);
 }
 
-// ── TOP NOTICE CARD ──
-let noticeAutoHideTimer = null;
-function showNotice({icon='🎉', title='', msg='', time='now', autoHide=6000, onTap=null} = {}) {
-  const card = document.getElementById('noticeCard');
-  document.getElementById('noticeIcon').textContent = icon;
-  document.getElementById('noticeTitle').textContent = title;
-  document.getElementById('noticeMsg').textContent = msg;
-  document.getElementById('noticeTime').textContent = time;
-  card.onclick = () => {
-    if (onTap) onTap();
-    hideNotice();
-  };
-  card.classList.add('show');
-  clearTimeout(noticeAutoHideTimer);
-  if (autoHide > 0) {
-    noticeAutoHideTimer = setTimeout(hideNotice, autoHide);
-  }
-}
-function hideNotice() {
-  const card = document.getElementById('noticeCard');
-  card.classList.remove('show');
-  clearTimeout(noticeAutoHideTimer);
-}
-function handleNoticeTap() {
-  // default tap target if none set via showNotice(onTap:...)
-}
-
 // ── INIT ──
 initTelegramUser();
 drawWheel();
-
-// Show a welcome notice shortly after load, like an incoming push notification
-setTimeout(() => {
-  showNotice({
-    icon: '⚠️',
-    title: '⚠️ জরুরি নোটিশ',
-    msg: '⚠️অনিবার্য কারণবশত আমাদের সাইটে আপডেটের কাজ চলমান আছে। আপাতত সবাই ৮-১২ঘন্টা কাজ বন্ধ রাখুন।⚠️ 🛑কেউ বিভ্রান্ত হবেন না। আপনাদের ব্যালেন্স এবং তথ্য ১০০% সুরক্ষিত আছে। খুব শীঘ্রই আবার কাজ শুরু করতে পারবেন।🛑',
-    time: 'now',
-    autoHide: 600000,
-    onTap: null
-  });
-}, 900);
 </script>
 </body>
 </html>
