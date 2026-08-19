@@ -663,7 +663,8 @@ body{
 // ════════════════════════════════════════════════
 const tg = window.Telegram?.WebApp;
 if (tg) {
-  tg.ready(); tg.expand();
+  try { tg.ready(); } catch(e){}
+  try { tg.expand(); } catch(e){}
   try { tg.setHeaderColor?.('#0a0a0f'); } catch(e){}
   try { tg.setBackgroundColor?.('#0a0a0f'); } catch(e){}
 }
@@ -672,12 +673,25 @@ const userName = tgUser?.first_name || 'You';
 const userInit = (userName[0] || 'U').toUpperCase();
 
 // ════════════════════════════════════════════════
+//  SAFE STORAGE — localStorage crash-proof for TG
+// ════════════════════════════════════════════════
+const _store = {};
+const LS = {
+  get(k)    { try { return localStorage.getItem(k); }    catch(e) { return _store[k] ?? null; } },
+  set(k, v) { try { localStorage.setItem(k, v); }        catch(e) { _store[k] = v; } },
+};
+
+// ════════════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════════════
-const SK = 'coindrop_v3';
+const SK = 'coindrop_v4';
+function defaultState() {
+  return { balance:0, totalAds:0, streak:1, todayCoins:0, todayAds:0,
+           lastDate:new Date().toDateString(), history:[], _lbVisited:false };
+}
 function loadState() {
   try {
-    const raw = localStorage.getItem(SK);
+    const raw = LS.get(SK);
     if (!raw) return defaultState();
     const s = JSON.parse(raw);
     const today = new Date().toDateString();
@@ -685,189 +699,177 @@ function loadState() {
     return s;
   } catch(e) { return defaultState(); }
 }
-function defaultState() {
-  return { balance:0, totalAds:0, streak:1, todayCoins:0, todayAds:0, lastDate:new Date().toDateString(), history:[] };
+function saveState() {
+  try { LS.set(SK, JSON.stringify(ST)); } catch(e){}
 }
-function saveState() { try { localStorage.setItem(SK, JSON.stringify(ST)); } catch(e){} }
 let ST = loadState();
 
 // ════════════════════════════════════════════════
-//  RANDOM DATA POOLS
+//  DATA POOLS
 // ════════════════════════════════════════════════
 const NAMES = [
-  'Rakib', 'Sara', 'Arif', 'Mitu', 'Hasan', 'Nadia', 'Karim', 'Sumon',
-  'Jannatul', 'Fahim', 'Riya', 'Tanvir', 'Mim', 'Sabbir', 'Lima',
-  'Nasim', 'Priya', 'Rifat', 'Disha', 'Rasel', 'Keya', 'Imran',
-  'Sadia', 'Zahid', 'Puja', 'Mamun', 'Tania', 'Asif', 'Nusrat', 'Robin',
-  'Ritu', 'Kabir', 'Mila', 'Emon', 'Urmi', 'Babu', 'Shimu', 'Pavel',
-  'Swapna', 'Rony', 'Mukta', 'Hridoy', 'Bristy', 'Sohel', 'Koli'
+  'Rakib','Sara','Arif','Mitu','Hasan','Nadia','Karim','Sumon',
+  'Jannatul','Fahim','Riya','Tanvir','Mim','Sabbir','Lima',
+  'Nasim','Priya','Rifat','Disha','Rasel','Keya','Imran',
+  'Sadia','Zahid','Puja','Mamun','Tania','Asif','Nusrat','Robin',
+  'Ritu','Kabir','Mila','Emon','Urmi','Babu','Shimu','Pavel',
+  'Swapna','Rony','Mukta','Hridoy','Bristy','Sohel','Koli'
+];
+const AVATAR_COLORS = [
+  ['#6c63ff','#5449e0'],['#00d68f','#00a86b'],['#ff4d6d','#cc1f40'],
+  ['#ffcc00','#cc9900'],['#00b4d8','#0077a8'],['#f77f00','#c45c00'],
+  ['#7b2d8b','#5c1d68'],['#06d6a0','#048a65'],['#ef476f','#b5163b'],
+  ['#118ab2','#0a5f80'],['#ffd166','#c9920e'],['#26547c','#183d5a']
 ];
 
-const AVATAR_COLORS = [
-  ['#6c63ff','#5449e0'], ['#00d68f','#00a86b'], ['#ff4d6d','#cc1f40'],
-  ['#ffcc00','#cc9900'], ['#00b4d8','#0077a8'], ['#f77f00','#c45c00'],
-  ['#7b2d8b','#5c1d68'], ['#06d6a0','#048a65'], ['#ef476f','#b5163b'],
-  ['#118ab2','#0a5f80'], ['#ffd166','#c9920e'], ['#26547c','#183d5a']
+// Fixed seed entries — always present when page opens
+const SEED_ENTRIES = [
+  { name:'Rakib',    amount:50000, agoMin:2  },
+  { name:'Sara',     amount:32000, agoMin:7  },
+  { name:'Mitu',     amount:25500, agoMin:13 },
+  { name:'Arif',     amount:41200, agoMin:19 },
+  { name:'Hasan',    amount:18000, agoMin:28 },
+  { name:'Nadia',    amount:22700, agoMin:34 },
+  { name:'Tanvir',   amount:15000, agoMin:41 },
+  { name:'Jannatul', amount:30000, agoMin:55 },
+  { name:'Fahim',    amount:12500, agoMin:67 },
+  { name:'Sabbir',   amount:45000, agoMin:82 },
+  { name:'Priya',    amount:20000, agoMin:94 },
+  { name:'Karim',    amount:35000, agoMin:110},
 ];
 
 // ════════════════════════════════════════════════
-//  PAYOUT PROOF LIVE SYSTEM
+//  PAYOUT FEED STATE
 // ════════════════════════════════════════════════
 let proofTotalCount = 0;
 let proofTodayCount = 0;
 let proofTotalCoins = 0;
 const MAX_FEED_ROWS = 30;
 
-// Seed entries — shown immediately on page load
-// agoMinutes = how many minutes ago this payout happened
-const SEED_ENTRIES = [
-  { name:'Rakib',   amount:50000, agoMin:2  },
-  { name:'Sara',    amount:32000, agoMin:7  },
-  { name:'Mitu',    amount:25500, agoMin:13 },
-  { name:'Arif',    amount:41200, agoMin:19 },
-  { name:'Hasan',   amount:18000, agoMin:28 },
-  { name:'Nadia',   amount:22700, agoMin:34 },
-  { name:'Tanvir',  amount:15000, agoMin:41 },
-  { name:'Jannatul',amount:30000, agoMin:55 },
-  { name:'Fahim',   amount:12500, agoMin:67 },
-  { name:'Sabbir',  amount:45000, agoMin:82 },
-];
-
-function randomFrom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function randomAmount() {
   const r = Math.random();
-  if (r < 0.5)  return randomFrom([10000,12500,15000,18000]);
-  if (r < 0.8)  return randomFrom([20000,22500,25000,28000]);
-  if (r < 0.95) return randomFrom([30000,32500,35000,40000]);
-  return randomFrom([45000, 50000]);
+  if (r < 0.50) return rnd([10000,12500,15000,18000]);
+  if (r < 0.80) return rnd([20000,22500,25000,28000]);
+  if (r < 0.95) return rnd([30000,32500,35000,40000]);
+  return rnd([45000,50000]);
 }
 
-function randomAvatarColors() {
-  return randomFrom(AVATAR_COLORS);
+function timeAgo(sec) {
+  if (sec < 60)   return sec + 's ago';
+  if (sec < 3600) return Math.floor(sec/60) + 'm ago';
+  return Math.floor(sec/3600) + 'h ago';
 }
 
-function timeAgoString(secondsAgo) {
-  if (secondsAgo < 60)  return `${Math.round(secondsAgo)}s ago`;
-  if (secondsAgo < 3600) return `${Math.floor(secondsAgo/60)}m ago`;
-  return `${Math.floor(secondsAgo/3600)}h ago`;
+// Build a single row DOM element (no animation for seeds)
+function makeRow(name, amount, agoSec, fresh) {
+  const [c1,c2] = rnd(AVATAR_COLORS);
+  const coins   = amount.toLocaleString();
+  const timeStr = fresh ? 'Just now' : timeAgo(agoSec);
+  const div     = document.createElement('div');
+  div.className = 'pf-row' + (fresh ? ' fresh' : '');
+  div.innerHTML =
+    `<div class="pf-avatar" style="background:linear-gradient(135deg,${c1},${c2})">${name[0].toUpperCase()}</div>` +
+    `<div class="pf-info">` +
+      `<div class="pf-name">@user_${name}</div>` +
+      `<div class="pf-time">${coins} coins redeemed · ${timeStr}</div>` +
+    `</div>` +
+    `<div class="pf-right">` +
+      `<div class="pf-amount">+${coins}</div>` +
+      `<div class="pf-badge">PAID ✓</div>` +
+    `</div>`;
+  return div;
 }
 
-function buildPayoutRow(name, amount, agoSeconds, isFresh) {
-  const initials = name.slice(0,1).toUpperCase();
-  const [c1, c2] = randomAvatarColors();
-  const handle   = '@user_' + name;
-  const coins    = amount.toLocaleString();
-  const timeStr  = isFresh ? 'Just now' : timeAgoString(agoSeconds);
-
-  const row = document.createElement('div');
-  row.className = 'pf-row' + (isFresh ? ' fresh' : '');
-  row.innerHTML = `
-    <div class="pf-avatar" style="background:linear-gradient(135deg,${c1},${c2})">${initials}</div>
-    <div class="pf-info">
-      <div class="pf-name">${handle}</div>
-      <div class="pf-time">${coins} coins redeemed · ${timeStr}</div>
-    </div>
-    <div class="pf-right">
-      <div class="pf-amount">+${coins}</div>
-      <div class="pf-badge">PAID ✓</div>
-    </div>
-  `;
-  return row;
-}
-
-function addPayoutEntry(name, amount, agoSeconds, isFresh) {
-  const feed = document.getElementById('proofFeed');
-  const row  = buildPayoutRow(name, amount, agoSeconds, isFresh);
-
-  // Prepend newest first
-  feed.insertBefore(row, feed.firstChild);
-
-  // Cap at max rows
-  const rows = feed.querySelectorAll('.pf-row');
-  if (rows.length > MAX_FEED_ROWS) {
-    rows[rows.length - 1].remove();
+// Update the 3 stat boxes + ticker + entry count
+function refreshStats() {
+  const el = id => document.getElementById(id);
+  const tc = el('proofTotalCount'); if(tc) tc.textContent = proofTotalCount.toLocaleString();
+  const dc = el('proofTodayCount'); if(dc) dc.textContent = proofTodayCount.toLocaleString();
+  const co = el('proofTotalCoins'); if(co) co.textContent = proofTotalCoins.toLocaleString() + ' 🪙';
+  const pf = el('pfCount');         if(pf) pf.textContent = proofTotalCount + ' entries';
+  // drift online count
+  const on = el('proofOnline');
+  if(on) {
+    const cur = parseInt(on.textContent)||247;
+    on.textContent = Math.max(200,Math.min(400, cur + Math.floor(Math.random()*7)-3));
   }
+}
 
-  // Update counters
+// Inject a live row at the top of the feed
+function pushLiveRow(name, amount) {
+  const feed = document.getElementById('proofFeed');
+  if (!feed) return;
+  feed.insertBefore(makeRow(name, amount, 0, true), feed.firstChild);
+  const rows = feed.querySelectorAll('.pf-row');
+  if (rows.length > MAX_FEED_ROWS) rows[rows.length-1].remove();
   proofTotalCount++;
   proofTodayCount++;
   proofTotalCoins += amount;
-
-  updateProofStats();
+  refreshStats();
 }
 
-function updateProofStats() {
-  const tc     = document.getElementById('proofTotalCount');
-  const dc     = document.getElementById('proofTodayCount');
-  const coin   = document.getElementById('proofTotalCoins');
-  const pfc    = document.getElementById('pfCount');
-  const online = document.getElementById('proofOnline');
+// Build the full seed list (no animation, no flash)
+function seedFeed() {
+  const feed = document.getElementById('proofFeed');
+  if (!feed) return;
 
-  if (tc)   tc.textContent   = proofTotalCount.toLocaleString();
-  if (dc)   dc.textContent   = proofTodayCount.toLocaleString();
-  if (coin) coin.textContent = proofTotalCoins.toLocaleString() + ' 🪙';
-  if (pfc)  pfc.textContent  = proofTotalCount + ' entries';
+  // Clear any stale content first
+  feed.innerHTML = '';
 
-  // Drift online count ±1–3
-  if (online) {
-    const cur   = parseInt(online.textContent) || 247;
-    const delta = Math.floor(Math.random() * 7) - 3;
-    const next  = Math.max(200, Math.min(400, cur + delta));
-    online.textContent = next;
-  }
-}
-
-function seedProofFeed() {
-  // Insert in reverse so newest appears at top
-  [...SEED_ENTRIES].reverse().forEach(e => {
-    // Directly update counters without calling addPayoutEntry
-    // so we can insert without animation flash on seeds
-    const feed = document.getElementById('proofFeed');
-    const row  = buildPayoutRow(e.name, e.amount, e.agoMin * 60, false);
-    feed.insertBefore(row, feed.firstChild);
-
-    proofTotalCount++;
-    proofTodayCount++;
-    proofTotalCoins += e.amount;
+  // Seeds in order (newest first = index 0)
+  SEED_ENTRIES.forEach(e => {
+    const row = makeRow(e.name, e.amount, e.agoMin * 60, false);
+    // Remove animation class so seeds appear instantly
+    row.style.animation = 'none';
+    feed.appendChild(row); // append → older at bottom
   });
-  // Update all stats once after seeding
-  updateProofStats();
+
+  // Count them all
+  proofTotalCount = SEED_ENTRIES.length;
+  proofTodayCount = SEED_ENTRIES.length;
+  proofTotalCoins = SEED_ENTRIES.reduce((s,e)=>s+e.amount, 0);
+
+  refreshStats();
 }
 
 function startLivePayoutSystem() {
-  // Seed immediately so the page isn't empty
-  seedProofFeed();
+  // Seeds appear instantly (synchronous, before any timers)
+  seedFeed();
 
-  // Then add a new live entry every 5 seconds
+  // New live entry every 5 s
   setInterval(() => {
-    const name   = randomFrom(NAMES);
-    const amount = randomAmount();
-    addPayoutEntry(name, amount, 0, true);
+    pushLiveRow(rnd(NAMES), randomAmount());
   }, 5000);
 }
 
 // ════════════════════════════════════════════════
-//  UI REFS
+//  UI REFS (grabbed after DOM is ready)
 // ════════════════════════════════════════════════
-const topBal    = document.getElementById('topBal');
-const heroBal   = document.getElementById('heroBal');
-const heroAds   = document.getElementById('heroAds');
-const heroToday = document.getElementById('heroToday');
-const heroStreak= document.getElementById('heroStreak');
-const watchBtn  = document.getElementById('watchBtn');
-const btnText   = document.getElementById('btnText');
-const cdBarWrap = document.getElementById('cdBarWrap');
-const cdBar     = document.getElementById('cdBar');
-const histCard  = document.getElementById('histCard');
-const histEmpty = document.getElementById('histEmpty');
-const myLbRow   = document.getElementById('myLbRow');
-const myLbAva   = document.getElementById('myLbAva');
-const myLbName  = document.getElementById('myLbName');
-const myLbScore = document.getElementById('myLbScore');
-const toastEl   = document.getElementById('toast');
+let topBal, heroBal, heroAds, heroToday, heroStreak,
+    watchBtn, btnText, cdBarWrap, cdBar,
+    histCard, histEmpty, myLbRow, myLbAva, myLbName, myLbScore, toastEl;
+
+function grabRefs() {
+  const g = id => document.getElementById(id);
+  topBal     = g('topBal');
+  heroBal    = g('heroBal');
+  heroAds    = g('heroAds');
+  heroToday  = g('heroToday');
+  heroStreak = g('heroStreak');
+  watchBtn   = g('watchBtn');
+  btnText    = g('btnText');
+  cdBarWrap  = g('cdBarWrap');
+  cdBar      = g('cdBar');
+  histCard   = g('histCard');
+  histEmpty  = g('histEmpty');
+  myLbRow    = g('myLbRow');
+  myLbAva    = g('myLbAva');
+  myLbName   = g('myLbName');
+  myLbScore  = g('myLbScore');
+  toastEl    = g('toast');
+}
 
 const PTS      = 50;
 const COOLDOWN = 60;
@@ -880,29 +882,35 @@ let cdInterval = null;
 // ════════════════════════════════════════════════
 function renderAll() {
   const b = ST.balance.toLocaleString();
-  topBal.textContent     = b;
-  heroBal.textContent    = b;
-  heroAds.textContent    = ST.totalAds;
-  heroToday.textContent  = ST.todayCoins;
-  heroStreak.textContent = ST.streak + '🔥';
-
-  if (ST.balance > 0) {
-    myLbRow.style.display  = 'flex';
-    myLbAva.textContent    = userInit;
-    myLbName.textContent   = userName;
-    myLbScore.textContent  = ST.balance.toLocaleString() + ' 🪙';
+  if(topBal)     topBal.textContent     = b;
+  if(heroBal)    heroBal.textContent    = b;
+  if(heroAds)    heroAds.textContent    = ST.totalAds;
+  if(heroToday)  heroToday.textContent  = ST.todayCoins;
+  if(heroStreak) heroStreak.textContent = ST.streak + '🔥';
+  if (ST.balance > 0 && myLbRow) {
+    myLbRow.style.display = 'flex';
+    if(myLbAva)   myLbAva.textContent  = userInit;
+    if(myLbName)  myLbName.textContent = userName;
+    if(myLbScore) myLbScore.textContent= ST.balance.toLocaleString() + ' 🪙';
   }
   renderHistory();
 }
 
 function renderHistory() {
-  [...histCard.querySelectorAll('.hist-row')].forEach(r => r.remove());
-  if (ST.history.length === 0) { histEmpty.style.display = 'block'; return; }
-  histEmpty.style.display = 'none';
-  ST.history.slice(0, 30).forEach(item => {
+  if (!histCard) return;
+  histCard.querySelectorAll('.hist-row').forEach(r => r.remove());
+  if (ST.history.length === 0) {
+    if(histEmpty) histEmpty.style.display = 'block';
+    return;
+  }
+  if(histEmpty) histEmpty.style.display = 'none';
+  ST.history.slice(0,30).forEach(item => {
     const row = document.createElement('div');
     row.className = 'hist-row';
-    row.innerHTML = `<div class="hist-dot"></div><div class="hist-txt">${item.desc} · ${item.time}</div><div class="hist-pts">+${item.pts} 🪙</div>`;
+    row.innerHTML =
+      `<div class="hist-dot"></div>` +
+      `<div class="hist-txt">${item.desc} · ${item.time}</div>` +
+      `<div class="hist-pts">+${item.pts} 🪙</div>`;
     histCard.appendChild(row);
   });
 }
@@ -912,9 +920,11 @@ function renderHistory() {
 // ════════════════════════════════════════════════
 let adController = null;
 function initAdsgram() {
-  if (window.Adsgram) {
-    adController = window.Adsgram.init({ blockId:'YOUR_BLOCK_ID', debug:false });
-  }
+  try {
+    if (window.Adsgram) {
+      adController = window.Adsgram.init({ blockId:'YOUR_BLOCK_ID', debug:false });
+    }
+  } catch(e){}
 }
 
 function watchAd() {
@@ -952,8 +962,8 @@ function onAdComplete(rewarded) {
   ST.todayCoins += PTS;
   ST.todayAds   += 1;
   ST.history.unshift({
-    desc: `Ad watched #${ST.totalAds}`, pts: PTS,
-    time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})
+    desc:`Ad watched #${ST.totalAds}`, pts:PTS,
+    time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})
   });
   saveState();
   renderAll();
@@ -966,7 +976,10 @@ function startCooldown() {
   watchBtn.disabled = true;
   cdBarWrap.style.display = 'block';
   cdBar.style.width = '100%';
-  setTimeout(() => { cdBar.style.width = '0%'; cdBar.style.transition = `width ${COOLDOWN}s linear`; }, 50);
+  setTimeout(()=>{
+    cdBar.style.width = '0%';
+    cdBar.style.transition = `width ${COOLDOWN}s linear`;
+  }, 50);
   cdInterval = setInterval(() => {
     cdRemain--;
     btnText.textContent = `Next ad available in ${cdRemain}s…`;
@@ -975,7 +988,8 @@ function startCooldown() {
       watchBtn.disabled = false;
       btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
       cdBarWrap.style.display = 'none';
-      cdBar.style.transition = 'none'; cdBar.style.width = '100%';
+      cdBar.style.transition = 'none';
+      cdBar.style.width = '100%';
     }
   }, 1000);
 }
@@ -984,7 +998,7 @@ function startCooldown() {
 //  TABS
 // ════════════════════════════════════════════════
 function switchTab(id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t  => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-'  + id).classList.add('active');
   document.getElementById('page-' + id).classList.add('active');
@@ -993,11 +1007,12 @@ function switchTab(id) {
     ST._lbVisited = true;
     ST.balance    += 10;
     ST.todayCoins += 10;
-    ST.history.unshift({ desc:'Task: Checked leaderboard', pts:10, time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) });
+    ST.history.unshift({ desc:'Task: Checked leaderboard', pts:10,
+      time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) });
     saveState(); renderAll();
     showToast('+10 coins — Task complete! ✅');
-    document.getElementById('task2Pts').textContent = '✅';
-    document.getElementById('task2Pts').style.color = 'var(--g)';
+    const t2 = document.getElementById('task2Pts');
+    if(t2){ t2.textContent = '✅'; t2.style.color = 'var(--g)'; }
   }
 }
 
@@ -1006,6 +1021,7 @@ function switchTab(id) {
 // ════════════════════════════════════════════════
 let toastTimer = null;
 function showToast(msg, err=false) {
+  if(!toastEl) return;
   toastEl.textContent = msg;
   toastEl.className   = 'toast' + (err ? ' err' : '');
   toastEl.classList.add('show');
@@ -1014,11 +1030,21 @@ function showToast(msg, err=false) {
 }
 
 // ════════════════════════════════════════════════
-//  BOOT
+//  BOOT — wait for DOM before doing anything
 // ════════════════════════════════════════════════
-initAdsgram();
-renderAll();
-startLivePayoutSystem();
+function boot() {
+  grabRefs();
+  initAdsgram();
+  renderAll();
+  startLivePayoutSystem(); // seeds feed synchronously, then starts interval
+}
+
+// DOMContentLoaded fires even in TG webview
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot(); // DOM already ready
+}
 </script>
 </body>
 </html>
