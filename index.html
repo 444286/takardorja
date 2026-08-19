@@ -246,133 +246,128 @@ body{
 .lb-me .lb-name{color:var(--p)}
 
 /* ══════════════════════════════════════════
-   LIVE PAYOUT PROOF SYSTEM
+   PAYOUT PROOF PAGE — SIMPLE LINK CARD
 ══════════════════════════════════════════ */
-.proof-wrap{margin:0 14px}
-
-.proof-live-header{
-  display:flex;align-items:center;justify-content:space-between;
-  background:var(--s2);border:1px solid var(--bd);
-  border-radius:var(--ra);padding:14px 16px;
-  margin-bottom:12px;
-}
-.proof-live-header .plh-left h3{
-  font-size:15px;font-weight:900;color:var(--tx);margin-bottom:3px;
-}
-.proof-live-header .plh-left p{
-  font-size:11px;color:var(--mu);
-}
-.proof-live-pill{
-  display:flex;align-items:center;gap:6px;
-  background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.3);
-  color:var(--r);font-size:11px;font-weight:800;
-  padding:5px 11px;border-radius:20px;
-  flex-shrink:0;
-}
-.proof-live-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--r);
-  animation:blink 1s infinite;
-  flex-shrink:0;
+.proof-page-wrap{
+  margin:20px 14px 0;
+  display:flex;flex-direction:column;align-items:stretch;
+  gap:0;
 }
 
-/* Stats row */
-.proof-stats{
-  display:flex;gap:10px;margin-bottom:12px;
-}
-.proof-stat-box{
-  flex:1;background:var(--s2);border:1px solid var(--bd);
-  border-radius:12px;padding:12px 14px;text-align:center;
-}
-.proof-stat-box .psb-val{
-  font-size:18px;font-weight:900;
-  color:var(--y);margin-bottom:3px;
-}
-.proof-stat-box .psb-lbl{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.6px}
-
-/* Total paid ticker */
-.proof-ticker{
-  background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(84,73,224,.08));
-  border:1px solid rgba(108,99,255,.25);
-  border-radius:var(--ra);
-  padding:14px 16px;
-  margin-bottom:12px;
+.proof-link-card{
+  background:linear-gradient(145deg,#1a1760 0%,#13131c 60%,#0d0d18 100%);
+  border:1.5px solid rgba(108,99,255,.45);
+  border-radius:18px;
+  padding:30px 22px 26px;
   text-align:center;
-}
-.pt-label{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
-.pt-amount{font-size:28px;font-weight:900;color:var(--p);letter-spacing:-1px}
-.pt-sub{font-size:11px;color:var(--mu);margin-top:4px}
-
-/* Feed card */
-.proof-feed-card{
-  background:var(--s2);border:1px solid var(--bd);
-  border-radius:var(--ra);overflow:hidden;
-  margin-bottom:12px;
-}
-.proof-feed-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 15px;border-bottom:1px solid var(--bd);
-  background:var(--s1);
-}
-.proof-feed-head h4{font-size:13px;font-weight:800}
-.pf-count{
-  font-size:11px;font-weight:700;color:var(--mu);
-  background:var(--s3);padding:3px 8px;border-radius:20px;
-}
-
-/* Individual payout row */
-.pf-row{
-  display:flex;align-items:center;gap:11px;
-  padding:11px 15px;
-  border-bottom:1px solid var(--bd);
-  animation:slideIn .35s cubic-bezier(.34,1.3,.64,1);
   position:relative;
   overflow:hidden;
 }
-.pf-row:last-child{border-bottom:none}
-
-@keyframes slideIn{
-  from{opacity:0;transform:translateX(-18px);}
-  to{opacity:1;transform:translateX(0);}
-}
-
-.pf-row.fresh::after{
+.proof-link-card::before{
   content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(0,214,143,.08),transparent);
-  pointer-events:none;
-  animation:flashFade 1.2s ease forwards;
+  position:absolute;
+  width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,99,255,.18) 0%,transparent 70%);
+  right:-60px;top:-60px;pointer-events:none;
 }
-@keyframes flashFade{from{opacity:1}to{opacity:0}}
+.proof-link-card::after{
+  content:'';
+  position:absolute;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,214,143,.10) 0%,transparent 70%);
+  left:-40px;bottom:-40px;pointer-events:none;
+}
 
-.pf-avatar{
-  width:36px;height:36px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;font-weight:900;flex-shrink:0;
+.plc-icon{
+  font-size:48px;
+  margin-bottom:14px;
+  display:block;
+  filter:drop-shadow(0 0 18px rgba(108,99,255,.5));
+}
+
+.plc-title{
+  font-size:22px;
+  font-weight:900;
   color:#fff;
-}
-.pf-info{flex:1;min-width:0}
-.pf-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pf-time{font-size:11px;color:var(--mu);margin-top:2px}
-.pf-right{text-align:right;flex-shrink:0}
-.pf-amount{font-size:14px;font-weight:900;color:var(--g)}
-.pf-badge{
-  font-size:10px;font-weight:700;
-  background:rgba(0,214,143,.12);
-  border:1px solid rgba(0,214,143,.25);
-  color:var(--g);
-  padding:2px 7px;border-radius:10px;
-  margin-top:3px;
-  display:inline-block;
+  letter-spacing:-0.5px;
+  margin-bottom:10px;
 }
 
-/* Channel pin notice */
-.proof-pin{
-  background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);
-  padding:14px 16px;
+.plc-desc{
+  font-size:13px;
+  color:rgba(221,221,245,.65);
+  line-height:1.7;
+  margin-bottom:24px;
+  max-width:280px;
+  margin-left:auto;
+  margin-right:auto;
 }
-.proof-pin p{font-size:12px;color:var(--mu);line-height:1.6}
-.proof-pin a{color:var(--p);text-decoration:none;font-weight:700}
+
+.plc-desc strong{
+  color:var(--g);
+  font-weight:800;
+}
+
+.plc-divider{
+  width:40px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--p),transparent);
+  margin:0 auto 20px;
+  border-radius:2px;
+}
+
+.btn-proof-link{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;
+  padding:16px 20px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,#229ED9,#1a7db0);
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform .12s,opacity .15s,box-shadow .15s;
+  box-shadow:0 6px 24px rgba(34,158,217,.35);
+  -webkit-tap-highlight-color:transparent;
+  position:relative;
+  z-index:1;
+  letter-spacing:0.2px;
+}
+.btn-proof-link:active{
+  transform:scale(.97);
+  opacity:.9;
+  box-shadow:0 2px 10px rgba(34,158,217,.25);
+}
+
+.btn-proof-link .bpl-tg-icon{
+  font-size:20px;
+  flex-shrink:0;
+}
+
+.plc-badge-row{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;
+  margin-top:16px;
+  position:relative;
+  z-index:1;
+}
+.plc-badge{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:5px 11px;
+  font-size:11px;
+  color:rgba(221,221,245,.55);
+  font-weight:600;
+}
+.plc-badge .pb-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--g);
+  animation:blink 1.4s infinite;
+  flex-shrink:0;
+}
 
 /* ── HISTORY ── */
 .hist-wrap{margin:0 14px}
@@ -574,67 +569,28 @@ body{
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     LIVE PAYOUT PROOF PAGE
+     PAYOUT PROOF PAGE — TELEGRAM LINK CARD ONLY
 ══════════════════════════════════════════════════ -->
 <div class="page" id="page-proof">
-  <div class="slabel">💸 Live Payout Stream</div>
-  <div class="proof-wrap">
+  <div class="slabel">💸 Payout Proof</div>
+  <div class="proof-page-wrap">
 
-    <!-- Live header -->
-    <div class="proof-live-header">
-      <div class="plh-left">
-        <h3>Real-Time Payouts</h3>
-        <p>Auto-updating live feed • New payout </p>
+    <div class="proof-link-card">
+      <span class="plc-icon">💸</span>
+      <div class="plc-title">Payout Proof</div>
+      <div class="plc-divider"></div>
+      <div class="plc-desc">
+        All verified payouts are <strong>publicly posted</strong> in our official Telegram channel.<br/>
+        Every withdrawal is confirmed and visible to everyone.
       </div>
-      <div class="proof-live-pill">
-        <div class="proof-live-dot"></div>
-        LIVE
+      <a class="btn-proof-link" href="https://t.me/dorjapayout" target="_blank">
+        <span class="bpl-tg-icon">📢</span>
+        View Verified Payouts →
+      </a>
+      <div class="plc-badge-row">
+        <div class="plc-badge"><span class="pb-dot"></span> Publicly verifiable</div>
+        <div class="plc-badge">✓ Updated live</div>
       </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="proof-stats">
-      <div class="proof-stat-box">
-        <div class="psb-val" id="proofTotalCount">0</div>
-        <div class="psb-lbl">Total Paid</div>
-      </div>
-      <div class="proof-stat-box">
-        <div class="psb-val" id="proofTodayCount">0</div>
-        <div class="psb-lbl">Today</div>
-      </div>
-      <div class="proof-stat-box">
-        <div class="psb-val" id="proofOnline">247</div>
-        <div class="psb-lbl">Online Now</div>
-      </div>
-    </div>
-
-    <!-- Total paid ticker -->
-    <div class="proof-ticker">
-      <div class="pt-label">Total Coins Distributed</div>
-      <div class="pt-amount" id="proofTotalCoins">0 🪙</div>
-      <div class="pt-sub">Across all verified payouts since launch</div>
-    </div>
-
-    <!-- Live feed -->
-    <div class="proof-feed-card">
-      <div class="proof-feed-head">
-        <h4>💰 Live Payout Feed</h4>
-        <div class="pf-count" id="pfCount">0 entries</div>
-      </div>
-      <div id="proofFeed">
-        <!-- rows injected here -->
-      </div>
-    </div>
-
-    <!-- Channel notice -->
-    <div class="proof-pin" style="display:none;">>
-      <p>
-        📌 <strong style="color:var(--tx)">Public Payout Channel:</strong>
-        All confirmed payouts are also posted in our public Telegram channel
-        <a href="https://t.me/YOUR_CHANNEL" target="_blank">@YOUR_CHANNEL</a>
-        as pinned messages visible to everyone.<br/><br/>
-        Minimum redemption: <strong style="color:var(--tx)">10,000 coins</strong> · Processed within <strong style="color:var(--tx)">24 hours</strong>.
-      </p>
     </div>
 
   </div>
@@ -673,7 +629,7 @@ const userName = tgUser?.first_name || 'You';
 const userInit = (userName[0] || 'U').toUpperCase();
 
 // ════════════════════════════════════════════════
-//  SAFE STORAGE — localStorage crash-proof for TG
+//  SAFE STORAGE
 // ════════════════════════════════════════════════
 const _store = {};
 const LS = {
@@ -705,221 +661,7 @@ function saveState() {
 let ST = loadState();
 
 // ════════════════════════════════════════════════
-//  DATA POOLS
-// ════════════════════════════════════════════════
-const NAMES = [
-  'Rakib','Sara','Arif','Mitu','Hasan','Nadia','Karim','Sumon',
-  'Jannatul','Fahim','Riya','Tanvir','Mim','Sabbir','Lima',
-  'Nasim','Priya','Rifat','Disha','Rasel','Keya','Imran',
-  'Sadia','Zahid','Puja','Mamun','Tania','Asif','Nusrat','Robin',
-  'Ritu','Kabir','Mila','Emon','Urmi','Babu','Shimu','Pavel',
-  'Swapna','Rony','Mukta','Hridoy','Bristy','Sohel','Koli'
-];
-const AVATAR_COLORS = [
-  ['#6c63ff','#5449e0'],['#00d68f','#00a86b'],['#ff4d6d','#cc1f40'],
-  ['#ffcc00','#cc9900'],['#00b4d8','#0077a8'],['#f77f00','#c45c00'],
-  ['#7b2d8b','#5c1d68'],['#06d6a0','#048a65'],['#ef476f','#b5163b'],
-  ['#118ab2','#0a5f80'],['#ffd166','#c9920e'],['#26547c','#183d5a']
-];
-
-// ════════════════════════════════════════════════
-//  PAYOUT FEED — TIME-ANCHORED + PERSIST ACROSS REFRESH
-//
-//  Key idea: everything is derived from a fixed
-//  EPOCH (app "launch" time) + real clock.
-//  Refresh করলেও same timestamp থেকে count হয়
-//  → same user দেখবে same realistic number।
-// ════════════════════════════════════════════════
-
-const MAX_FEED_ROWS = 30;
-
-// App "launch" epoch — fixed date, যেন app অনেক আগে থেকে চলছে
-// এটা change করবেন না, সব user এর কাছে same base
-const APP_EPOCH_MS = new Date('2026-08-17T00:00:00Z').getTime();
-
-// প্রতি 5 সেকেন্ডে 1 payout → rate = 1/5 per second = 12/min
-const PAYOUT_RATE_PER_SEC = 1 / 5;
-// প্রতি payout average ~22,000 coins
-const AVG_COINS_PER_PAYOUT = 22000;
-
-// Deterministic pseudo-random — same seed → same output
-// refresh করলেও same sequence পাবে
-function seededRnd(seed) {
-  let s = seed ^ 0xdeadbeef;
-  s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
-  s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
-  s = s ^ (s >>> 16);
-  return (s >>> 0) / 0xffffffff;
-}
-
-function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-function rndS(arr, seed) { return arr[Math.floor(seededRnd(seed) * arr.length)]; }
-
-function randomAmount(seed) {
-  const r = seededRnd(seed + 1);
-  if (r < 0.50) { const a=[10000,12500,15000,18000]; return a[Math.floor(seededRnd(seed+2)*a.length)]; }
-  if (r < 0.80) { const a=[20000,22500,25000,28000]; return a[Math.floor(seededRnd(seed+2)*a.length)]; }
-  if (r < 0.95) { const a=[30000,32500,35000,40000]; return a[Math.floor(seededRnd(seed+2)*a.length)]; }
-  const a=[45000,50000]; return a[Math.floor(seededRnd(seed+2)*a.length)];
-}
-
-// সময় থেকে human-readable string
-function timeAgo(sec) {
-  if (sec < 5)    return 'Just now';
-  if (sec < 60)   return Math.floor(sec) + 's ago';
-  if (sec < 3600) return Math.floor(sec/60) + 'm ago';
-  if (sec < 86400)return Math.floor(sec/3600) + 'h ago';
-  return Math.floor(sec/86400) + 'd ago';
-}
-
-// Real clock time string (e.g. "09:42 AM")
-function clockStr(ts) {
-  return new Date(ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-}
-
-// Build DOM row
-function makeRow(name, amount, ts, fresh) {
-  const [c1,c2] = rnd(AVATAR_COLORS);
-  const coins   = amount.toLocaleString();
-  const agoSec  = (Date.now() - ts) / 1000;
-  const timeStr = fresh ? 'Just now' : timeAgo(agoSec);
-  const clockLabel = clockStr(ts);
-  const div = document.createElement('div');
-  div.className = 'pf-row' + (fresh ? ' fresh' : '');
-  div.style.animation = fresh ? '' : 'none';
-  div.innerHTML =
-    `<div class="pf-avatar" style="background:linear-gradient(135deg,${c1},${c2})">${name[0].toUpperCase()}</div>` +
-    `<div class="pf-info">` +
-      `<div class="pf-name">@user_${name}</div>` +
-      `<div class="pf-time">${coins} coins redeemed · <span class="row-ago" data-ts="${ts}">${timeStr}</span> · ${clockLabel}</div>` +
-    `</div>` +
-    `<div class="pf-right">` +
-      `<div class="pf-amount">+${coins}</div>` +
-      `<div class="pf-badge">PAID ✓</div>` +
-    `</div>`;
-  return div;
-}
-
-// ── GLOBAL COUNTERS ──
-// এই তিনটা real-time clock থেকে calculate হয় → refresh-proof
-let proofTotalCount = 0;
-let proofTodayCount = 0;
-let proofTotalCoins = 0;
-// Live entries generated this session (in addition to historical)
-let sessionEntries = [];
-
-// Calculate historical counts from epoch to now (deterministic)
-function calcHistoricalCounts() {
-  const nowMs    = Date.now();
-  const elapsedSec = (nowMs - APP_EPOCH_MS) / 1000;
-  const total    = Math.floor(elapsedSec * PAYOUT_RATE_PER_SEC);
-
-  // Today's count: seconds since midnight UTC
-  const todayStart = new Date();
-  todayStart.setUTCHours(0,0,0,0);
-  const todaySec   = (nowMs - todayStart.getTime()) / 1000;
-  const todayCount = Math.floor(todaySec * PAYOUT_RATE_PER_SEC);
-
-  const totalCoins = Math.floor(total * AVG_COINS_PER_PAYOUT);
-
-  return { total, todayCount, totalCoins };
-}
-
-// Generate the last N payouts as if they happened at real timestamps
-// Seed based on index → same refresh = same names/amounts
-function generateHistoricalFeed(count) {
-  const nowMs = Date.now();
-  const entries = [];
-  for (let i = 0; i < count; i++) {
-    // Each payout ~5s apart going backward from now
-    const tsMs  = nowMs - (i * 5000) - Math.floor(seededRnd(i*7+3)*2000);
-    const name  = rndS(NAMES, i * 13 + 7);
-    const amt   = randomAmount(i * 31 + 11);
-    entries.push({ ts: tsMs, name, amount: amt });
-  }
-  return entries; // index 0 = most recent
-}
-
-function refreshStats() {
-  const el = id => document.getElementById(id);
-  const tc = el('proofTotalCount');
-  const dc = el('proofTodayCount');
-  const co = el('proofTotalCoins');
-  const pf = el('pfCount');
-  const on = el('proofOnline');
-
-  if(tc) tc.textContent = proofTotalCount.toLocaleString();
-  if(dc) dc.textContent = proofTodayCount.toLocaleString();
-  if(co) co.textContent = proofTotalCoins.toLocaleString() + ' 🪙';
-  if(pf) pf.textContent = proofTotalCount.toLocaleString() + ' payouts';
-
-  // Drift online count realistically
-  if(on) {
-    const cur = parseInt(on.textContent) || 247;
-    on.textContent = Math.max(200, Math.min(400, cur + Math.floor(Math.random()*5)-2));
-  }
-}
-
-// Tick: update "X ago" labels every 30s so they stay accurate
-function tickAgoLabels() {
-  document.querySelectorAll('.row-ago[data-ts]').forEach(el => {
-    const ts  = parseInt(el.dataset.ts);
-    const sec = (Date.now() - ts) / 1000;
-    el.textContent = timeAgo(sec);
-  });
-}
-
-// Inject a new live row (session-only, newest first)
-function pushLiveRow(name, amount) {
-  const feed = document.getElementById('proofFeed');
-  if (!feed) return;
-  const ts = Date.now();
-  sessionEntries.unshift({ ts, name, amount });
-
-  feed.insertBefore(makeRow(name, amount, ts, true), feed.firstChild);
-  const rows = feed.querySelectorAll('.pf-row');
-  if (rows.length > MAX_FEED_ROWS) rows[rows.length-1].remove();
-
-  proofTotalCount++;
-  proofTodayCount++;
-  proofTotalCoins += amount;
-  refreshStats();
-}
-
-function seedFeed() {
-  const feed = document.getElementById('proofFeed');
-  if (!feed) return;
-  feed.innerHTML = '';
-
-  // Calculate real historical counts (same on every refresh)
-  const hist = calcHistoricalCounts();
-  proofTotalCount = hist.total;
-  proofTodayCount = hist.todayCount;
-  proofTotalCoins = hist.totalCoins;
-
-  // Show last 20 entries with real timestamps
-  const entries = generateHistoricalFeed(20);
-  entries.forEach(e => {
-    feed.appendChild(makeRow(e.name, e.amount, e.ts, false));
-  });
-
-  refreshStats();
-}
-
-function startLivePayoutSystem() {
-  seedFeed(); // synchronous, instant
-
-  // New payout every 5s
-  setInterval(() => {
-    pushLiveRow(rnd(NAMES), randomAmount(Date.now()));
-  }, 5000);
-
-  // Update "X ago" labels every 30s
-  setInterval(tickAgoLabels, 30000);
-}
-
-// ════════════════════════════════════════════════
-//  UI REFS (grabbed after DOM is ready)
+//  UI REFS
 // ════════════════════════════════════════════════
 let topBal, heroBal, heroAds, heroToday, heroStreak,
     watchBtn, btnText, cdBarWrap, cdBar,
@@ -1104,20 +846,18 @@ function showToast(msg, err=false) {
 }
 
 // ════════════════════════════════════════════════
-//  BOOT — wait for DOM before doing anything
+//  BOOT
 // ════════════════════════════════════════════════
 function boot() {
   grabRefs();
   initAdsgram();
   renderAll();
-  startLivePayoutSystem(); // seeds feed synchronously, then starts interval
 }
 
-// DOMContentLoaded fires even in TG webview
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', boot);
 } else {
-  boot(); // DOM already ready
+  boot();
 }
 </script>
 </body>
