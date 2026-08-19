@@ -246,11 +246,10 @@ body{
 .lb-me .lb-name{color:var(--p)}
 
 /* ══════════════════════════════════════════
-   LIVE PAYOUT PROOF SYSTEM — NEW & IMPROVED
+   LIVE PAYOUT PROOF SYSTEM
 ══════════════════════════════════════════ */
 .proof-wrap{margin:0 14px}
 
-/* Live header with pulse */
 .proof-live-header{
   display:flex;align-items:center;justify-content:space-between;
   background:var(--s2);border:1px solid var(--bd);
@@ -291,23 +290,18 @@ body{
 }
 .proof-stat-box .psb-lbl{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.6px}
 
-/* Next payout countdown */
-.next-payout-bar{
-  background:var(--s2);border:1px solid var(--bd);
-  border-radius:12px;padding:12px 15px;margin-bottom:12px;
-  display:flex;align-items:center;gap:12px;
+/* Total paid ticker */
+.proof-ticker{
+  background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(84,73,224,.08));
+  border:1px solid rgba(108,99,255,.25);
+  border-radius:var(--ra);
+  padding:14px 16px;
+  margin-bottom:12px;
+  text-align:center;
 }
-.npb-icon{font-size:20px;flex-shrink:0}
-.npb-body{flex:1}
-.npb-label{font-size:11px;color:var(--mu);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
-.npb-track{height:6px;background:var(--bd);border-radius:6px;overflow:hidden}
-.npb-fill{
-  height:100%;
-  background:linear-gradient(90deg,var(--g),#00ff6a);
-  border-radius:6px;
-  transition:width .1s linear;
-}
-.npb-timer{font-size:13px;font-weight:900;color:var(--g);flex-shrink:0;min-width:28px;text-align:right}
+.pt-label{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.pt-amount{font-size:28px;font-weight:900;color:var(--p);letter-spacing:-1px}
+.pt-sub{font-size:11px;color:var(--mu);margin-top:4px}
 
 /* Feed card */
 .proof-feed-card{
@@ -342,7 +336,6 @@ body{
   to{opacity:1;transform:translateX(0);}
 }
 
-/* Flash highlight for newest entry */
 .pf-row.fresh::after{
   content:'';
   position:absolute;inset:0;
@@ -372,19 +365,6 @@ body{
   margin-top:3px;
   display:inline-block;
 }
-
-/* Total paid ticker */
-.proof-ticker{
-  background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(84,73,224,.08));
-  border:1px solid rgba(108,99,255,.25);
-  border-radius:var(--ra);
-  padding:14px 16px;
-  margin-bottom:12px;
-  text-align:center;
-}
-.pt-label{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
-.pt-amount{font-size:28px;font-weight:900;color:var(--p);letter-spacing:-1px}
-.pt-sub{font-size:11px;color:var(--mu);margin-top:4px}
 
 /* Channel pin notice */
 .proof-pin{
@@ -594,7 +574,7 @@ body{
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     LIVE PAYOUT PROOF PAGE — AUTO-GENERATES EVERY 5s
+     LIVE PAYOUT PROOF PAGE
 ══════════════════════════════════════════════════ -->
 <div class="page" id="page-proof">
   <div class="slabel">💸 Live Payout Stream</div>
@@ -626,18 +606,6 @@ body{
         <div class="psb-val" id="proofOnline">247</div>
         <div class="psb-lbl">Online Now</div>
       </div>
-    </div>
-
-    <!-- Next payout countdown bar -->
-    <div class="next-payout-bar">
-      <div class="npb-icon">⏳</div>
-      <div class="npb-body">
-        <div class="npb-label">Next Payout In</div>
-        <div class="npb-track">
-          <div class="npb-fill" id="npbFill" style="width:100%"></div>
-        </div>
-      </div>
-      <div class="npb-timer" id="npbTimer">5s</div>
     </div>
 
     <!-- Total paid ticker -->
@@ -724,7 +692,7 @@ function saveState() { try { localStorage.setItem(SK, JSON.stringify(ST)); } cat
 let ST = loadState();
 
 // ════════════════════════════════════════════════
-//  RANDOM DATA POOLS — for live payout generation
+//  RANDOM DATA POOLS
 // ════════════════════════════════════════════════
 const NAMES = [
   'Rakib', 'Sara', 'Arif', 'Mitu', 'Hasan', 'Nadia', 'Karim', 'Sumon',
@@ -733,11 +701,6 @@ const NAMES = [
   'Sadia', 'Zahid', 'Puja', 'Mamun', 'Tania', 'Asif', 'Nusrat', 'Robin',
   'Ritu', 'Kabir', 'Mila', 'Emon', 'Urmi', 'Babu', 'Shimu', 'Pavel',
   'Swapna', 'Rony', 'Mukta', 'Hridoy', 'Bristy', 'Sohel', 'Koli'
-];
-
-const COIN_AMOUNTS = [
-  10000, 12500, 15000, 18000, 20000, 22500, 25000,
-  28000, 30000, 32500, 35000, 40000, 45000, 50000
 ];
 
 const AVATAR_COLORS = [
@@ -753,32 +716,28 @@ const AVATAR_COLORS = [
 let proofTotalCount = 0;
 let proofTodayCount = 0;
 let proofTotalCoins = 0;
-let proofCountdown  = 5;
-let proofInterval   = null;
-let countdownInterval = null;
-const MAX_FEED_ROWS = 30; // keep feed capped
+const MAX_FEED_ROWS = 30;
 
-// Seed with some initial entries so page isn't empty
+// Seed entries — shown immediately on page load
+// agoMinutes = how many minutes ago this payout happened
 const SEED_ENTRIES = [
-  { name:'Rakib',  amount:50000, ago:3  },
-  { name:'Sara',   amount:32000, ago:8  },
-  { name:'Mitu',   amount:25500, ago:14 },
-  { name:'Arif',   amount:41200, ago:22 },
-  { name:'Hasan',  amount:18000, ago:31 },
-  { name:'Nadia',  amount:22700, ago:45 },
+  { name:'Rakib',   amount:50000, agoMin:2  },
+  { name:'Sara',    amount:32000, agoMin:7  },
+  { name:'Mitu',    amount:25500, agoMin:13 },
+  { name:'Arif',    amount:41200, agoMin:19 },
+  { name:'Hasan',   amount:18000, agoMin:28 },
+  { name:'Nadia',   amount:22700, agoMin:34 },
+  { name:'Tanvir',  amount:15000, agoMin:41 },
+  { name:'Jannatul',amount:30000, agoMin:55 },
+  { name:'Fahim',   amount:12500, agoMin:67 },
+  { name:'Sabbir',  amount:45000, agoMin:82 },
 ];
 
 function randomFrom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function randomName() {
-  // avoid repeating last few names for variety
-  return randomFrom(NAMES);
-}
-
 function randomAmount() {
-  // slight weight toward lower amounts (more realistic)
   const r = Math.random();
   if (r < 0.5)  return randomFrom([10000,12500,15000,18000]);
   if (r < 0.8)  return randomFrom([20000,22500,25000,28000]);
@@ -823,10 +782,10 @@ function addPayoutEntry(name, amount, agoSeconds, isFresh) {
   const feed = document.getElementById('proofFeed');
   const row  = buildPayoutRow(name, amount, agoSeconds, isFresh);
 
-  // Prepend to feed (newest first)
+  // Prepend newest first
   feed.insertBefore(row, feed.firstChild);
 
-  // Remove excess rows
+  // Cap at max rows
   const rows = feed.querySelectorAll('.pf-row');
   if (rows.length > MAX_FEED_ROWS) {
     rows[rows.length - 1].remove();
@@ -841,10 +800,10 @@ function addPayoutEntry(name, amount, agoSeconds, isFresh) {
 }
 
 function updateProofStats() {
-  const tc = document.getElementById('proofTotalCount');
-  const dc = document.getElementById('proofTodayCount');
-  const coin = document.getElementById('proofTotalCoins');
-  const pfc  = document.getElementById('pfCount');
+  const tc     = document.getElementById('proofTotalCount');
+  const dc     = document.getElementById('proofTodayCount');
+  const coin   = document.getElementById('proofTotalCoins');
+  const pfc    = document.getElementById('pfCount');
   const online = document.getElementById('proofOnline');
 
   if (tc)   tc.textContent   = proofTotalCount.toLocaleString();
@@ -852,9 +811,9 @@ function updateProofStats() {
   if (coin) coin.textContent = proofTotalCoins.toLocaleString() + ' 🪙';
   if (pfc)  pfc.textContent  = proofTotalCount + ' entries';
 
-  // Randomly drift online count ±1–3
+  // Drift online count ±1–3
   if (online) {
-    const cur = parseInt(online.textContent) || 247;
+    const cur   = parseInt(online.textContent) || 247;
     const delta = Math.floor(Math.random() * 7) - 3;
     const next  = Math.max(200, Math.min(400, cur + delta));
     online.textContent = next;
@@ -862,68 +821,53 @@ function updateProofStats() {
 }
 
 function seedProofFeed() {
-  // Add seed entries as if they happened some time ago
-  // (reverse order so newest ends up on top)
-  [...SEED_ENTRIES].reverse().forEach((e, i) => {
-    addPayoutEntry(e.name, e.amount, e.ago * 60, false);
+  // Insert in reverse so newest appears at top
+  [...SEED_ENTRIES].reverse().forEach(e => {
+    // Directly update counters without calling addPayoutEntry
+    // so we can insert without animation flash on seeds
+    const feed = document.getElementById('proofFeed');
+    const row  = buildPayoutRow(e.name, e.amount, e.agoMin * 60, false);
+    feed.insertBefore(row, feed.firstChild);
+
+    proofTotalCount++;
+    proofTodayCount++;
+    proofTotalCoins += e.amount;
   });
+  // Update all stats once after seeding
+  updateProofStats();
 }
 
 function startLivePayoutSystem() {
+  // Seed immediately so the page isn't empty
   seedProofFeed();
-  startCountdown();
 
-  proofInterval = setInterval(() => {
-    const name   = randomName();
+  // Then add a new live entry every 5 seconds
+  setInterval(() => {
+    const name   = randomFrom(NAMES);
     const amount = randomAmount();
     addPayoutEntry(name, amount, 0, true);
-    // Reset countdown
-    resetCountdown();
   }, 5000);
-}
-
-// ─── Countdown bar ───
-function startCountdown() {
-  proofCountdown = 5;
-  updateCountdownUI();
-
-  countdownInterval = setInterval(() => {
-    proofCountdown--;
-    if (proofCountdown < 0) proofCountdown = 0;
-    updateCountdownUI();
-  }, 1000);
-}
-
-function resetCountdown() {
-  proofCountdown = 5;
-}
-
-function updateCountdownUI() {
-  const fill  = document.getElementById('npbFill');
-  const timer = document.getElementById('npbTimer');
-  if (fill)  fill.style.width  = ((proofCountdown / 5) * 100) + '%';
-  if (timer) timer.textContent = proofCountdown + 's';
 }
 
 // ════════════════════════════════════════════════
 //  UI REFS
 // ════════════════════════════════════════════════
-const topBal   = document.getElementById('topBal');
-const heroBal  = document.getElementById('heroBal');
-const heroAds  = document.getElementById('heroAds');
-const heroToday= document.getElementById('heroToday');
-const heroStreak=document.getElementById('heroStreak');
-const watchBtn = document.getElementById('watchBtn');
-const btnText  = document.getElementById('btnText');
-const cdBarWrap= document.getElementById('cdBarWrap');
-const cdBar    = document.getElementById('cdBar');
-const histCard = document.getElementById('histCard');
-const histEmpty= document.getElementById('histEmpty');
-const myLbRow  = document.getElementById('myLbRow');
-const myLbAva  = document.getElementById('myLbAva');
-const myLbName = document.getElementById('myLbName');
-const myLbScore= document.getElementById('myLbScore');
-const toastEl  = document.getElementById('toast');
+const topBal    = document.getElementById('topBal');
+const heroBal   = document.getElementById('heroBal');
+const heroAds   = document.getElementById('heroAds');
+const heroToday = document.getElementById('heroToday');
+const heroStreak= document.getElementById('heroStreak');
+const watchBtn  = document.getElementById('watchBtn');
+const btnText   = document.getElementById('btnText');
+const cdBarWrap = document.getElementById('cdBarWrap');
+const cdBar     = document.getElementById('cdBar');
+const histCard  = document.getElementById('histCard');
+const histEmpty = document.getElementById('histEmpty');
+const myLbRow   = document.getElementById('myLbRow');
+const myLbAva   = document.getElementById('myLbAva');
+const myLbName  = document.getElementById('myLbName');
+const myLbScore = document.getElementById('myLbScore');
+const toastEl   = document.getElementById('toast');
 
 const PTS      = 50;
 const COOLDOWN = 60;
@@ -943,10 +887,10 @@ function renderAll() {
   heroStreak.textContent = ST.streak + '🔥';
 
   if (ST.balance > 0) {
-    myLbRow.style.display   = 'flex';
-    myLbAva.textContent     = userInit;
-    myLbName.textContent    = userName;
-    myLbScore.textContent   = ST.balance.toLocaleString() + ' 🪙';
+    myLbRow.style.display  = 'flex';
+    myLbAva.textContent    = userInit;
+    myLbName.textContent   = userName;
+    myLbScore.textContent  = ST.balance.toLocaleString() + ' 🪙';
   }
   renderHistory();
 }
@@ -980,7 +924,7 @@ function watchAd() {
     btnText.textContent = 'Loading ad…';
     adController.show()
       .then(() => onAdComplete(true))
-      .catch(err => {
+      .catch(() => {
         watchBtn.disabled = false;
         btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
         showToast('Ad skipped — no coins awarded', true);
