@@ -722,58 +722,76 @@ const AVATAR_COLORS = [
   ['#118ab2','#0a5f80'],['#ffd166','#c9920e'],['#26547c','#183d5a']
 ];
 
-// Fixed seed entries — always present when page opens
-const SEED_ENTRIES = [
-  { name:'Rakib',    amount:50000, agoMin:2  },
-  { name:'Sara',     amount:32000, agoMin:7  },
-  { name:'Mitu',     amount:25500, agoMin:13 },
-  { name:'Arif',     amount:41200, agoMin:19 },
-  { name:'Hasan',    amount:18000, agoMin:28 },
-  { name:'Nadia',    amount:22700, agoMin:34 },
-  { name:'Tanvir',   amount:15000, agoMin:41 },
-  { name:'Jannatul', amount:30000, agoMin:55 },
-  { name:'Fahim',    amount:12500, agoMin:67 },
-  { name:'Sabbir',   amount:45000, agoMin:82 },
-  { name:'Priya',    amount:20000, agoMin:94 },
-  { name:'Karim',    amount:35000, agoMin:110},
-];
+// ════════════════════════════════════════════════
+//  PAYOUT FEED — TIME-ANCHORED + PERSIST ACROSS REFRESH
+//
+//  Key idea: everything is derived from a fixed
+//  EPOCH (app "launch" time) + real clock.
+//  Refresh করলেও same timestamp থেকে count হয়
+//  → same user দেখবে same realistic number।
+// ════════════════════════════════════════════════
 
-// ════════════════════════════════════════════════
-//  PAYOUT FEED STATE
-// ════════════════════════════════════════════════
-let proofTotalCount = 0;
-let proofTodayCount = 0;
-let proofTotalCoins = 0;
 const MAX_FEED_ROWS = 30;
 
+// App "launch" epoch — fixed date, যেন app অনেক আগে থেকে চলছে
+// এটা change করবেন না, সব user এর কাছে same base
+const APP_EPOCH_MS = new Date('2025-01-01T00:00:00Z').getTime();
+
+// প্রতি 5 সেকেন্ডে 1 payout → rate = 1/5 per second = 12/min
+const PAYOUT_RATE_PER_SEC = 1 / 5;
+// প্রতি payout average ~22,000 coins
+const AVG_COINS_PER_PAYOUT = 22000;
+
+// Deterministic pseudo-random — same seed → same output
+// refresh করলেও same sequence পাবে
+function seededRnd(seed) {
+  let s = seed ^ 0xdeadbeef;
+  s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+  s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+  s = s ^ (s >>> 16);
+  return (s >>> 0) / 0xffffffff;
+}
+
 function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function rndS(arr, seed) { return arr[Math.floor(seededRnd(seed) * arr.length)]; }
 
-function randomAmount() {
-  const r = Math.random();
-  if (r < 0.50) return rnd([10000,12500,15000,18000]);
-  if (r < 0.80) return rnd([20000,22500,25000,28000]);
-  if (r < 0.95) return rnd([30000,32500,35000,40000]);
-  return rnd([45000,50000]);
+function randomAmount(seed) {
+  const r = seededRnd(seed + 1);
+  if (r < 0.50) { const a=[10000,12500,15000,18000]; return a[Math.floor(seededRnd(seed+2)*a.length)]; }
+  if (r < 0.80) { const a=[20000,22500,25000,28000]; return a[Math.floor(seededRnd(seed+2)*a.length)]; }
+  if (r < 0.95) { const a=[30000,32500,35000,40000]; return a[Math.floor(seededRnd(seed+2)*a.length)]; }
+  const a=[45000,50000]; return a[Math.floor(seededRnd(seed+2)*a.length)];
 }
 
+// সময় থেকে human-readable string
 function timeAgo(sec) {
-  if (sec < 60)   return sec + 's ago';
+  if (sec < 5)    return 'Just now';
+  if (sec < 60)   return Math.floor(sec) + 's ago';
   if (sec < 3600) return Math.floor(sec/60) + 'm ago';
-  return Math.floor(sec/3600) + 'h ago';
+  if (sec < 86400)return Math.floor(sec/3600) + 'h ago';
+  return Math.floor(sec/86400) + 'd ago';
 }
 
-// Build a single row DOM element (no animation for seeds)
-function makeRow(name, amount, agoSec, fresh) {
+// Real clock time string (e.g. "09:42 AM")
+function clockStr(ts) {
+  return new Date(ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+}
+
+// Build DOM row
+function makeRow(name, amount, ts, fresh) {
   const [c1,c2] = rnd(AVATAR_COLORS);
   const coins   = amount.toLocaleString();
+  const agoSec  = (Date.now() - ts) / 1000;
   const timeStr = fresh ? 'Just now' : timeAgo(agoSec);
-  const div     = document.createElement('div');
+  const clockLabel = clockStr(ts);
+  const div = document.createElement('div');
   div.className = 'pf-row' + (fresh ? ' fresh' : '');
+  div.style.animation = fresh ? '' : 'none';
   div.innerHTML =
     `<div class="pf-avatar" style="background:linear-gradient(135deg,${c1},${c2})">${name[0].toUpperCase()}</div>` +
     `<div class="pf-info">` +
       `<div class="pf-name">@user_${name}</div>` +
-      `<div class="pf-time">${coins} coins redeemed · ${timeStr}</div>` +
+      `<div class="pf-time">${coins} coins redeemed · <span class="row-ago" data-ts="${ts}">${timeStr}</span> · ${clockLabel}</div>` +
     `</div>` +
     `<div class="pf-right">` +
       `<div class="pf-amount">+${coins}</div>` +
@@ -782,66 +800,122 @@ function makeRow(name, amount, agoSec, fresh) {
   return div;
 }
 
-// Update the 3 stat boxes + ticker + entry count
+// ── GLOBAL COUNTERS ──
+// এই তিনটা real-time clock থেকে calculate হয় → refresh-proof
+let proofTotalCount = 0;
+let proofTodayCount = 0;
+let proofTotalCoins = 0;
+// Live entries generated this session (in addition to historical)
+let sessionEntries = [];
+
+// Calculate historical counts from epoch to now (deterministic)
+function calcHistoricalCounts() {
+  const nowMs    = Date.now();
+  const elapsedSec = (nowMs - APP_EPOCH_MS) / 1000;
+  const total    = Math.floor(elapsedSec * PAYOUT_RATE_PER_SEC);
+
+  // Today's count: seconds since midnight UTC
+  const todayStart = new Date();
+  todayStart.setUTCHours(0,0,0,0);
+  const todaySec   = (nowMs - todayStart.getTime()) / 1000;
+  const todayCount = Math.floor(todaySec * PAYOUT_RATE_PER_SEC);
+
+  const totalCoins = Math.floor(total * AVG_COINS_PER_PAYOUT);
+
+  return { total, todayCount, totalCoins };
+}
+
+// Generate the last N payouts as if they happened at real timestamps
+// Seed based on index → same refresh = same names/amounts
+function generateHistoricalFeed(count) {
+  const nowMs = Date.now();
+  const entries = [];
+  for (let i = 0; i < count; i++) {
+    // Each payout ~5s apart going backward from now
+    const tsMs  = nowMs - (i * 5000) - Math.floor(seededRnd(i*7+3)*2000);
+    const name  = rndS(NAMES, i * 13 + 7);
+    const amt   = randomAmount(i * 31 + 11);
+    entries.push({ ts: tsMs, name, amount: amt });
+  }
+  return entries; // index 0 = most recent
+}
+
 function refreshStats() {
   const el = id => document.getElementById(id);
-  const tc = el('proofTotalCount'); if(tc) tc.textContent = proofTotalCount.toLocaleString();
-  const dc = el('proofTodayCount'); if(dc) dc.textContent = proofTodayCount.toLocaleString();
-  const co = el('proofTotalCoins'); if(co) co.textContent = proofTotalCoins.toLocaleString() + ' 🪙';
-  const pf = el('pfCount');         if(pf) pf.textContent = proofTotalCount + ' entries';
-  // drift online count
+  const tc = el('proofTotalCount');
+  const dc = el('proofTodayCount');
+  const co = el('proofTotalCoins');
+  const pf = el('pfCount');
   const on = el('proofOnline');
+
+  if(tc) tc.textContent = proofTotalCount.toLocaleString();
+  if(dc) dc.textContent = proofTodayCount.toLocaleString();
+  if(co) co.textContent = proofTotalCoins.toLocaleString() + ' 🪙';
+  if(pf) pf.textContent = proofTotalCount.toLocaleString() + ' payouts';
+
+  // Drift online count realistically
   if(on) {
-    const cur = parseInt(on.textContent)||247;
-    on.textContent = Math.max(200,Math.min(400, cur + Math.floor(Math.random()*7)-3));
+    const cur = parseInt(on.textContent) || 247;
+    on.textContent = Math.max(200, Math.min(400, cur + Math.floor(Math.random()*5)-2));
   }
 }
 
-// Inject a live row at the top of the feed
+// Tick: update "X ago" labels every 30s so they stay accurate
+function tickAgoLabels() {
+  document.querySelectorAll('.row-ago[data-ts]').forEach(el => {
+    const ts  = parseInt(el.dataset.ts);
+    const sec = (Date.now() - ts) / 1000;
+    el.textContent = timeAgo(sec);
+  });
+}
+
+// Inject a new live row (session-only, newest first)
 function pushLiveRow(name, amount) {
   const feed = document.getElementById('proofFeed');
   if (!feed) return;
-  feed.insertBefore(makeRow(name, amount, 0, true), feed.firstChild);
+  const ts = Date.now();
+  sessionEntries.unshift({ ts, name, amount });
+
+  feed.insertBefore(makeRow(name, amount, ts, true), feed.firstChild);
   const rows = feed.querySelectorAll('.pf-row');
   if (rows.length > MAX_FEED_ROWS) rows[rows.length-1].remove();
+
   proofTotalCount++;
   proofTodayCount++;
   proofTotalCoins += amount;
   refreshStats();
 }
 
-// Build the full seed list (no animation, no flash)
 function seedFeed() {
   const feed = document.getElementById('proofFeed');
   if (!feed) return;
-
-  // Clear any stale content first
   feed.innerHTML = '';
 
-  // Seeds in order (newest first = index 0)
-  SEED_ENTRIES.forEach(e => {
-    const row = makeRow(e.name, e.amount, e.agoMin * 60, false);
-    // Remove animation class so seeds appear instantly
-    row.style.animation = 'none';
-    feed.appendChild(row); // append → older at bottom
-  });
+  // Calculate real historical counts (same on every refresh)
+  const hist = calcHistoricalCounts();
+  proofTotalCount = hist.total;
+  proofTodayCount = hist.todayCount;
+  proofTotalCoins = hist.totalCoins;
 
-  // Count them all
-  proofTotalCount = SEED_ENTRIES.length;
-  proofTodayCount = SEED_ENTRIES.length;
-  proofTotalCoins = SEED_ENTRIES.reduce((s,e)=>s+e.amount, 0);
+  // Show last 20 entries with real timestamps
+  const entries = generateHistoricalFeed(20);
+  entries.forEach(e => {
+    feed.appendChild(makeRow(e.name, e.amount, e.ts, false));
+  });
 
   refreshStats();
 }
 
 function startLivePayoutSystem() {
-  // Seeds appear instantly (synchronous, before any timers)
-  seedFeed();
+  seedFeed(); // synchronous, instant
 
-  // New live entry every 5 s
+  // New payout every 5s
   setInterval(() => {
-    pushLiveRow(rnd(NAMES), randomAmount());
+    pushLiveRow(rnd(NAMES), randomAmount(Date.now()));
   }, 5000);
+
+  // Update "X ago" labels every 30s
+  setInterval(tickAgoLabels, 30000);
 }
 
 // ════════════════════════════════════════════════
