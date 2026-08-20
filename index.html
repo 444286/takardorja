@@ -3,29 +3,27 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<title>CoinDrop – Watch & Earn</title>
+<title>DailyRead – News & Articles</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0a0f;
-  --s1:#13131c;
-  --s2:#1c1c2a;
-  --s3:#252535;
-  --bd:#2a2a3d;
-  --p:#6c63ff;
-  --p2:#5449e0;
-  --g:#00d68f;
-  --y:#ffcc00;
-  --r:#ff4d6d;
-  --tx:#ddddf5;
-  --mu:#6868a0;
-  --ra:14px;
+  --bg:#0f0f14;
+  --s1:#16161f;
+  --s2:#1e1e2a;
+  --bd:#2c2c3e;
+  --p:#a78bfa;
+  --p2:#7c3aed;
+  --acc:#f59e0b;
+  --g:#10b981;
+  --tx:#e2e2f0;
+  --mu:#7070a0;
+  --ra:12px;
 }
 html,body{height:100%;overflow:hidden}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   background:var(--bg);color:var(--tx);
   display:flex;flex-direction:column;
 }
@@ -34,831 +32,731 @@ body{
 .topbar{
   flex-shrink:0;
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px 10px;
+  padding:14px 16px 12px;
   background:var(--s1);
   border-bottom:1px solid var(--bd);
 }
-.brand{font-size:19px;font-weight:900;letter-spacing:-0.5px;color:var(--p)}
-.brand em{color:var(--y);font-style:normal}
-.topbar-bal{
-  display:flex;align-items:center;gap:6px;
-  background:var(--s2);border:1px solid var(--bd);
-  padding:6px 12px;border-radius:30px;
+.brand{
+  font-size:18px;font-weight:900;letter-spacing:-0.5px;
+  color:var(--tx);
 }
-.topbar-bal .coin{font-size:16px}
-.topbar-bal .val{font-size:14px;font-weight:800;color:var(--y)}
-
-/* ── SCROLL AREA ── */
-.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.scroll::-webkit-scrollbar{display:none}
+.brand span{color:var(--p)}
+.topbar-tag{
+  font-size:10px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:var(--mu);
+  background:var(--s2);border:1px solid var(--bd);
+  padding:4px 10px;border-radius:20px;
+}
 
 /* ── TABS ── */
 .tabs{
-  display:flex;background:var(--s1);
-  border-bottom:1px solid var(--bd);
-  flex-shrink:0;
+  flex-shrink:0;display:flex;
+  background:var(--s1);border-bottom:1px solid var(--bd);
+  overflow-x:auto;
+  scrollbar-width:none;
 }
+.tabs::-webkit-scrollbar{display:none}
 .tab{
-  flex:1;padding:12px 4px;text-align:center;
-  font-size:11px;font-weight:700;
-  color:var(--mu);letter-spacing:0.5px;
-  cursor:pointer;border-bottom:2px solid transparent;
+  flex-shrink:0;padding:11px 16px;
+  font-size:12px;font-weight:700;letter-spacing:0.4px;
+  color:var(--mu);cursor:pointer;
+  border-bottom:2px solid transparent;
   transition:color .15s,border-color .15s;
+  white-space:nowrap;
   -webkit-tap-highlight-color:transparent;
 }
 .tab.active{color:var(--p);border-bottom-color:var(--p)}
-.tab .tab-icon{font-size:18px;display:block;margin-bottom:3px}
+
+/* ── SCROLL ── */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{display:none}
 
 /* ── PAGES ── */
-.page{display:none;padding:0 0 24px}
-.page.active{display:block}
+.page{display:none}
+.page.active{display:block;padding-bottom:28px}
 
-/* ── HERO BALANCE ── */
-.hero{
-  margin:16px 14px 0;
-  background:linear-gradient(140deg,#2d1f7a 0%,#1a1460 60%,#0f1040 100%);
-  border-radius:var(--ra);padding:22px 18px 18px;
-  position:relative;overflow:hidden;
+/* ── FEATURED CARD ── */
+.featured{
+  margin:14px 14px 0;
+  background:linear-gradient(150deg,#2d1b69 0%,#1a1040 70%,#0f0f14 100%);
+  border:1px solid rgba(167,139,250,.2);
+  border-radius:16px;overflow:hidden;padding:20px 18px 18px;
+  position:relative;
 }
-.hero::before{
-  content:'';position:absolute;width:200px;height:200px;
-  border-radius:50%;background:rgba(108,99,255,.13);
-  right:-50px;top:-50px;pointer-events:none;
+.featured::after{
+  content:'';position:absolute;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(167,139,250,.15),transparent 70%);
+  right:-30px;top:-30px;pointer-events:none;
 }
-.hero-label{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.45);margin-bottom:4px}
-.hero-amount{font-size:44px;font-weight:900;color:#fff;line-height:1;letter-spacing:-1px}
-.hero-amount sup{font-size:18px;font-weight:500;color:var(--y);vertical-align:super;margin-right:4px}
-.hero-row{display:flex;gap:16px;margin-top:14px}
-.hero-stat{flex:1}
-.hero-stat .hs-val{font-size:16px;font-weight:800;color:#fff}
-.hero-stat .hs-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;text-transform:uppercase;letter-spacing:.7px}
-
-/* ── FREE BANNER ── */
-.free-banner{
-  margin:12px 14px 0;
-  display:flex;align-items:flex-start;gap:10px;
-  background:rgba(0,214,143,.07);
-  border:1px solid rgba(0,214,143,.25);
-  border-radius:var(--ra);padding:12px 14px;
+.feat-cat{
+  display:inline-block;
+  font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--p);background:rgba(167,139,250,.12);
+  border:1px solid rgba(167,139,250,.25);
+  padding:3px 10px;border-radius:20px;margin-bottom:10px;
 }
-.free-banner .fb-icon{font-size:22px;flex-shrink:0;margin-top:1px}
-.free-banner .fb-title{font-size:13px;font-weight:800;color:var(--g);margin-bottom:3px}
-.free-banner .fb-text{font-size:12px;color:var(--mu);line-height:1.5}
-.free-banner strong{color:var(--tx)}
+.feat-title{
+  font-size:19px;font-weight:900;line-height:1.3;
+  color:#fff;margin-bottom:8px;letter-spacing:-0.3px;
+}
+.feat-desc{font-size:13px;color:rgba(226,226,240,.6);line-height:1.6;margin-bottom:14px}
+.feat-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--mu)}
+.feat-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--mu);flex-shrink:0}
+.btn-read-feat{
+  margin-top:14px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--p2);color:#fff;
+  font-size:13px;font-weight:800;
+  padding:10px 18px;border-radius:10px;border:none;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:opacity .15s;
+}
+.btn-read-feat:active{opacity:.8}
 
 /* ── SECTION LABEL ── */
 .slabel{
-  font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.9px;color:var(--mu);
-  padding:18px 14px 8px;
+  font-size:10px;font-weight:800;text-transform:uppercase;
+  letter-spacing:1.1px;color:var(--mu);
+  padding:18px 14px 10px;
 }
 
-/* ── AD CARD ── */
-.ad-card{
-  margin:0 14px;
-  background:var(--s2);border:1.5px solid var(--bd);
-  border-radius:var(--ra);overflow:hidden;
+/* ── ARTICLE CARD (vertical list) ── */
+.art-list{padding:0 14px;display:flex;flex-direction:column;gap:10px}
+.art-card{
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--ra);padding:14px;
+  display:flex;gap:12px;align-items:flex-start;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:border-color .15s;
 }
-.ad-card-head{
-  display:flex;align-items:center;gap:12px;
-  padding:16px 16px 0;margin-bottom:14px;
+.art-card:active{border-color:var(--p)}
+.art-card-body{flex:1;min-width:0}
+.art-cat-pill{
+  display:inline-block;
+  font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
+  padding:2px 8px;border-radius:20px;margin-bottom:6px;
 }
-.ad-card-ico{
-  width:50px;height:50px;border-radius:12px;
-  background:linear-gradient(135deg,var(--p),var(--p2));
+.cat-tech{background:rgba(167,139,250,.12);color:var(--p)}
+.cat-world{background:rgba(16,185,129,.1);color:var(--g)}
+.cat-biz{background:rgba(245,158,11,.1);color:var(--acc)}
+.cat-sci{background:rgba(99,179,237,.1);color:#63b3ed}
+.art-title{font-size:14px;font-weight:800;line-height:1.35;margin-bottom:5px;color:var(--tx)}
+.art-meta{font-size:11px;color:var(--mu)}
+.art-thumb{
+  width:62px;height:62px;border-radius:10px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;
-}
-.ad-card-info h3{font-size:15px;font-weight:800;margin-bottom:3px}
-.ad-card-info p{font-size:12px;color:var(--mu);line-height:1.4}
-
-.reward-tag{
-  display:inline-flex;align-items:center;gap:5px;
-  margin:0 16px 14px;
-  background:rgba(255,204,0,.1);border:1px solid rgba(255,204,0,.3);
-  color:var(--y);font-size:13px;font-weight:800;
-  padding:7px 13px;border-radius:30px;
+  font-size:26px;
 }
 
-.mini-free{
-  margin:0 16px 14px;
-  background:var(--s1);border-radius:10px;
-  padding:10px 12px;border-left:3px solid var(--g);
-}
-.mini-free .mf-label{font-size:10px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
-.mf-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--tx);padding:2px 0}
-.mf-row::before{content:'✓';color:var(--g);font-weight:900;font-size:11px}
-
-.btn-watch{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  width:calc(100% - 32px);margin:0 16px;
-  padding:15px;border-radius:12px;border:none;
-  background:linear-gradient(135deg,var(--p),var(--p2));
-  color:#fff;font-size:15px;font-weight:800;
-  cursor:pointer;transition:transform .1s,opacity .15s;
-  -webkit-tap-highlight-color:transparent;
-}
-.btn-watch:active{transform:scale(.97);opacity:.88}
-.btn-watch:disabled{background:var(--bd);color:var(--mu);cursor:not-allowed;transform:none}
-
-.cooldown-bar-wrap{
-  margin:10px 16px 0;height:4px;
-  background:var(--bd);border-radius:4px;overflow:hidden;
-  display:none;
-}
-.cooldown-bar-fill{
-  height:100%;width:100%;
-  background:var(--p);
-  border-radius:4px;
-  transition:width 1s linear;
-}
-
-.ad-consent{
-  text-align:center;font-size:11px;color:var(--mu);
-  padding:10px 16px 16px;line-height:1.5;
-}
-
-/* ── MODERATION STRIP ── */
-.mod-strip{
-  margin:12px 14px 0;
-  background:var(--s2);border:1px solid var(--bd);
-  border-radius:var(--ra);padding:13px 15px;
-}
-.mod-strip-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:8px}
-.mod-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx);padding:3px 0}
-.mod-row .m-ico{font-size:13px;flex-shrink:0}
-
-/* ── DAILY TASKS ── */
-.tasks{margin:0 14px}
-.task-item{
-  display:flex;align-items:center;gap:12px;
-  background:var(--s2);border:1px solid var(--bd);
-  border-radius:12px;padding:14px;margin-bottom:10px;
-}
-.task-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.task-ico.a{background:rgba(108,99,255,.15)}
-.task-ico.b{background:rgba(0,214,143,.12)}
-.task-ico.c{background:rgba(255,204,0,.10)}
-.task-body{flex:1}
-.task-body h4{font-size:14px;font-weight:700;margin-bottom:3px}
-.task-body p{font-size:12px;color:var(--mu)}
-.task-pts{font-size:13px;font-weight:800;color:var(--y);flex-shrink:0}
-.task-done{font-size:18px;color:var(--g);flex-shrink:0}
-
-/* ── LEADERBOARD ── */
-.lb-wrap{margin:0 14px}
-.lb-card{
-  background:var(--s2);border:1px solid var(--bd);
-  border-radius:var(--ra);overflow:hidden;
-}
-.lb-header-row{
+/* ── MORE ARTICLES (locked) ── */
+.more-section{margin:20px 14px 0}
+.more-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:13px 15px;border-bottom:1px solid var(--bd);
+  margin-bottom:12px;
 }
-.lb-header-row h3{font-size:14px;font-weight:800}
-.live-pill{
-  display:flex;align-items:center;gap:5px;
-  background:rgba(0,214,143,.12);border:1px solid rgba(0,214,143,.25);
-  color:var(--g);font-size:10px;font-weight:700;
-  padding:3px 9px;border-radius:20px;
+.more-header h3{font-size:14px;font-weight:800}
+.unlock-status{
+  font-size:11px;font-weight:700;color:var(--mu);
+  background:var(--s2);border:1px solid var(--bd);
+  padding:3px 10px;border-radius:20px;
 }
-.live-pill::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--g);animation:blink 1.3s infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.lb-row{
-  display:flex;align-items:center;gap:11px;
-  padding:11px 15px;border-bottom:1px solid var(--bd);
-}
-.lb-row:last-child{border-bottom:none}
-.lb-num{width:24px;text-align:center;font-size:13px;font-weight:900;color:var(--mu);flex-shrink:0}
-.lb-num.g1{color:#ffd700}.lb-num.g2{color:#c0c0d0}.lb-num.g3{color:#cd7f32}
-.lb-ava{
-  width:36px;height:36px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:800;flex-shrink:0;
-  background:linear-gradient(135deg,var(--p),var(--p2));
-}
-.lb-name{flex:1;font-size:14px;font-weight:600}
-.lb-score{font-size:13px;font-weight:800;color:var(--y)}
-.lb-me .lb-ava{background:linear-gradient(135deg,var(--y),#cc9900)}
-.lb-me .lb-name{color:var(--p)}
+.unlock-status.open{color:var(--g);border-color:rgba(16,185,129,.3)}
 
-/* ══════════════════════════════════════════
-   PAYOUT PROOF PAGE — SIMPLE LINK CARD
-══════════════════════════════════════════ */
-.proof-page-wrap{
-  margin:20px 14px 0;
-  display:flex;flex-direction:column;align-items:stretch;
-  gap:0;
+/* Watch-ad CTA card */
+.watch-cta{
+  background:var(--s2);border:1.5px dashed rgba(167,139,250,.35);
+  border-radius:14px;padding:20px 18px;text-align:center;
+  margin-bottom:12px;
+}
+.watch-cta .wc-icon{font-size:34px;margin-bottom:10px;display:block}
+.watch-cta h4{font-size:15px;font-weight:900;color:#fff;margin-bottom:6px}
+.watch-cta p{font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:16px}
+.watch-cta p strong{color:var(--tx)}
+.btn-watch-ad{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:14px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--p2),#5b21b6);
+  color:#fff;font-size:14px;font-weight:800;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:transform .1s,opacity .15s;
+  box-shadow:0 4px 18px rgba(124,58,237,.35);
+}
+.btn-watch-ad:active{transform:scale(.97);opacity:.88}
+.btn-watch-ad:disabled{background:var(--bd);color:var(--mu);cursor:not-allowed;box-shadow:none}
+.btn-skip{
+  margin-top:10px;
+  display:block;width:100%;
+  background:none;border:none;
+  font-size:12px;color:var(--mu);cursor:pointer;
+  padding:6px;-webkit-tap-highlight-color:transparent;
 }
 
-.proof-link-card{
-  background:linear-gradient(145deg,#1a1760 0%,#13131c 60%,#0d0d18 100%);
-  border:1.5px solid rgba(108,99,255,.45);
-  border-radius:18px;
-  padding:30px 22px 26px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
+/* Locked preview card */
+.locked-card{
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--ra);padding:14px;
+  display:flex;gap:12px;align-items:center;
+  opacity:.45;pointer-events:none;margin-bottom:10px;
+  user-select:none;
 }
-.proof-link-card::before{
-  content:'';
-  position:absolute;
-  width:220px;height:220px;border-radius:50%;
-  background:radial-gradient(circle,rgba(108,99,255,.18) 0%,transparent 70%);
-  right:-60px;top:-60px;pointer-events:none;
+.locked-card .lk-thumb{
+  width:48px;height:48px;border-radius:8px;
+  background:var(--bd);display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
 }
-.proof-link-card::after{
-  content:'';
-  position:absolute;
-  width:160px;height:160px;border-radius:50%;
-  background:radial-gradient(circle,rgba(0,214,143,.10) 0%,transparent 70%);
-  left:-40px;bottom:-40px;pointer-events:none;
-}
+.locked-card .lk-lines{flex:1}
+.lk-bar{height:10px;border-radius:4px;background:var(--bd);margin-bottom:7px}
+.lk-bar.short{width:55%}
+.lock-icon{font-size:18px;flex-shrink:0;color:var(--mu)}
 
-.plc-icon{
-  font-size:48px;
-  margin-bottom:14px;
-  display:block;
-  filter:drop-shadow(0 0 18px rgba(108,99,255,.5));
-}
-
-.plc-title{
-  font-size:22px;
-  font-weight:900;
-  color:#fff;
-  letter-spacing:-0.5px;
-  margin-bottom:10px;
-}
-
-.plc-desc{
-  font-size:13px;
-  color:rgba(221,221,245,.65);
-  line-height:1.7;
-  margin-bottom:24px;
-  max-width:280px;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-.plc-desc strong{
-  color:var(--g);
-  font-weight:800;
-}
-
-.plc-divider{
-  width:40px;height:2px;
-  background:linear-gradient(90deg,transparent,var(--p),transparent);
-  margin:0 auto 20px;
-  border-radius:2px;
-}
-
-.btn-proof-link{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  width:100%;
-  padding:16px 20px;
-  border-radius:14px;
-  border:none;
-  background:linear-gradient(135deg,#229ED9,#1a7db0);
-  color:#fff;
-  font-size:16px;
-  font-weight:900;
-  cursor:pointer;
-  text-decoration:none;
-  transition:transform .12s,opacity .15s,box-shadow .15s;
-  box-shadow:0 6px 24px rgba(34,158,217,.35);
-  -webkit-tap-highlight-color:transparent;
-  position:relative;
-  z-index:1;
-  letter-spacing:0.2px;
-}
-.btn-proof-link:active{
-  transform:scale(.97);
-  opacity:.9;
-  box-shadow:0 2px 10px rgba(34,158,217,.25);
-}
-
-.btn-proof-link .bpl-tg-icon{
-  font-size:20px;
-  flex-shrink:0;
-}
-
-.plc-badge-row{
-  display:flex;align-items:center;justify-content:center;
-  gap:8px;
-  margin-top:16px;
-  position:relative;
-  z-index:1;
-}
-.plc-badge{
-  display:flex;align-items:center;gap:5px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:5px 11px;
-  font-size:11px;
-  color:rgba(221,221,245,.55);
-  font-weight:600;
-}
-.plc-badge .pb-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--g);
-  animation:blink 1.4s infinite;
-  flex-shrink:0;
-}
-
-/* ── HISTORY ── */
-.hist-wrap{margin:0 14px}
-.hist-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);overflow:hidden}
-.hist-empty{padding:32px;text-align:center;color:var(--mu);font-size:13px;line-height:1.6}
-.hist-row{
+/* ── ARTICLE READER ── */
+.reader{display:none;position:fixed;inset:0;z-index:50;
+  background:var(--bg);flex-direction:column;overflow:hidden}
+.reader.open{display:flex}
+.reader-topbar{
   display:flex;align-items:center;gap:10px;
-  padding:11px 14px;border-bottom:1px solid var(--bd);
+  padding:12px 14px;background:var(--s1);
+  border-bottom:1px solid var(--bd);flex-shrink:0;
 }
-.hist-row:last-child{border-bottom:none}
-.hist-dot{width:8px;height:8px;border-radius:50%;background:var(--g);flex-shrink:0}
-.hist-txt{flex:1;font-size:13px;color:var(--mu)}
-.hist-pts{font-size:13px;font-weight:800;color:var(--y)}
+.reader-back{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--s2);border:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.reader-title-small{
+  flex:1;font-size:13px;font-weight:700;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--tx);
+}
+.reader-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.reader-scroll::-webkit-scrollbar{display:none}
+.reader-body{padding:20px 16px 32px}
+.reader-cat{
+  display:inline-block;
+  font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;margin-bottom:12px;
+}
+.reader-h1{
+  font-size:22px;font-weight:900;line-height:1.3;
+  color:#fff;margin-bottom:10px;letter-spacing:-0.4px;
+}
+.reader-meta{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--mu);margin-bottom:18px;
+  padding-bottom:16px;border-bottom:1px solid var(--bd);
+}
+.reader-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--mu)}
+.reader-content p{
+  font-size:15px;line-height:1.75;color:rgba(226,226,240,.85);
+  margin-bottom:16px;
+}
+.reader-content h3{
+  font-size:17px;font-weight:800;color:#fff;
+  margin:22px 0 10px;
+}
+.reader-content .pull-quote{
+  border-left:3px solid var(--p);
+  padding:10px 14px;margin:18px 0;
+  background:rgba(167,139,250,.06);border-radius:0 8px 8px 0;
+  font-size:14px;font-style:italic;color:rgba(226,226,240,.75);line-height:1.6;
+}
+
+/* ── IN-READER AD CTA (at bottom of article) ── */
+.reader-ad-cta{
+  margin:24px 0 0;
+  background:var(--s2);border:1px solid rgba(167,139,250,.25);
+  border-radius:14px;padding:18px 16px;text-align:center;
+}
+.reader-ad-cta p{font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:12px}
+.reader-ad-cta p strong{color:var(--tx)}
+.btn-reader-ad{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;padding:13px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--p2),#5b21b6);
+  color:#fff;font-size:13px;font-weight:800;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:opacity .15s;
+}
+.btn-reader-ad:active{opacity:.8}
 
 /* ── TOAST ── */
 .toast{
-  position:fixed;bottom:20px;left:50%;
-  transform:translateX(-50%) translateY(90px);
-  background:var(--g);color:#fff;
-  font-size:14px;font-weight:800;
-  padding:12px 22px;border-radius:30px;
-  box-shadow:0 8px 32px rgba(0,0,0,.5);
-  transition:transform .38s cubic-bezier(.34,1.56,.64,1);
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:#1e1e2a;border:1px solid rgba(16,185,129,.4);
+  color:var(--g);font-size:13px;font-weight:800;
+  padding:11px 20px;border-radius:30px;
+  box-shadow:0 6px 28px rgba(0,0,0,.6);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
   z-index:999;pointer-events:none;white-space:nowrap;
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.err{background:var(--r)}
 </style>
 </head>
 <body>
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="brand">Coin<em>Drop</em></div>
-  <div class="topbar-bal">
-    <span class="coin">🪙</span>
-    <span class="val" id="topBal">0</span>
-  </div>
+  <div class="brand">Daily<span>Read</span></div>
+  <div class="topbar-tag">News &amp; Articles</div>
 </div>
 
 <!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('earn')" id="tab-earn">
-    <span class="tab-icon">📺</span>EARN
-  </div>
-  <div class="tab" onclick="switchTab('tasks')" id="tab-tasks">
-    <span class="tab-icon">✅</span>TASKS
-  </div>
-  <div class="tab" onclick="switchTab('lb')" id="tab-lb">
-    <span class="tab-icon">🏆</span>RANK
-  </div>
-  <div class="tab" onclick="switchTab('proof')" id="tab-proof">
-    <span class="tab-icon">💸</span>PAYOUTS
-  </div>
-  <div class="tab" onclick="switchTab('hist')" id="tab-hist">
-    <span class="tab-icon">📋</span>HISTORY
-  </div>
+  <div class="tab active" onclick="switchTab('home')" id="tab-home">🏠 Home</div>
+  <div class="tab" onclick="switchTab('tech')" id="tab-tech">💻 Tech</div>
+  <div class="tab" onclick="switchTab('world')" id="tab-world">🌍 World</div>
+  <div class="tab" onclick="switchTab('biz')" id="tab-biz">📈 Business</div>
+  <div class="tab" onclick="switchTab('sci')" id="tab-sci">🔬 Science</div>
 </div>
 
 <div class="scroll">
 
-<!-- ══════ EARN PAGE ══════ -->
-<div class="page active" id="page-earn">
-  <div class="hero">
-    <div class="hero-label">Your Balance</div>
-    <div class="hero-amount"><sup>🪙</sup><span id="heroBal">0</span></div>
-    <div class="hero-row">
-      <div class="hero-stat">
-        <div class="hs-val" id="heroAds">0</div>
-        <div class="hs-lbl">Ads Watched</div>
+<!-- ══════ HOME PAGE ══════ -->
+<div class="page active" id="page-home">
+
+  <!-- Featured -->
+  <div class="featured">
+    <div class="feat-cat">🔥 Featured</div>
+    <div class="feat-title">AI is Now Writing Code Better Than Most Junior Developers</div>
+    <div class="feat-desc">New benchmarks show large language models outperforming entry-level engineers in 73% of real-world tasks — and the gap is widening fast.</div>
+    <div class="feat-meta">
+      <span>Tech Insider</span><div class="dot"></div>
+      <span>5 min read</span><div class="dot"></div>
+      <span>Today</span>
+    </div>
+    <button class="btn-read-feat" onclick="openArticle('ai-code')">Read Article →</button>
+  </div>
+
+  <div class="slabel">📰 Latest Articles</div>
+
+  <div class="art-list">
+    <div class="art-card" onclick="openArticle('climate')">
+      <div class="art-card-body">
+        <div class="art-cat-pill cat-world">World</div>
+        <div class="art-title">Record Ocean Temperatures Alarm Scientists Ahead of Hurricane Season</div>
+        <div class="art-meta">Reuters · 4 min read · Today</div>
       </div>
-      <div class="hero-stat">
-        <div class="hs-val" id="heroToday">0</div>
-        <div class="hs-lbl">Earned Today</div>
+      <div class="art-thumb">🌊</div>
+    </div>
+    <div class="art-card" onclick="openArticle('crypto')">
+      <div class="art-card-body">
+        <div class="art-cat-pill cat-biz">Business</div>
+        <div class="art-title">Bitcoin Surges Past $85,000 as Institutional Demand Returns</div>
+        <div class="art-meta">Bloomberg · 3 min read · Today</div>
       </div>
-      <div class="hero-stat">
-        <div class="hs-val" id="heroStreak">0🔥</div>
-        <div class="hs-lbl">Day Streak</div>
+      <div class="art-thumb">📈</div>
+    </div>
+    <div class="art-card" onclick="openArticle('space')">
+      <div class="art-card-body">
+        <div class="art-cat-pill cat-sci">Science</div>
+        <div class="art-title">NASA's Artemis Crew Completes First Lunar Surface Drill</div>
+        <div class="art-meta">Space.com · 6 min read · Yesterday</div>
       </div>
+      <div class="art-thumb">🚀</div>
+    </div>
+    <div class="art-card" onclick="openArticle('health')">
+      <div class="art-card-body">
+        <div class="art-cat-pill cat-sci">Science</div>
+        <div class="art-title">New mRNA Vaccine Shows 94% Efficacy Against Aggressive Brain Tumors</div>
+        <div class="art-meta">Nature · 5 min read · Yesterday</div>
+      </div>
+      <div class="art-thumb">🧬</div>
     </div>
   </div>
 
-  <div class="free-banner">
-    <div class="fb-icon">🔓</div>
-    <div class="fb-body">
-      <div class="fb-title">All Features Are 100% Free</div>
-      <div class="fb-text">
-        You can use <strong>every part of this app</strong> without ever watching an ad.
-        Ads are <strong>optional</strong> — they only give you bonus coins as a reward.
-      </div>
+  <!-- More articles section -->
+  <div class="more-section">
+    <div class="more-header">
+      <h3>More Articles</h3>
+      <div class="unlock-status" id="moreStatus">Optional</div>
     </div>
-  </div>
 
-  <div class="mod-strip">
-    <div class="mod-strip-title">📋 App Rules </div>
-    <div class="mod-row"><span class="m-ico">✅</span> Core features require no ad view</div>
-    <div class="mod-row"><span class="m-ico">✅</span> Ads are clearly labeled as advertisements</div>
-    <div class="mod-row"><span class="m-ico">✅</span> User explicitly consents before each ad</div>
-    <div class="mod-row"><span class="m-ico">✅</span> Rewards are fixed &amp; realistic (50 coins/ad)</div>
-    <div class="mod-row"><span class="m-ico">✅</span> All payouts are publicly confirmed</div>
-  </div>
-
-  <div class="slabel">🎬 Optional — Watch Ad for Bonus</div>
-
-  <div class="ad-card">
-    <div class="ad-card-head">
-      <div class="ad-card-ico">▶</div>
-      <div class="ad-card-info">
-        <h3>Watch a Short Ad</h3>
-        <p>A brief sponsored video. Entirely your choice — no obligation.</p>
-      </div>
-    </div>
-    <div class="reward-tag">🎁 You will earn exactly +50 coins for watching</div>
-    <div class="mini-free">
-      <div class="mf-label">These are FREE without watching any ad:</div>
-      <div class="mf-row">Browse all pages &amp; tabs</div>
-      <div class="mf-row">See leaderboard rankings</div>
-      <div class="mf-row">View your full earnings history</div>
-      <div class="mf-row">Check payout confirmations</div>
-      <div class="mf-row">Complete daily tasks</div>
-    </div>
-    <button class="btn-watch" id="watchBtn" onclick="watchAd()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-      <span id="btnText">I Want to Watch an Ad & Earn +50 Coins</span>
-    </button>
-    <div class="cooldown-bar-wrap" id="cdBarWrap">
-      <div class="cooldown-bar-fill" id="cdBar"></div>
-    </div>
-    <div class="ad-consent">
-      Tapping the button above means you <strong>voluntarily agree</strong> to watch a short ad.<br/>
-      You can close the ad after a few seconds. No action is required to use the app.
-    </div>
-  </div>
-
-  <div style="height:20px"></div>
-</div>
-
-<!-- ══════ TASKS PAGE ══════ -->
-<div class="page" id="page-tasks">
-  <div class="slabel">📌 Daily Free Tasks</div>
-  <div class="tasks">
-    <div class="task-item">
-      <div class="task-ico a">📲</div>
-      <div class="task-body"><h4>Open App Today</h4><p>Just open the app once a day</p></div>
-      <span class="task-done" id="task1Done">✅</span>
-    </div>
-    <div class="task-item">
-      <div class="task-ico b">🏆</div>
-      <div class="task-body"><h4>Check Leaderboard</h4><p>Visit the Rank tab</p></div>
-      <span class="task-pts" id="task2Pts">+10</span>
-    </div>
-    <div class="task-item">
-      <div class="task-ico c">💬</div>
-      <div class="task-body"><h4>Share App</h4><p>Invite a friend via Telegram</p></div>
-      <span class="task-pts">+25</span>
-    </div>
-    <div class="task-item">
-      <div class="task-ico a">🎬</div>
-      <div class="task-body"><h4>Watch 3 Ads Today</h4><p>Earn bonus streak reward</p></div>
-      <span class="task-pts" id="taskAdPts">+30 bonus</span>
-    </div>
-  </div>
-  <div style="margin:14px 14px 0;background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);padding:14px 16px;">
-    <p style="font-size:12px;color:var(--mu);line-height:1.6;">
-      ℹ️ Daily tasks are <strong style="color:var(--tx)">completely free</strong> and do not require watching any advertisement. They reset at midnight UTC.
-    </p>
-  </div>
-</div>
-
-<!-- ══════ LEADERBOARD PAGE ══════ -->
-<div class="page" id="page-lb">
-  <div class="slabel">🏆 Weekly Top Earners</div>
-  <div class="lb-wrap">
-    <div class="lb-card">
-      <div class="lb-header-row">
-        <h3>Public Leaderboard</h3>
-        <div class="live-pill">LIVE</div>
-      </div>
-      <div class="lb-row"><span class="lb-num g1">1</span><div class="lb-ava" style="background:linear-gradient(135deg,#ffd700,#cc9900)">R</div><div class="lb-name">Rakib</div><div class="lb-score">48,200 🪙</div></div>
-      <div class="lb-row"><span class="lb-num g2">2</span><div class="lb-ava" style="background:linear-gradient(135deg,#c0c0d0,#888898)">S</div><div class="lb-name">Sara</div><div class="lb-score">41,500 🪙</div></div>
-      <div class="lb-row"><span class="lb-num g3">3</span><div class="lb-ava" style="background:linear-gradient(135deg,#cd7f32,#a05a20)">A</div><div class="lb-name">Arif</div><div class="lb-score">36,800 🪙</div></div>
-      <div class="lb-row"><span class="lb-num">4</span><div class="lb-ava">M</div><div class="lb-name">Mitu</div><div class="lb-score">29,100 🪙</div></div>
-      <div class="lb-row"><span class="lb-num">5</span><div class="lb-ava">H</div><div class="lb-name">Hasan</div><div class="lb-score">24,600 🪙</div></div>
-      <div class="lb-row"><span class="lb-num">6</span><div class="lb-ava">N</div><div class="lb-name">Nadia</div><div class="lb-score">19,350 🪙</div></div>
-      <div class="lb-row"><span class="lb-num">7</span><div class="lb-ava">K</div><div class="lb-name">Karim</div><div class="lb-score">15,200 🪙</div></div>
-      <div class="lb-row lb-me" id="myLbRow" style="display:none;">
-        <span class="lb-num" id="myLbNum">–</span>
-        <div class="lb-ava" id="myLbAva">?</div>
-        <div class="lb-name" id="myLbName">You</div>
-        <div class="lb-score" id="myLbScore">0 🪙</div>
-      </div>
-    </div>
-    <div style="margin-top:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--ra);padding:12px 14px;">
-      <p style="font-size:12px;color:var(--mu);line-height:1.6;">
-        📌 Rankings update in real-time based on coins earned this week.
+    <!-- Watch ad CTA -->
+    <div class="watch-cta" id="watchCtaBlock">
+      <span class="wc-icon">📺</span>
+      <h4>Watch a Short Ad for More</h4>
+      <p>
+        The articles above are <strong>completely free</strong>.<br/>
+        Watch an optional short ad to load extra articles below.
       </p>
+      <button class="btn-watch-ad" id="watchAdBtn" onclick="watchAd()">
+        ▶ &nbsp;Watch Ad &amp; See More Articles
+      </button>
+      <button class="btn-skip" onclick="skipUnlock()">No thanks, I'm good with the articles above</button>
+    </div>
+
+    <!-- Locked placeholders (shown before unlock) -->
+    <div id="lockedCards">
+      <div class="locked-card"><div class="lk-thumb">📰</div><div class="lk-lines"><div class="lk-bar"></div><div class="lk-bar short"></div></div><div class="lock-icon">🔒</div></div>
+      <div class="locked-card"><div class="lk-thumb">📰</div><div class="lk-lines"><div class="lk-bar"></div><div class="lk-bar short"></div></div><div class="lock-icon">🔒</div></div>
+      <div class="locked-card"><div class="lk-thumb">📰</div><div class="lk-lines"><div class="lk-bar"></div><div class="lk-bar short"></div></div><div class="lock-icon">🔒</div></div>
+    </div>
+
+    <!-- Unlocked extra articles (hidden until ad watched) -->
+    <div id="unlockedCards" style="display:none">
+      <div class="art-list" style="padding:0;gap:10px">
+        <div class="art-card" onclick="openArticle('energy')">
+          <div class="art-card-body">
+            <div class="art-cat-pill cat-tech">Tech</div>
+            <div class="art-title">Europe's New Fusion Reactor Achieves Record 12-Second Plasma Hold</div>
+            <div class="art-meta">Science Daily · 5 min read · 2 days ago</div>
+          </div>
+          <div class="art-thumb">⚡</div>
+        </div>
+        <div class="art-card" onclick="openArticle('economy')">
+          <div class="art-card-body">
+            <div class="art-cat-pill cat-biz">Business</div>
+            <div class="art-title">IMF Raises Global Growth Forecast to 3.4% — Fastest in 3 Years</div>
+            <div class="art-meta">FT · 4 min read · 2 days ago</div>
+          </div>
+          <div class="art-thumb">🌐</div>
+        </div>
+        <div class="art-card" onclick="openArticle('phones')">
+          <div class="art-card-body">
+            <div class="art-cat-pill cat-tech">Tech</div>
+            <div class="art-title">The 5 Smartphones That Actually Changed How We Live in 2026</div>
+            <div class="art-meta">The Verge · 7 min read · 3 days ago</div>
+          </div>
+          <div class="art-thumb">📱</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-home -->
+
+<!-- ══════ TECH PAGE ══════ -->
+<div class="page" id="page-tech">
+  <div class="slabel">💻 Technology</div>
+  <div class="art-list">
+    <div class="art-card" onclick="openArticle('ai-code')">
+      <div class="art-card-body"><div class="art-cat-pill cat-tech">Tech</div><div class="art-title">AI is Now Writing Code Better Than Most Junior Developers</div><div class="art-meta">Tech Insider · 5 min · Today</div></div>
+      <div class="art-thumb">🤖</div>
+    </div>
+    <div class="art-card" onclick="openArticle('energy')">
+      <div class="art-card-body"><div class="art-cat-pill cat-tech">Tech</div><div class="art-title">Europe's New Fusion Reactor Achieves Record 12-Second Plasma Hold</div><div class="art-meta">Science Daily · 5 min · 2 days ago</div></div>
+      <div class="art-thumb">⚡</div>
+    </div>
+    <div class="art-card" onclick="openArticle('phones')">
+      <div class="art-card-body"><div class="art-cat-pill cat-tech">Tech</div><div class="art-title">The 5 Smartphones That Actually Changed How We Live in 2026</div><div class="art-meta">The Verge · 7 min · 3 days ago</div></div>
+      <div class="art-thumb">📱</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     PAYOUT PROOF PAGE — TELEGRAM LINK CARD ONLY
-══════════════════════════════════════════════════ -->
-<div class="page" id="page-proof">
-  <div class="slabel">💸 Payout Proof</div>
-  <div class="proof-page-wrap">
-
-    <div class="proof-link-card">
-      <span class="plc-icon">💸</span>
-      <div class="plc-title">Payout Proof</div>
-      <div class="plc-divider"></div>
-      <div class="plc-desc">
-        All verified payouts are <strong>publicly posted</strong> in our official Telegram channel.<br/>
-        Every withdrawal is confirmed and visible to everyone.
-      </div>
-      <a class="btn-proof-link" href="https://t.me/zomato_app_payment_proof" target="_blank">
-        <span class="bpl-tg-icon">📢</span>
-        View Verified Payouts →
-      </a>
-      <div class="plc-badge-row">
-        <div class="plc-badge"><span class="pb-dot"></span> Publicly verifiable</div>
-        <div class="plc-badge">✓ Updated live</div>
-      </div>
+<!-- ══════ WORLD PAGE ══════ -->
+<div class="page" id="page-world">
+  <div class="slabel">🌍 World News</div>
+  <div class="art-list">
+    <div class="art-card" onclick="openArticle('climate')">
+      <div class="art-card-body"><div class="art-cat-pill cat-world">World</div><div class="art-title">Record Ocean Temperatures Alarm Scientists Ahead of Hurricane Season</div><div class="art-meta">Reuters · 4 min · Today</div></div>
+      <div class="art-thumb">🌊</div>
     </div>
-
+    <div class="art-card" onclick="openArticle('un')">
+      <div class="art-card-body"><div class="art-cat-pill cat-world">World</div><div class="art-title">UN Summit on AI Governance Ends With Historic 142-Nation Agreement</div><div class="art-meta">AP News · 6 min · Yesterday</div></div>
+      <div class="art-thumb">🌏</div>
+    </div>
   </div>
 </div>
 
-<!-- ══════ HISTORY PAGE ══════ -->
-<div class="page" id="page-hist">
-  <div class="slabel">📋 Your Personal History</div>
-  <div class="hist-wrap">
-    <div class="hist-card" id="histCard">
-      <div class="hist-empty" id="histEmpty">
-        No activity yet.<br/>
-        <span style="color:var(--p);font-weight:700;">Go to EARN tab</span> to watch an ad and earn your first coins!
-      </div>
+<!-- ══════ BUSINESS PAGE ══════ -->
+<div class="page" id="page-biz">
+  <div class="slabel">📈 Business</div>
+  <div class="art-list">
+    <div class="art-card" onclick="openArticle('crypto')">
+      <div class="art-card-body"><div class="art-cat-pill cat-biz">Business</div><div class="art-title">Bitcoin Surges Past $85,000 as Institutional Demand Returns</div><div class="art-meta">Bloomberg · 3 min · Today</div></div>
+      <div class="art-thumb">📈</div>
+    </div>
+    <div class="art-card" onclick="openArticle('economy')">
+      <div class="art-card-body"><div class="art-cat-pill cat-biz">Business</div><div class="art-title">IMF Raises Global Growth Forecast to 3.4% — Fastest in 3 Years</div><div class="art-meta">FT · 4 min · 2 days ago</div></div>
+      <div class="art-thumb">🌐</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SCIENCE PAGE ══════ -->
+<div class="page" id="page-sci">
+  <div class="slabel">🔬 Science</div>
+  <div class="art-list">
+    <div class="art-card" onclick="openArticle('space')">
+      <div class="art-card-body"><div class="art-cat-pill cat-sci">Science</div><div class="art-title">NASA's Artemis Crew Completes First Lunar Surface Drill</div><div class="art-meta">Space.com · 6 min · Yesterday</div></div>
+      <div class="art-thumb">🚀</div>
+    </div>
+    <div class="art-card" onclick="openArticle('health')">
+      <div class="art-card-body"><div class="art-cat-pill cat-sci">Science</div><div class="art-title">New mRNA Vaccine Shows 94% Efficacy Against Aggressive Brain Tumors</div><div class="art-meta">Nature · 5 min · Yesterday</div></div>
+      <div class="art-thumb">🧬</div>
     </div>
   </div>
 </div>
 
 </div><!-- /scroll -->
 
+<!-- ══════ ARTICLE READER ══════ -->
+<div class="reader" id="reader">
+  <div class="reader-topbar">
+    <div class="reader-back" onclick="closeReader()">←</div>
+    <div class="reader-title-small" id="readerTitleSmall"></div>
+  </div>
+  <div class="reader-scroll">
+    <div class="reader-body" id="readerBody"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════
-//  TELEGRAM WEBAPP INIT
-// ════════════════════════════════════════════════
+// ── Telegram Init ──
 const tg = window.Telegram?.WebApp;
-if (tg) {
-  try { tg.ready(); } catch(e){}
-  try { tg.expand(); } catch(e){}
-  try { tg.setHeaderColor?.('#0a0a0f'); } catch(e){}
-  try { tg.setBackgroundColor?.('#0a0a0f'); } catch(e){}
-}
-const tgUser   = tg?.initDataUnsafe?.user;
-const userName = tgUser?.first_name || 'You';
-const userInit = (userName[0] || 'U').toUpperCase();
+if(tg){ try{tg.ready()}catch(e){} try{tg.expand()}catch(e){} }
 
-// ════════════════════════════════════════════════
-//  SAFE STORAGE
-// ════════════════════════════════════════════════
-const _store = {};
-const LS = {
-  get(k)    { try { return localStorage.getItem(k); }    catch(e) { return _store[k] ?? null; } },
-  set(k, v) { try { localStorage.setItem(k, v); }        catch(e) { _store[k] = v; } },
+// ── Adsgram ──
+let adController = null;
+function initAdsgram(){
+  try{
+    if(window.Adsgram){
+      adController = window.Adsgram.init({blockId:'int-43506', debug:false});
+    }
+  }catch(e){}
+}
+
+// ── Articles data ──
+const ARTICLES = {
+  'ai-code':{
+    cat:'Tech', catClass:'cat-tech',
+    title:'AI is Now Writing Code Better Than Most Junior Developers',
+    meta:'Tech Insider · 5 min read · Today',
+    body:`
+      <p>In a series of blind tests conducted across five major technology companies, AI coding assistants outperformed entry-level engineers in 73% of real-world programming tasks — and the lead is growing.</p>
+      <h3>What the benchmarks show</h3>
+      <p>The tests covered bug fixing, feature implementation, API integration, and code review. AI systems completed tasks on average 4.2× faster, with error rates comparable to engineers with two years of experience.</p>
+      <div class="pull-quote">"This isn't about replacing developers. It's about changing what a developer's day looks like." — Lead researcher, MIT CSAIL</div>
+      <p>Companies like Stripe and Shopify have already restructured their junior engineering pipelines. New hires are now expected to spend the majority of their time reviewing and directing AI output rather than writing code from scratch.</p>
+      <h3>What this means for the industry</h3>
+      <p>Hiring patterns at top tech firms show a 40% drop in entry-level coding job postings over the past 18 months, while senior engineering roles — which require architecture and judgment — have grown by 22%.</p>
+      <p>Experts caution that the transition will be uneven across the industry. Startups are adopting AI tools fastest; legacy enterprises are slower due to compliance constraints and internal politics.</p>
+    `
+  },
+  'climate':{
+    cat:'World', catClass:'cat-world',
+    title:'Record Ocean Temperatures Alarm Scientists Ahead of Hurricane Season',
+    meta:'Reuters · 4 min read · Today',
+    body:`
+      <p>Sea surface temperatures in the Atlantic have broken records for the third consecutive year, with scientists warning that this year's hurricane season could be the most destructive since 2005.</p>
+      <h3>Unprecedented heat in the ocean</h3>
+      <p>NOAA data shows average sea surface temperatures running 1.8°C above the 20th-century baseline — the highest anomaly ever recorded at this point in the calendar year.</p>
+      <div class="pull-quote">"Warm water is hurricane fuel. This is the most concerning pre-season data we've ever seen." — Dr. Sarah Malone, NOAA</div>
+      <p>Forecasters predict 18 to 24 named storms this season, with six to eight reaching major hurricane status. Coastal authorities from Texas to Florida are already reviewing evacuation plans.</p>
+      <h3>Long-term outlook</h3>
+      <p>Climate models suggest this heating trend will continue through the decade unless significant emissions reductions are achieved. Several island nations have called for emergency funding at the upcoming UN Climate Council.</p>
+    `
+  },
+  'crypto':{
+    cat:'Business', catClass:'cat-biz',
+    title:'Bitcoin Surges Past $85,000 as Institutional Demand Returns',
+    meta:'Bloomberg · 3 min read · Today',
+    body:`
+      <p>Bitcoin broke above the $85,000 mark on Wednesday as a wave of institutional buying reversed a three-month correction, reigniting optimism about the asset's long-term trajectory.</p>
+      <h3>Who's buying</h3>
+      <p>On-chain data points to large wallet accumulation by entities consistent with hedge funds and sovereign wealth funds. MicroStrategy alone added another 4,200 BTC to its holdings last week.</p>
+      <div class="pull-quote">"The macro environment is forcing diversification. Bitcoin is increasingly seen as a hedge against currency debasement." — Analyst, Galaxy Digital</div>
+      <p>ETF inflows have also rebounded sharply, with BlackRock's IBIT recording its largest single-day inflow in six months on Tuesday — over $620 million.</p>
+      <h3>Risks remain</h3>
+      <p>Regulatory uncertainty in the EU and potential Fed rate decisions in September could introduce volatility. Technical analysts note significant resistance at the $88,000 level.</p>
+    `
+  },
+  'space':{
+    cat:'Science', catClass:'cat-sci',
+    title:"NASA's Artemis Crew Completes First Lunar Surface Drill",
+    meta:'Space.com · 6 min read · Yesterday',
+    body:`
+      <p>Astronauts aboard the Artemis IV mission completed humanity's first lunar core sample extraction on Tuesday, drilling 1.2 meters into the Moon's south pole region and retrieving material that could contain ancient water ice.</p>
+      <h3>What they found</h3>
+      <p>Initial onsite analysis suggests the regolith samples contain higher hydrogen concentrations than predicted by orbital surveys — a promising indicator of accessible water ice deposits that could support future permanent habitation.</p>
+      <div class="pull-quote">"Every centimeter we pull up is a page of the Moon's four-billion-year history." — Mission Specialist Dr. Amara Osei</div>
+      <p>The drill operation took 14 hours across two EVAs, complicated by unexpected hardened subsurface layers at 0.8 meters depth. Engineers at JSC guided the crew through a modified protocol in real time.</p>
+      <h3>What comes next</h3>
+      <p>Samples will be returned to Earth for laboratory analysis. If water ice is confirmed in extractable quantities, the finding will significantly advance plans for a permanent lunar outpost by the 2030s.</p>
+    `
+  },
+  'health':{
+    cat:'Science', catClass:'cat-sci',
+    title:'New mRNA Vaccine Shows 94% Efficacy Against Aggressive Brain Tumors',
+    meta:'Nature · 5 min read · Yesterday',
+    body:`
+      <p>A Phase III clinical trial published in Nature Medicine reports that a personalized mRNA vaccine produced a 94% reduction in tumor recurrence for patients with glioblastoma — one of the deadliest forms of brain cancer.</p>
+      <h3>How it works</h3>
+      <p>The vaccine is individualized for each patient: tumor tissue is sequenced to identify unique mutations, and an mRNA sequence is synthesized to train the immune system to recognize and attack those specific cancer cells.</p>
+      <div class="pull-quote">"We are not talking about extending life by a few months. We are talking about functional cures." — Principal Investigator, BioNTech</div>
+      <p>The trial enrolled 212 patients across 14 countries. Median survival in the vaccine group was 31 months, compared to 14.6 months for the control group receiving standard chemotherapy.</p>
+      <h3>Path to approval</h3>
+      <p>BioNTech and Moderna, both involved in the trial, have submitted preliminary data to the FDA for breakthrough therapy designation. Regulatory approval could come as early as 2027.</p>
+    `
+  },
+  'energy':{
+    cat:'Tech', catClass:'cat-tech',
+    title:"Europe's New Fusion Reactor Achieves Record 12-Second Plasma Hold",
+    meta:'Science Daily · 5 min read · 2 days ago',
+    body:`
+      <p>The ITER-derived EuroFusion experimental reactor in Cadarache, France, has held a stable plasma state for 12 consecutive seconds — nearly double the previous world record — marking a significant milestone on the path to practical fusion energy.</p>
+      <h3>Why 12 seconds matters</h3>
+      <p>Fusion reactors must sustain plasma long enough to produce more energy than the ignition process consumes. The 12-second mark crosses a key engineering threshold that scientists call "scientific breakeven sustained."</p>
+      <div class="pull-quote">"Each second of stable plasma is a year of engineering lessons compressed. This is transformative." — Dr. Hans Weber, EUROfusion</div>
+      <p>The reaction generated 280 megajoules of energy — enough to power approximately 30 homes for a full day from a single 12-second burst.</p>
+      <h3>Commercial timeline</h3>
+      <p>European energy officials now project that a commercial-scale demonstration plant could be operational by 2038, five years ahead of previous estimates, if funding levels are maintained.</p>
+    `
+  },
+  'economy':{
+    cat:'Business', catClass:'cat-biz',
+    title:'IMF Raises Global Growth Forecast to 3.4% — Fastest in 3 Years',
+    meta:'Financial Times · 4 min read · 2 days ago',
+    body:`
+      <p>The International Monetary Fund has revised its 2026 global growth forecast upward to 3.4%, citing stronger-than-expected performance in emerging markets, easing inflation, and resilient consumer spending in the United States.</p>
+      <h3>Regional breakdown</h3>
+      <p>India leads major economies with a projected 7.1% growth rate. The US is forecast at 2.8%, revised up from 2.3% in April. The eurozone lags at 1.6%, constrained by weak German industrial output.</p>
+      <div class="pull-quote">"The global economy has shown remarkable resilience. The feared hard landing did not materialize." — IMF Chief Economist Gita Gopinath</div>
+      <p>Sub-Saharan Africa is forecast to grow at 4.8%, driven by infrastructure investment and a commodity price recovery. Latin America improved to 2.4% on the back of Brazil's agricultural export boom.</p>
+      <h3>Risks to the outlook</h3>
+      <p>The IMF flagged geopolitical fragmentation, persistent services inflation, and elevated debt levels in advanced economies as the primary downside risks to the forecast.</p>
+    `
+  },
+  'phones':{
+    cat:'Tech', catClass:'cat-tech',
+    title:'The 5 Smartphones That Actually Changed How We Live in 2026',
+    meta:'The Verge · 7 min read · 3 days ago',
+    body:`
+      <p>2026 was a year of genuine leaps rather than incremental updates. Five devices stood out as phones that didn't just improve on their predecessors — they genuinely changed what people do with a phone.</p>
+      <h3>1. Samsung Galaxy S26 Ultra</h3>
+      <p>The first mainstream phone to run a 10B-parameter on-device AI model natively. Translations, document analysis, and real-time meeting summaries happen locally — no cloud, no subscription, no privacy tradeoff.</p>
+      <h3>2. Apple iPhone 17 Pro</h3>
+      <p>Apple's first phone with a rollable display prototype mode. Still officially a fixed-screen phone, but the hardware seeds are planted. More practically, the new Neural Engine enables real-time spoken language learning through the Camera app.</p>
+      <div class="pull-quote">"This is the first phone that actually helps me think, not just communicate." — Senior Editor, The Verge</div>
+      <h3>3. Google Pixel 10</h3>
+      <p>Best camera system ever put in a consumer device, full stop. The computational photography pipeline now runs four models simultaneously, producing images that professional photographers consistently mistake for DSLR shots in blind tests.</p>
+    `
+  },
+  'un':{
+    cat:'World', catClass:'cat-world',
+    title:'UN Summit on AI Governance Ends With Historic 142-Nation Agreement',
+    meta:'AP News · 6 min read · Yesterday',
+    body:`
+      <p>After nine days of intense negotiations in Geneva, 142 nations signed the Framework Convention on Artificial Intelligence — the most comprehensive international agreement on technology governance since the Nuclear Non-Proliferation Treaty.</p>
+      <h3>What the agreement covers</h3>
+      <p>The treaty establishes binding minimum safety standards for AI systems above a defined capability threshold, creates an international inspection regime similar to the IAEA, and prohibits autonomous lethal decision-making in warfare without human authorization.</p>
+      <div class="pull-quote">"We have drawn a line that separates ambition from recklessness. Now the work begins." — UN Secretary-General</div>
+      <p>Notably, the United States, China, and the European Union all signed — a diplomatic achievement given the deep divergence in their domestic AI regulations. Russia and North Korea declined to participate.</p>
+      <h3>Enforcement questions</h3>
+      <p>Critics note that the treaty lacks strong enforcement mechanisms. Sanctions for non-compliance require a two-thirds Security Council vote, which analysts say makes meaningful penalties unlikely for major powers.</p>
+    `
+  }
 };
 
-// ════════════════════════════════════════════════
-//  STATE
-// ════════════════════════════════════════════════
-const SK = 'coindrop_v4';
-function defaultState() {
-  return { balance:0, totalAds:0, streak:1, todayCoins:0, todayAds:0,
-           lastDate:new Date().toDateString(), history:[], _lbVisited:false };
+// ── Reader ──
+function openArticle(id){
+  const art = ARTICLES[id];
+  if(!art) return;
+  const rb = document.getElementById('readerBody');
+  const rs = document.getElementById('readerTitleSmall');
+  rs.textContent = art.title;
+  rb.innerHTML = `
+    <div class="reader-cat ${art.catClass}">${art.cat}</div>
+    <div class="reader-h1">${art.title}</div>
+    <div class="reader-meta">
+      <span>${art.meta}</span>
+    </div>
+    <div class="reader-content">${art.body}</div>
+    <div class="reader-ad-cta">
+      <p>Enjoying DailyRead? <strong>Watch a short optional ad</strong> to support free journalism and unlock more articles on the home page.</p>
+      <button class="btn-reader-ad" onclick="watchAd(true)">▶ &nbsp;Watch Optional Ad</button>
+    </div>
+  `;
+  document.getElementById('readerBody').parentElement.scrollTop = 0;
+  document.getElementById('reader').classList.add('open');
 }
-function loadState() {
-  try {
-    const raw = LS.get(SK);
-    if (!raw) return defaultState();
-    const s = JSON.parse(raw);
-    const today = new Date().toDateString();
-    if (s.lastDate !== today) { s.todayCoins = 0; s.todayAds = 0; s.lastDate = today; }
-    return s;
-  } catch(e) { return defaultState(); }
-}
-function saveState() {
-  try { LS.set(SK, JSON.stringify(ST)); } catch(e){}
-}
-let ST = loadState();
-
-// ════════════════════════════════════════════════
-//  UI REFS
-// ════════════════════════════════════════════════
-let topBal, heroBal, heroAds, heroToday, heroStreak,
-    watchBtn, btnText, cdBarWrap, cdBar,
-    histCard, histEmpty, myLbRow, myLbAva, myLbName, myLbScore, toastEl;
-
-function grabRefs() {
-  const g = id => document.getElementById(id);
-  topBal     = g('topBal');
-  heroBal    = g('heroBal');
-  heroAds    = g('heroAds');
-  heroToday  = g('heroToday');
-  heroStreak = g('heroStreak');
-  watchBtn   = g('watchBtn');
-  btnText    = g('btnText');
-  cdBarWrap  = g('cdBarWrap');
-  cdBar      = g('cdBar');
-  histCard   = g('histCard');
-  histEmpty  = g('histEmpty');
-  myLbRow    = g('myLbRow');
-  myLbAva    = g('myLbAva');
-  myLbName   = g('myLbName');
-  myLbScore  = g('myLbScore');
-  toastEl    = g('toast');
+function closeReader(){
+  document.getElementById('reader').classList.remove('open');
 }
 
-const PTS      = 50;
-const COOLDOWN = 60;
-let cdActive   = false;
-let cdRemain   = 0;
-let cdInterval = null;
-
-// ════════════════════════════════════════════════
-//  RENDER
-// ════════════════════════════════════════════════
-function renderAll() {
-  const b = ST.balance.toLocaleString();
-  if(topBal)     topBal.textContent     = b;
-  if(heroBal)    heroBal.textContent    = b;
-  if(heroAds)    heroAds.textContent    = ST.totalAds;
-  if(heroToday)  heroToday.textContent  = ST.todayCoins;
-  if(heroStreak) heroStreak.textContent = ST.streak + '🔥';
-  if (ST.balance > 0 && myLbRow) {
-    myLbRow.style.display = 'flex';
-    if(myLbAva)   myLbAva.textContent  = userInit;
-    if(myLbName)  myLbName.textContent = userName;
-    if(myLbScore) myLbScore.textContent= ST.balance.toLocaleString() + ' 🪙';
-  }
-  renderHistory();
-}
-
-function renderHistory() {
-  if (!histCard) return;
-  histCard.querySelectorAll('.hist-row').forEach(r => r.remove());
-  if (ST.history.length === 0) {
-    if(histEmpty) histEmpty.style.display = 'block';
-    return;
-  }
-  if(histEmpty) histEmpty.style.display = 'none';
-  ST.history.slice(0,30).forEach(item => {
-    const row = document.createElement('div');
-    row.className = 'hist-row';
-    row.innerHTML =
-      `<div class="hist-dot"></div>` +
-      `<div class="hist-txt">${item.desc} · ${item.time}</div>` +
-      `<div class="hist-pts">+${item.pts} 🪙</div>`;
-    histCard.appendChild(row);
-  });
-}
-
-// ════════════════════════════════════════════════
-//  ADSGRAM
-// ════════════════════════════════════════════════
-let adController = null;
-function initAdsgram() {
-  try {
-    if (window.Adsgram) {
-      adController = window.Adsgram.init({ blockId:'int-43506', debug:false });
-    }
-  } catch(e){}
-}
-
-function watchAd() {
-  if (cdActive) return;
-  if (adController) {
-    watchBtn.disabled = true;
-    btnText.textContent = 'Loading ad…';
-    adController.show()
-      .then(() => onAdComplete(true))
-      .catch(() => {
-        watchBtn.disabled = false;
-        btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
-        showToast('Ad skipped — no coins awarded', true);
-      });
-  } else {
-    simulateAd();
-  }
-}
-
-function simulateAd() {
-  watchBtn.disabled = true;
-  let t = 5;
-  btnText.textContent = `Simulating ad… (${t}s)`;
-  const iv = setInterval(() => {
-    t--;
-    if (t <= 0) { clearInterval(iv); onAdComplete(true); }
-    else btnText.textContent = `Simulating ad… (${t}s)`;
-  }, 1000);
-}
-
-function onAdComplete(rewarded) {
-  if (!rewarded) return;
-  ST.balance    += PTS;
-  ST.totalAds   += 1;
-  ST.todayCoins += PTS;
-  ST.todayAds   += 1;
-  ST.history.unshift({
-    desc:`Ad watched #${ST.totalAds}`, pts:PTS,
-    time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})
-  });
-  saveState();
-  renderAll();
-  showToast(`+${PTS} coins earned! 🎉`);
-  startCooldown();
-}
-
-function startCooldown() {
-  cdActive = true; cdRemain = COOLDOWN;
-  watchBtn.disabled = true;
-  cdBarWrap.style.display = 'block';
-  cdBar.style.width = '100%';
-  setTimeout(()=>{
-    cdBar.style.width = '0%';
-    cdBar.style.transition = `width ${COOLDOWN}s linear`;
-  }, 50);
-  cdInterval = setInterval(() => {
-    cdRemain--;
-    btnText.textContent = `Next ad available in ${cdRemain}s…`;
-    if (cdRemain <= 0) {
-      clearInterval(cdInterval); cdActive = false;
-      watchBtn.disabled = false;
-      btnText.textContent = 'I Want to Watch an Ad & Earn +50 Coins';
-      cdBarWrap.style.display = 'none';
-      cdBar.style.transition = 'none';
-      cdBar.style.width = '100%';
-    }
-  }, 1000);
-}
-
-// ════════════════════════════════════════════════
-//  TABS
-// ════════════════════════════════════════════════
-function switchTab(id) {
-  document.querySelectorAll('.tab').forEach(t  => t.classList.remove('active'));
+// ── Tab switch ──
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-'  + id).classList.add('active');
-  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  document.getElementById('page-'+id).classList.add('active');
+}
 
-  if (id === 'lb' && !ST._lbVisited) {
-    ST._lbVisited = true;
-    ST.balance    += 10;
-    ST.todayCoins += 10;
-    ST.history.unshift({ desc:'Task: Checked leaderboard', pts:10,
-      time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) });
-    saveState(); renderAll();
-    showToast('+10 coins — Task complete! ✅');
-    const t2 = document.getElementById('task2Pts');
-    if(t2){ t2.textContent = '✅'; t2.style.color = 'var(--g)'; }
+// ── Ad state ──
+let adUnlocked = false;
+let adPlaying  = false;
+
+function watchAd(fromReader){
+  if(adPlaying) return;
+  adPlaying = true;
+  const btn = document.getElementById('watchAdBtn');
+  if(btn) { btn.disabled = true; btn.textContent = 'Loading ad…'; }
+
+  function onDone(){
+    adPlaying  = false;
+    adUnlocked = true;
+    if(!fromReader) revealMoreArticles();
+    showToast('Extra articles unlocked! ✓');
+    // reset reader button too
+    const rb = document.querySelector('.btn-reader-ad');
+    if(rb){ rb.textContent = '✓ Thanks for watching!'; rb.disabled = true; }
+  }
+  function onFail(){
+    adPlaying = false;
+    if(btn){ btn.disabled = false; btn.textContent = '▶ Watch Ad & See More Articles'; }
+    showToast('Ad skipped — no problem!');
+  }
+
+  if(adController){
+    adController.show().then(onDone).catch(onFail);
+  } else {
+    // Simulate for dev/preview
+    let t = 5;
+    if(btn) btn.textContent = `Simulating ad… (${t}s)`;
+    const iv = setInterval(()=>{
+      t--;
+      if(t <= 0){ clearInterval(iv); onDone(); }
+      else if(btn) btn.textContent = `Simulating ad… (${t}s)`;
+    },1000);
   }
 }
 
-// ════════════════════════════════════════════════
-//  TOAST
-// ════════════════════════════════════════════════
-let toastTimer = null;
-function showToast(msg, err=false) {
-  if(!toastEl) return;
-  toastEl.textContent = msg;
-  toastEl.className   = 'toast' + (err ? ' err' : '');
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+function revealMoreArticles(){
+  document.getElementById('watchCtaBlock').style.display   = 'none';
+  document.getElementById('lockedCards').style.display     = 'none';
+  document.getElementById('unlockedCards').style.display   = 'block';
+  const st = document.getElementById('moreStatus');
+  st.textContent = 'Unlocked ✓';
+  st.classList.add('open');
 }
 
-// ════════════════════════════════════════════════
-//  BOOT
-// ════════════════════════════════════════════════
-function boot() {
-  grabRefs();
+function skipUnlock(){
+  document.getElementById('watchCtaBlock').style.display = 'none';
+  document.getElementById('lockedCards').style.display   = 'none';
+}
+
+// ── Toast ──
+let toastT = null;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+
+// ── Boot ──
+(function(){
+  const tg = window.Telegram?.WebApp;
+  if(tg){ try{tg.setHeaderColor?.('#0f0f14')}catch(e){} try{tg.setBackgroundColor?.('#0f0f14')}catch(e){} }
   initAdsgram();
-  renderAll();
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot);
-} else {
-  boot();
-}
+})();
 </script>
 </body>
 </html>
