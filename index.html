@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <script data-cfasync="false" async type="text/javascript" src="//cskscenery.com/gDatBXkavuiD6y6s/147317"></script>
@@ -9,16 +9,11 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
-
 <script src="https://oatstuckalfred.com/ad/18/ef/ad18ef6c08c5644c10f1fa132afa743f.js"></script>
-
 <script src='//libtl.com/sdk.js' data-zone='10900318' data-sdk='show_10900318'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&family=Hind+Siliguri:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-/* ===================== ROOT VARS ===================== */
 :root {
   --bg:#07080d; --bg2:#0f111a; --bg3:#171a26; --card:#111420;
   --bg-dark:#06030c; --card-bg:#0c0817;
@@ -29,19 +24,13 @@
   --rs:rgba(255,95,95,0.12); --text:#e2e4ef; --muted:#5a6280; --taka:#ffc84a;
   --text-main:#ffffff; --text-muted:#8e88a8;
 }
-
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; font-family:'Poppins','Inter',sans-serif; }
 body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; overflow-x:hidden; padding-bottom:90px; font-size:14px; display:flex; justify-content:center; }
 ::-webkit-scrollbar { display:none; }
-
 .mobile-container { width:100%; max-width:420px; min-height:100vh; position:relative; padding:20px 16px 90px 16px; overflow-x:hidden; }
 
-/* ===================== LOADING SCREEN ===================== */
-#ls {
-  position:fixed; inset:0; z-index:99999; display:flex; flex-direction:column;
-  justify-content:center; align-items:center; overflow:hidden;
-  background:linear-gradient(180deg,#050505,#14040c,#220012);
-}
+/* ── LOADING ── */
+#ls { position:fixed; inset:0; z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; overflow:hidden; background:linear-gradient(180deg,#050505,#14040c,#220012); }
 .splash-bg { position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(255,0,80,.25),transparent 70%); filter:blur(40px); }
 .logo-circle { width:130px; height:130px; border-radius:50%; background:linear-gradient(135deg,#ff004f,#ff3d71); display:flex; justify-content:center; align-items:center; font-size:64px; font-weight:900; color:white; box-shadow:0 0 25px rgba(255,0,80,.8),0 0 60px rgba(255,0,80,.4); z-index:2; animation:lspulse 2s infinite; }
 .brand-name { font-size:48px; font-weight:800; color:#fff; margin-top:18px; letter-spacing:1px; text-transform:lowercase; z-index:2; font-family:'Poppins',sans-serif; }
@@ -57,7 +46,7 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 @keyframes lspulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 @keyframes lsfloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
 
-/* ===================== WELCOME SCREEN ===================== */
+/* ── WELCOME ── */
 #welcomeScreen { position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:99998; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(12px); }
 #welcomeScreen.open { display:flex; }
 .welcome-box { background:linear-gradient(145deg,#0f111a,#171a2e); border:1px solid rgba(124,111,253,.3); border-radius:24px; padding:32px 24px; width:100%; max-width:380px; text-align:center; animation:popIn .4s cubic-bezier(.34,1.56,.64,1); position:relative; overflow:hidden; }
@@ -68,20 +57,20 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .welcome-btn { width:100%; background:linear-gradient(135deg,var(--accent),#b06bff); color:#fff; border:none; border-radius:14px; padding:16px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; position:relative; z-index:1; }
 .welcome-btn:active { transform:scale(.97); }
 
-/* ===================== BLOCKED SCREEN ===================== */
+/* ── BLOCKED ── */
 #blockedScreen { position:fixed; inset:0; background:var(--bg); z-index:99999; display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:32px; }
 .blocked-ic { font-size:64px; }
 .blocked-title { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:var(--red); text-align:center; }
 .blocked-sub { font-size:14px; color:var(--muted); text-align:center; line-height:1.7; }
 
-/* ===================== PAGES ===================== */
+/* ── PAGES ── */
 .page { display:none; animation:fi .28s ease; }
 .page.active { display:block; }
 @keyframes fi { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 .pgt { padding:20px 0 10px; display:flex; align-items:center; justify-content:space-between; }
 .pgtitle { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; background:linear-gradient(120deg,#fff 30%,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
-/* ===================== NEW HOME — HEADER ===================== */
+/* ── HEADER ── */
 .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; }
 .profile-sec { display:flex; align-items:center; gap:12px; }
 .avatar-wrap { width:46px; height:46px; border-radius:50%; border:2px solid #a855f7; overflow:hidden; padding:2px; flex-shrink:0; }
@@ -93,19 +82,12 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .active-badge { background:linear-gradient(90deg,rgba(88,28,135,1) 0%,rgba(59,7,100,1) 100%); border:1px solid #7c3aed; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:500; display:flex; align-items:center; gap:6px; color:#fff; white-space:nowrap; }
 .active-badge i { color:#facc15; font-size:13px; }
 
-/* ===================== NEW HOME — BALANCE CARD ===================== */
-.balance-card {
-  background:linear-gradient(145deg,#1e093f 0%,#080312 100%);
-  border:1px solid #4a159e; border-radius:20px; padding:20px;
-  position:relative; box-shadow:0 0 30px rgba(109,40,217,0.3);
-  margin-bottom:16px; display:flex; flex-direction:column; overflow:visible;
-}
+/* ── BALANCE CARD ── */
+.balance-card { background:linear-gradient(145deg,#1e093f 0%,#080312 100%); border:1px solid #4a159e; border-radius:20px; padding:20px; position:relative; box-shadow:0 0 30px rgba(109,40,217,0.3); margin-bottom:16px; display:flex; flex-direction:column; overflow:visible; }
 .bc-content { position:relative; z-index:2; width:55%; }
 .balance-title { font-size:12px; color:#ddd6fe; display:flex; align-items:center; gap:6px; font-weight:500; }
 .balance-amount { font-size:40px; font-weight:700; margin:4px 0; text-shadow:0 2px 10px rgba(255,255,255,0.2); line-height:1.2; font-family:'Poppins',sans-serif; }
-.balance-taka-label { font-family:'Hind Siliguri',sans-serif; font-size:18px; font-weight:700; color:var(--taka); }
 .balance-sub { font-size:11px; color:var(--text-muted); margin-bottom:12px; }
-
 .stats-boxes { display:inline-flex; gap:6px; flex-wrap:nowrap; flex-direction:row; }
 .stat-box { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:6px 10px; display:flex; align-items:center; gap:8px; backdrop-filter:blur(5px); }
 .stat-box.withdrawn { background:rgba(30,10,70,0.6); border-color:#5b21b6; }
@@ -115,8 +97,6 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .bg-green-grad { background:linear-gradient(135deg,#22c55e,#14532d); }
 .sb-text h4 { font-size:12px; font-weight:600; line-height:1.1; color:#fff; font-family:'Poppins',sans-serif; }
 .sb-text p { font-size:9px; color:#d1d5db; }
-
-/* Pure CSS 3D Wallet */
 .css-3d-wallet-container { position:absolute; right:0px; top:20px; width:140px; height:120px; z-index:1; transform:perspective(300px) rotateY(-15deg) rotateX(10deg); }
 .css-wallet-body { position:absolute; bottom:10px; right:15px; width:110px; height:85px; background:linear-gradient(135deg,#9333ea 0%,#4c1d95 100%); border-radius:12px; box-shadow:-10px 15px 20px rgba(0,0,0,0.6),inset 2px 2px 5px rgba(255,255,255,0.3),inset -5px -5px 15px rgba(0,0,0,0.5); border:1px solid #a855f7; }
 .css-wallet-flap { position:absolute; top:0; right:0; width:80px; height:100%; background:linear-gradient(135deg,#a855f7 0%,#6d28d9 100%); border-radius:0 12px 12px 0; box-shadow:-5px 0 15px rgba(0,0,0,0.4),inset 2px 2px 4px rgba(255,255,255,0.3); border-left:2px solid #5b21b6; }
@@ -128,247 +108,55 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .coin-2 { top:0px; right:0px; z-index:-1; transform:rotate(-25deg); }
 .coin-3 { bottom:-5px; left:-15px; z-index:5; width:26px; height:26px; font-size:12px; transform:rotate(10deg); }
 
-/* ===================== RULES BANNER ===================== */
-.rules-banner {
-  background: linear-gradient(135deg, #1a0d3a 0%, #2d1060 50%, #1a0d3a 100%);
-  border: 1px solid rgba(124,111,253,0.4);
-  border-radius: 16px;
-  padding: 14px 16px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all .2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.rules-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(124,111,253,0.08), transparent);
-  pointer-events: none;
-}
-.rules-banner:active { transform: scale(.97); }
-.rules-banner-ic {
-  width: 44px; height: 44px;
-  background: linear-gradient(135deg, #7c3aed, #4c1d95);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(124,111,253,0.4);
-}
-.rules-banner-text { flex: 1; min-width: 0; }
-.rules-banner-title {
-  font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-  font-size: 14px; font-weight: 700; color: #fff;
-  margin-bottom: 2px;
-}
-.rules-banner-sub {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 11px; color: rgba(255,255,255,0.55);
-}
-.rules-banner-arrow {
-  width: 30px; height: 30px;
-  background: rgba(124,111,253,0.2);
-  border: 1px solid rgba(124,111,253,0.3);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: #c4b5fd; font-size: 12px; flex-shrink: 0;
-}
-.rules-banner-pulse {
-  position: absolute;
-  top: 8px; right: 50px;
-  width: 8px; height: 8px;
-  background: #00e096;
-  border-radius: 50%;
-  box-shadow: 0 0 6px #00e096;
-  animation: rulesPulse 1.5s infinite;
-}
-@keyframes rulesPulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .4; transform: scale(1.5); }
-}
+/* ── RULES BANNER ── */
+.rules-banner { background:linear-gradient(135deg,#1a0d3a 0%,#2d1060 50%,#1a0d3a 100%); border:1px solid rgba(124,111,253,0.4); border-radius:16px; padding:14px 16px; margin-bottom:16px; display:flex; align-items:center; gap:12px; cursor:pointer; position:relative; overflow:hidden; transition:all .2s; -webkit-tap-highlight-color:transparent; }
+.rules-banner::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(124,111,253,0.08),transparent); pointer-events:none; }
+.rules-banner:active { transform:scale(.97); }
+.rules-banner-ic { width:44px; height:44px; background:linear-gradient(135deg,#7c3aed,#4c1d95); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; box-shadow:0 4px 14px rgba(124,111,253,0.4); }
+.rules-banner-text { flex:1; min-width:0; }
+.rules-banner-title { font-family:'Hind Siliguri','Poppins',sans-serif; font-size:14px; font-weight:700; color:#fff; margin-bottom:2px; }
+.rules-banner-sub { font-family:'Hind Siliguri',sans-serif; font-size:11px; color:rgba(255,255,255,0.55); }
+.rules-banner-arrow { width:30px; height:30px; background:rgba(124,111,253,0.2); border:1px solid rgba(124,111,253,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#c4b5fd; font-size:12px; flex-shrink:0; }
+.rules-banner-pulse { position:absolute; top:8px; right:50px; width:8px; height:8px; background:#00e096; border-radius:50%; box-shadow:0 0 6px #00e096; animation:rulesPulse 1.5s infinite; }
+@keyframes rulesPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
 
-/* ===================== RULES POPUP ===================== */
-.rules-ov {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.88);
-  z-index: 700; display: none;
-  align-items: center; justify-content: center;
-  padding: 20px;
-  backdrop-filter: blur(10px);
-}
-.rules-ov.open { display: flex; }
-.rules-box {
-  background: linear-gradient(160deg, #0f0c24 0%, #1a1040 60%, #0c0818 100%);
-  border: 1px solid rgba(124,111,253,0.3);
-  border-radius: 24px;
-  width: 100%; max-width: 370px;
-  max-height: 88vh;
-  overflow-y: auto;
-  position: relative;
-  animation: rulesPopIn .38s cubic-bezier(.34,1.56,.64,1);
-  scrollbar-width: none;
-}
-.rules-box::-webkit-scrollbar { display: none; }
-@keyframes rulesPopIn {
-  from { transform: scale(.88) translateY(30px); opacity: 0; }
-  to   { transform: scale(1) translateY(0); opacity: 1; }
-}
-.rules-header {
-  padding: 24px 20px 18px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  position: relative;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.rules-header-ic {
-  font-size: 52px;
-  line-height: 1;
-  filter: drop-shadow(0 6px 16px rgba(124,111,253,0.5));
-  flex-shrink: 0;
-}
-.rules-header-txt { flex: 1; }
-.rules-header-title1 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.8);
-  margin-bottom: 1px;
-}
-.rules-header-title2 {
-  font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-  font-size: 24px; font-weight: 800;
-  background: linear-gradient(120deg, #c084fc, #818cf8);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  line-height: 1.1; margin-bottom: 7px;
-}
-.rules-header-sub {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 12px; color: rgba(255,255,255,0.5);
-  display: flex; align-items: center; gap: 5px;
-}
-.rules-close-btn {
-  position: absolute; top: 16px; right: 16px;
-  width: 32px; height: 32px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: #fff; font-size: 13px;
-  transition: all .2s;
-}
-.rules-close-btn:active { transform: scale(.9); }
-.rules-shield-divider {
-  display: flex; align-items: center; justify-content: center;
-  padding: 10px 0 2px;
-  color: rgba(124,111,253,0.6);
-  font-size: 18px;
-}
-.rules-section {
-  margin: 6px 14px 12px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 16px;
-  padding: 14px;
-  position: relative;
-}
-.rules-section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-.rules-section-num {
-  display: inline-flex;
-  align-items: center; justify-content: center;
-  width: 32px; height: 32px;
-  background: linear-gradient(135deg, #7c3aed, #4c1d95);
-  border-radius: 9px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 13px; font-weight: 800; color: #fff;
-  flex-shrink: 0;
-}
-.rules-section-title {
-  font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-  font-size: 15px; font-weight: 700; color: #fff;
-}
-.rules-section-img {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  font-size: 46px; opacity: 0.9;
-  filter: drop-shadow(0 4px 12px rgba(124,111,253,0.4));
-}
-.rules-item {
-  display: flex; align-items: flex-start; gap: 10px;
-  margin-bottom: 9px;
-}
-.rules-item:last-of-type { margin-bottom: 0; }
-.rules-check {
-  width: 20px; height: 20px;
-  background: linear-gradient(135deg, #7c3aed, #4c1d95);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; color: #fff; flex-shrink: 0;
-  margin-top: 1px;
-}
-.rules-item-txt {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.45;
-}
-.rules-item-txt span { color: #f97316; font-weight: 700; }
-.rules-tip {
-  margin-top: 11px;
-  background: rgba(124,111,253,0.1);
-  border: 1px solid rgba(124,111,253,0.22);
-  border-radius: 10px;
-  padding: 9px 12px;
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 12px; color: rgba(255,255,255,0.75);
-  display: flex; align-items: center; gap: 8px;
-}
-.rules-tip-ic { color: #facc15; font-size: 13px; flex-shrink: 0; }
-.rules-tip b { color: #c084fc; }
-.rules-warning {
-  margin: 4px 14px 20px;
-  background: linear-gradient(135deg, #78350f, #451a03);
-  border: 1px solid rgba(250,204,21,0.3);
-  border-radius: 14px;
-  padding: 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-.rules-warning-ic { font-size: 36px; flex-shrink: 0; }
-.rules-warning-txt { flex: 1; }
-.rules-warning-title {
-  font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-  font-size: 14px; font-weight: 800; color: #fde047;
-  margin-bottom: 3px;
-}
-.rules-warning-sub {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 12px; color: rgba(253,224,71,0.75); line-height: 1.4;
-}
-.rules-warning-lock { font-size: 26px; opacity: 0.7; flex-shrink: 0; }
+/* ── RULES POPUP ── */
+.rules-ov { position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:700; display:none; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(10px); }
+.rules-ov.open { display:flex; }
+.rules-box { background:linear-gradient(160deg,#0f0c24 0%,#1a1040 60%,#0c0818 100%); border:1px solid rgba(124,111,253,0.3); border-radius:24px; width:100%; max-width:370px; max-height:88vh; overflow-y:auto; position:relative; animation:rulesPopIn .38s cubic-bezier(.34,1.56,.64,1); scrollbar-width:none; }
+.rules-box::-webkit-scrollbar { display:none; }
+@keyframes rulesPopIn { from{transform:scale(.88) translateY(30px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+.rules-header { padding:24px 20px 18px; display:flex; gap:14px; align-items:flex-start; position:relative; border-bottom:1px solid rgba(255,255,255,0.06); }
+.rules-header-ic { font-size:52px; line-height:1; filter:drop-shadow(0 6px 16px rgba(124,111,253,0.5)); flex-shrink:0; }
+.rules-header-txt { flex:1; }
+.rules-header-title1 { font-family:'Poppins',sans-serif; font-size:15px; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:1px; }
+.rules-header-title2 { font-family:'Hind Siliguri','Poppins',sans-serif; font-size:24px; font-weight:800; background:linear-gradient(120deg,#c084fc,#818cf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1.1; margin-bottom:7px; }
+.rules-header-sub { font-family:'Hind Siliguri',sans-serif; font-size:12px; color:rgba(255,255,255,0.5); display:flex; align-items:center; gap:5px; }
+.rules-close-btn { position:absolute; top:16px; right:16px; width:32px; height:32px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:13px; transition:all .2s; }
+.rules-close-btn:active { transform:scale(.9); }
+.rules-shield-divider { display:flex; align-items:center; justify-content:center; padding:10px 0 2px; color:rgba(124,111,253,0.6); font-size:18px; }
+.rules-section { margin:6px 14px 12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:14px; position:relative; }
+.rules-section-header { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+.rules-section-num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; background:linear-gradient(135deg,#7c3aed,#4c1d95); border-radius:9px; font-family:'Poppins',sans-serif; font-size:13px; font-weight:800; color:#fff; flex-shrink:0; }
+.rules-section-title { font-family:'Hind Siliguri','Poppins',sans-serif; font-size:15px; font-weight:700; color:#fff; }
+.rules-section-img { position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:46px; opacity:.9; filter:drop-shadow(0 4px 12px rgba(124,111,253,0.4)); }
+.rules-item { display:flex; align-items:flex-start; gap:10px; margin-bottom:9px; }
+.rules-item:last-of-type { margin-bottom:0; }
+.rules-check { width:20px; height:20px; background:linear-gradient(135deg,#7c3aed,#4c1d95); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; color:#fff; flex-shrink:0; margin-top:1px; }
+.rules-item-txt { font-family:'Hind Siliguri',sans-serif; font-size:13px; color:rgba(255,255,255,0.85); line-height:1.45; }
+.rules-item-txt span { color:#f97316; font-weight:700; }
+.rules-tip { margin-top:11px; background:rgba(124,111,253,0.1); border:1px solid rgba(124,111,253,0.22); border-radius:10px; padding:9px 12px; font-family:'Hind Siliguri',sans-serif; font-size:12px; color:rgba(255,255,255,0.75); display:flex; align-items:center; gap:8px; }
+.rules-tip-ic { color:#facc15; font-size:13px; flex-shrink:0; }
+.rules-tip b { color:#c084fc; }
+.rules-warning { margin:4px 14px 20px; background:linear-gradient(135deg,#78350f,#451a03); border:1px solid rgba(250,204,21,0.3); border-radius:14px; padding:16px; display:flex; align-items:center; gap:12px; }
+.rules-warning-ic { font-size:36px; flex-shrink:0; }
+.rules-warning-txt { flex:1; }
+.rules-warning-title { font-family:'Hind Siliguri','Poppins',sans-serif; font-size:14px; font-weight:800; color:#fde047; margin-bottom:3px; }
+.rules-warning-sub { font-family:'Hind Siliguri',sans-serif; font-size:12px; color:rgba(253,224,71,0.75); line-height:1.4; }
+.rules-warning-lock { font-size:26px; opacity:0.7; flex-shrink:0; }
 
-/* ===================== MID STATS ROW ===================== */
-.mid-stats { display:flex; background:var(--card-bg); border:1px solid var(--border-light); border-radius:16px; padding:14px 0; margin-bottom:20px; }
-.m-stat { flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:0 5px; }
-.m-stat:not(:last-child) { border-right:1px solid var(--border-light); }
-.m-icon { width:34px; height:34px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:14px; }
-.m-icon.purple { background:#4c1d95; color:#ddd6fe; }
-.m-icon.orange { background:#9a3412; color:#fdba74; }
-.m-icon.teal { background:#115e59; color:#5eead4; }
-.m-info h3 { font-size:15px; font-weight:700; line-height:1.1; font-family:'Poppins',sans-serif; }
-.m-info p { font-size:9px; color:var(--text-muted); }
-.m-info .highlight-green { color:#22c55e; font-weight:500; font-size:9px; }
-.m-info .highlight-purple { color:#a78bfa; font-weight:500; font-size:9px; }
-
-/* ===================== MARQUEE BANNER ===================== */
-.marquee-wrap { background:linear-gradient(90deg,#1c1060,#2e1285); border:1px solid rgba(124,111,253,.3); border-radius:10px; padding:8px 0; margin-bottom:16px; overflow:hidden; }
-.marquee-wrap marquee { color:#ffd54f; font-weight:700; font-size:13px; }
-
-/* ===================== AD SECTION ===================== */
-.ad-section {
-  background:#150d05; border:1px solid #785a16; border-radius:20px;
-  padding:20px; position:relative; box-shadow:0 0 30px rgba(234,179,8,0.15);
-  margin-bottom:24px; overflow:visible;
-}
+/* ── AD SECTION ── */
+.ad-section { background:#150d05; border:1px solid #785a16; border-radius:20px; padding:20px; position:relative; box-shadow:0 0 30px rgba(234,179,8,0.15); margin-bottom:24px; overflow:visible; }
 .ad-content { position:relative; z-index:2; width:60%; }
 .ad-top-badge { position:absolute; top:15px; right:15px; background:#facc15; color:#422006; font-size:11px; font-weight:700; padding:4px 10px; border-radius:8px; z-index:2; font-family:'Poppins',sans-serif; }
 .ad-title { font-size:18px; font-weight:700; color:#fde047; margin-bottom:4px; display:flex; align-items:center; gap:6px; font-family:'Hind Siliguri',sans-serif; }
@@ -380,18 +168,13 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .ad-s-item h4 i.purple { color:#c084fc; font-size:11px; }
 .ad-s-item h4 i.gold { color:#facc15; font-size:11px; }
 .ad-s-item p { font-size:9px; color:var(--text-muted); font-family:'Hind Siliguri',sans-serif; }
-
 .watch-ad-btn { background:linear-gradient(90deg,#fef08a 0%,#f59e0b 50%,#d97706 100%); border:none; width:100%; padding:12px 14px; border-radius:40px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 20px rgba(245,158,11,0.4),inset 0 -3px 5px rgba(0,0,0,0.2); cursor:pointer; position:relative; z-index:2; transition:all .2s; }
 .watch-ad-btn:active { transform:scale(.97); }
 .watch-ad-btn:disabled { opacity:.65; pointer-events:none; cursor:not-allowed; }
 .watch-ad-btn.cooldown { background:linear-gradient(90deg,#2a2a3a,#1a1a2a); box-shadow:none; border:1px solid var(--border); }
-.watch-ad-btn.cooldown .btn-text h3 { color:var(--muted); }
-.watch-ad-btn.cooldown .btn-text p { color:var(--muted); }
-.watch-ad-btn.cooldown .btn-play-icon { color:var(--muted); }
-.watch-ad-btn.cooldown .btn-arrow { color:var(--muted); }
+.watch-ad-btn.cooldown .btn-text h3,.watch-ad-btn.cooldown .btn-text p,.watch-ad-btn.cooldown .btn-play-icon,.watch-ad-btn.cooldown .btn-arrow { color:var(--muted); }
 .watch-ad-btn.limit-done { background:linear-gradient(90deg,#1a2a1a,#0d1a0d); box-shadow:none; border:1px solid rgba(0,100,0,.3); }
-.watch-ad-btn.limit-done .btn-text h3 { color:#4a7a4a; }
-.watch-ad-btn.limit-done .btn-text p { color:#4a7a4a; }
+.watch-ad-btn.limit-done .btn-text h3,.watch-ad-btn.limit-done .btn-text p { color:#4a7a4a; }
 .btn-left { display:flex; align-items:center; gap:12px; }
 .btn-play-icon { width:34px; height:34px; background:white; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#ea580c; font-size:14px; flex-shrink:0; }
 .btn-text { text-align:left; }
@@ -399,792 +182,131 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .btn-text p { color:#78350f; font-size:10px; font-weight:600; font-family:'Hind Siliguri',sans-serif; }
 .btn-arrow { width:34px; height:34px; background:white; border-radius:50%; display:flex; justify-content:center; align-items:center; color:#ea580c; font-size:14px; flex-shrink:0; }
 .ad-footer { text-align:center; margin-top:12px; font-size:10px; color:#fde047; display:flex; align-items:center; justify-content:center; gap:6px; font-family:'Hind Siliguri',sans-serif; }
-
 .cooldown-bar-wrap { width:100%; height:4px; background:rgba(255,255,255,.1); border-radius:4px; margin-top:10px; overflow:hidden; display:none; }
 .cooldown-bar { height:100%; background:var(--yellow); border-radius:4px; transition:width 1s linear; }
-
 .css-3d-play-container { position:absolute; right:0px; top:25px; width:140px; height:120px; z-index:1; transform:perspective(300px) rotateY(-10deg) rotateX(5deg); }
 .css-play-box { position:absolute; top:10px; right:15px; width:90px; height:90px; background:linear-gradient(135deg,#422006,#000); border-radius:24px; border:6px solid #facc15; box-shadow:0 0 25px rgba(250,204,21,0.5),-8px 12px 15px rgba(0,0,0,0.8),inset 2px 2px 10px rgba(255,255,255,0.3),inset -5px -5px 15px rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; }
 .css-play-triangle { width:0; height:0; border-top:16px solid transparent; border-bottom:16px solid transparent; border-left:28px solid #facc15; filter:drop-shadow(2px 4px 4px rgba(0,0,0,0.6)); margin-left:8px; }
-.css-play-triangle::after { content:''; position:absolute; top:-12px; left:-26px; border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:22px solid #fef08a; z-index:2; }
 .play-coin-1 { top:-5px; right:8px; z-index:-1; transform:rotate(15deg); width:28px; height:28px; font-size:12px; }
 .play-coin-2 { bottom:10px; left:0px; z-index:5; transform:rotate(-20deg); width:26px; height:26px; font-size:12px; }
 
-.minicard { display:flex; align-items:center; gap:12px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 14px; margin-bottom:10px; }
-.minicard-ic { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-.minicard-inf { flex:1; min-width:0; }
-.minicard-t { font-size:13px; font-weight:600; color:#fff; font-family:'Hind Siliguri',sans-serif; }
-.minicard-d { font-size:11px; color:var(--muted); margin-top:2px; font-family:'Hind Siliguri',sans-serif; }
-.minicard-btn { background:var(--as); color:var(--accent); border:1px solid rgba(124,111,253,.3); border-radius:8px; padding:8px 14px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; white-space:nowrap; }
-.minicard-btn:active { transform:scale(.95); }
+/* ── SUPPORT PAGE ── */
+.sp-hero { background:linear-gradient(135deg,#1a0d3a 0%,#0f0620 60%,#1a0a30 100%); border:1px solid rgba(139,92,246,0.3); border-radius:20px; padding:22px 20px; margin-bottom:20px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; min-height:130px; }
+.sp-hero::before { content:''; position:absolute; top:-40px; left:-40px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(139,92,246,0.2),transparent 70%); }
+.sp-hero-dots { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.sp-hero-dots::before { content:'✦ ✦ ✦'; position:absolute; top:12px; right:120px; font-size:8px; color:rgba(167,139,250,0.5); letter-spacing:8px; }
+.sp-hero-dots::after { content:'✦ ✦'; position:absolute; bottom:16px; left:20px; font-size:7px; color:rgba(167,139,250,0.35); letter-spacing:6px; }
+.sp-hero-text { position:relative; z-index:2; flex:1; }
+.sp-hero-title1 { font-family:'Hind Siliguri',sans-serif; font-size:22px; font-weight:700; color:#fff; line-height:1.2; margin-bottom:2px; }
+.sp-hero-title2 { font-family:'Hind Siliguri',sans-serif; font-size:22px; font-weight:700; color:#e879f9; line-height:1.2; margin-bottom:10px; }
+.sp-hero-sub { font-family:'Hind Siliguri',sans-serif; font-size:12px; color:rgba(255,255,255,0.65); line-height:1.5; display:flex; align-items:center; gap:5px; }
+.sp-hero-avatar { width:110px; height:110px; flex-shrink:0; position:relative; z-index:2; display:flex; align-items:center; justify-content:center; }
+.sp-hero-3d { font-size:80px; line-height:1; filter:drop-shadow(0 8px 20px rgba(139,92,246,0.5)); animation:spFloat 3s ease-in-out infinite; }
+@keyframes spFloat { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-8px) rotate(3deg)} }
+.sp-hero-bubbles { position:absolute; top:12px; right:8px; display:flex; flex-direction:column; gap:4px; z-index:3; }
+.sp-bubble { background:rgba(139,92,246,0.8); border-radius:12px; padding:4px 7px; font-size:14px; box-shadow:0 4px 12px rgba(139,92,246,0.4); }
+.sp-bubble.mail { background:rgba(168,85,247,0.85); border-radius:10px; padding:4px 7px; font-size:13px; margin-left:10px; }
+.sp-section-lbl { font-family:'Hind Siliguri',sans-serif; font-size:16px; font-weight:700; color:#fff; margin-bottom:12px; display:flex; align-items:center; gap:7px; }
+.sp-section-lbl .sp-lbl-icon { color:#c084fc; font-size:16px; }
+.sp-quick-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-bottom:20px; }
+.sp-quick-card { background:#0e0b1e; border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px 8px 12px; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; text-decoration:none; transition:all .2s; -webkit-tap-highlight-color:transparent; }
+.sp-quick-card:active { transform:scale(.94); }
+.sp-quick-ic { width:44px; height:44px; border-radius:13px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.sp-quick-ic.purple { background:linear-gradient(135deg,#7c3aed,#4c1d95); }
+.sp-quick-ic.green  { background:linear-gradient(135deg,#16a34a,#166534); }
+.sp-quick-ic.orange { background:linear-gradient(135deg,#ea580c,#9a3412); }
+.sp-quick-ic.blue   { background:linear-gradient(135deg,#0284c7,#075985); }
+.sp-quick-name { font-family:'Hind Siliguri',sans-serif; font-size:11px; font-weight:700; color:#fff; text-align:center; line-height:1.2; }
+.sp-quick-sub { font-family:'Hind Siliguri',sans-serif; font-size:9.5px; color:rgba(255,255,255,0.45); text-align:center; line-height:1.2; }
+.sp-contact-card { background:#0c0818; border:1px solid rgba(139,92,246,0.25); border-radius:18px; padding:18px; margin-bottom:16px; }
+.sp-contact-head { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.sp-contact-head-ic { width:36px; height:36px; border-radius:50%; background:rgba(124,111,253,0.15); border:1px solid rgba(124,111,253,0.3); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+.sp-contact-head-txt { flex:1; }
+.sp-contact-head-title { font-family:'Hind Siliguri',sans-serif; font-size:15px; font-weight:700; color:#fff; }
+.sp-contact-head-sub { font-family:'Hind Siliguri',sans-serif; font-size:11px; color:rgba(255,255,255,0.45); margin-top:2px; }
+.sp-contact-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.sp-contact-row:last-child { border-bottom:none; padding-bottom:0; }
+.sp-cicon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.sp-cicon.tg { background:linear-gradient(135deg,#0ea5e9,#0284c7); }
+.sp-cicon.em { background:linear-gradient(135deg,#e2136e,#9a0e4b); }
+.sp-cicon.lv { background:linear-gradient(135deg,#22c55e,#166534); }
+.sp-cinfo { flex:1; min-width:0; }
+.sp-cname { font-family:'Hind Siliguri',sans-serif; font-size:13px; font-weight:700; color:#fff; }
+.sp-chandle { font-size:11px; color:rgba(255,255,255,0.45); margin-top:2px; font-family:'Poppins',sans-serif; }
+.sp-cbtn { background:linear-gradient(135deg,#6d28d9,#7c3aed); color:#fff; border:none; border-radius:10px; padding:9px 14px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Hind Siliguri',sans-serif; white-space:nowrap; display:flex; align-items:center; gap:5px; transition:all .2s; flex-shrink:0; }
+.sp-cbtn:active { transform:scale(.94); }
+.sp-faq-card { background:#0c0818; border:1px solid rgba(139,92,246,0.2); border-radius:18px; padding:18px; margin-bottom:16px; }
+.sp-faq-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.sp-faq-title { display:flex; align-items:center; gap:9px; font-family:'Hind Siliguri',sans-serif; font-size:15px; font-weight:700; color:#fff; }
+.sp-faq-ic { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#7c3aed,#4c1d95); display:flex; align-items:center; justify-content:center; font-size:13px; color:#fff; font-weight:700; flex-shrink:0; }
+.sp-faq-all { font-family:'Poppins',sans-serif; font-size:12px; color:#c084fc; font-weight:600; text-decoration:none; display:flex; align-items:center; gap:3px; cursor:pointer; }
+.sp-faq-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:13px 14px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; transition:all .2s; }
+.sp-faq-item:last-child { margin-bottom:0; }
+.sp-faq-item:active { background:rgba(124,111,253,0.08); }
+.sp-faq-q { font-family:'Hind Siliguri',sans-serif; font-size:13px; color:rgba(255,255,255,0.85); font-weight:500; flex:1; }
+.sp-faq-arrow { color:rgba(255,255,255,0.4); font-size:12px; flex-shrink:0; margin-left:8px; }
 
-/* ===================== TASKS ===================== */
-.task-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; margin-top:8px; }
-.task-header h3 { font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; }
-.task-header a { color:var(--text-muted); font-size:11px; text-decoration:none; display:flex; align-items:center; gap:4px; }
-.task-slider { display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none; }
-.task-slider::-webkit-scrollbar { display:none; }
-.task-slide-item { background:var(--card-bg); border-radius:12px; padding:12px; min-width:175px; display:flex; align-items:center; gap:10px; position:relative; border:1px solid var(--border); transition:all .18s; }
-.task-slide-item.done { opacity:.55; }
-.t-icon { width:38px; height:38px; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-size:18px; flex-shrink:0; }
-.t-tg { background:#0ea5e9; }
-.t-yt { background:#ef4444; }
-.t-msg { background:#22c55e; }
-.t-gen { background:linear-gradient(135deg,var(--accent),#b06bff); }
-.t-info h4 { font-size:13px; font-weight:600; color:#fff; }
-.t-info p { font-size:10px; color:var(--text-muted); margin-bottom:2px; }
-.t-reward-txt { color:#22c55e; font-size:11px; font-weight:600; }
-.t-arrow { position:absolute; right:10px; bottom:10px; width:22px; height:22px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:9px; color:var(--text-muted); cursor:pointer; }
-.t-done-check { position:absolute; right:10px; bottom:10px; width:22px; height:22px; background:var(--gs); border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:11px; color:var(--green); }
-
-/* ===================== TASK OVERLAY ===================== */
-.task-ov { position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:600; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(8px); }
-.task-ov.open { display:flex; }
-.task-box { background:linear-gradient(145deg,#0f111a,#171a2e); border:1px solid rgba(124,111,253,.25); border-radius:22px; padding:28px 22px; width:100%; max-width:360px; text-align:center; animation:popIn .35s cubic-bezier(.34,1.56,.64,1); }
-.task-box-ic { font-size:46px; margin-bottom:10px; }
-.task-box-title { font-family:'Poppins',sans-serif; font-size:18px; font-weight:800; color:#fff; margin-bottom:8px; }
-.task-box-sub { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:20px; }
-.task-box-btns { display:flex; flex-direction:column; gap:10px; }
-.tbig { width:100%; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; }
-.tbig:active { transform:scale(.97); }
-.tbig.join { background:linear-gradient(135deg,#229ed9,#1a7fbf); color:#fff; }
-.tbig.check { background:linear-gradient(135deg,var(--green),#00b377); color:#fff; }
-.tbig.cancel { background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); }
-.task-verify-status { font-size:12px; margin-top:8px; min-height:18px; font-family:'Poppins',sans-serif; }
-
-/* ===================== AD OVERLAY ===================== */
-.adov {
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.72);
-  z-index:500; display:none;
-  flex-direction:column;
-  align-items:center; justify-content:center;
-  gap:0; padding:28px;
-}
-.adov.open { display:flex; }
-.adov-type  { display:none!important; }
-.adov-title { display:none!important; }
-.adov-step-lbl,.adov-net-name,.adov-status { display:none; }
-.adov-card {
-  background:linear-gradient(155deg,#6e65f5 0%,#5548d9 100%);
-  border-radius:28px;
-  padding:38px 28px 28px;
-  width:100%;
-  max-width:340px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:0;
-  box-shadow:0 24px 64px rgba(0,0,0,.55);
-}
-.adov-spinner-wrap {
-  width:86px; height:86px;
-  display:flex; align-items:center; justify-content:center;
-  margin:0 0 22px;
-}
-.adov-spinner-ring {
-  width:80px; height:80px;
-  border:4px solid rgba(255,255,255,.22);
-  border-top-color:rgba(255,255,255,.88);
-  border-right-color:rgba(255,255,255,.55);
-  border-radius:50%;
-  animation:adovSpin .95s linear infinite;
-}
-@keyframes adovSpin { to{transform:rotate(360deg)} }
-.adov-steps {
-  display:flex; gap:6px;
-  width:100%;
-  margin:0 0 20px;
-}
-.adov-s {
-  height:4px; border-radius:4px;
-  background:rgba(255,255,255,.22);
-  transition:background .35s; flex:1;
-}
-.adov-s.done   { background:rgba(255,255,255,.9); }
-.adov-s.active { background:#fff; animation:adovPuls .85s infinite; }
-.adov-s.skip   { background:rgba(255,255,255,.12); }
-@keyframes adovPuls { 0%,100%{opacity:1} 50%{opacity:.4} }
-.adov-waiting {
-  font-family:'Hind Siliguri','Poppins',sans-serif;
-  font-size:17px; font-weight:600;
-  color:#fff;
-  display:none; text-align:center; line-height:1.65;
-  margin-bottom:18px;
-  width:100%;
-}
-.adov-waiting.show { display:block; }
-.adov-divider {
-  width:100%; height:2px;
-  background:rgba(255,255,255,.38);
-  border-radius:2px;
-  margin-bottom:20px;
-  display:none;
-}
-.adov-continue {
-  background:#fff;
-  color:#4840c8;
-  border:none;
-  border-radius:50px;
-  padding:16px 0;
-  width:100%;
-  font-size:16px; font-weight:700;
-  cursor:pointer;
-  font-family:'Poppins',sans-serif;
-  display:none;
-  letter-spacing:.2px;
-  box-shadow:0 4px 18px rgba(0,0,0,.18);
-  transition:transform .14s, box-shadow .14s;
-}
-.adov-continue.show { display:block; }
-.adov-continue:active { transform:scale(.97); box-shadow:0 2px 8px rgba(0,0,0,.18); }
-.adov-reward-wrap { display:none!important; }
-.adov-reward      { display:none!important; }
-.adov-taka        { display:none!important; }
-.adov-rsub        { display:none!important; }
-.adov-msg         { display:none!important; }
-.adov-wd-loading { display:none; flex-direction:column; align-items:center; gap:16px; }
-.adov-wd-loading.show { display:flex; }
-.adov-wd-spinner {
-  width:52px; height:52px;
-  border:4px solid rgba(255,255,255,.2);
-  border-top-color:#fff;
-  border-radius:50%;
-  animation:adovSpin .8s linear infinite;
-}
-.adov-wd-txt { font-size:14px; color:rgba(255,255,255,.75); font-family:'Poppins',sans-serif; }
-@keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
-.adov-complete { text-align:center; padding:8px 0; display:none; flex-direction:column; align-items:center; gap:10px; }
-.adov-complete.show { display:flex; }
-.adov-complete-ic  { font-size:54px; animation:popIn .4s cubic-bezier(.34,1.56,.64,1); }
-.adov-complete-txt { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
-.adov-complete-sub { font-size:13px; color:rgba(255,255,255,.7); font-family:'Poppins',sans-serif; }
-
-/* ===================== SUPPORT PAGE ===================== */
-.vcard { display:none; }
-.vph { display:none; }
-.vbar { display:none; }
-.sec2 { display:none; }
-.sgrid { display:none; }
-
-.sp-hero {
-  background: linear-gradient(135deg, #1a0d3a 0%, #0f0620 60%, #1a0a30 100%);
-  border: 1px solid rgba(139,92,246,0.3);
-  border-radius: 20px;
-  padding: 22px 20px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 130px;
-}
-.sp-hero::before {
-  content: '';
-  position: absolute;
-  top: -40px; left: -40px;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(139,92,246,0.2), transparent 70%);
-}
-.sp-hero-dots {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.sp-hero-dots::before {
-  content: '✦ ✦ ✦';
-  position: absolute;
-  top: 12px; right: 120px;
-  font-size: 8px;
-  color: rgba(167,139,250,0.5);
-  letter-spacing: 8px;
-}
-.sp-hero-dots::after {
-  content: '✦ ✦';
-  position: absolute;
-  bottom: 16px; left: 20px;
-  font-size: 7px;
-  color: rgba(167,139,250,0.35);
-  letter-spacing: 6px;
-}
-.sp-hero-text { position: relative; z-index: 2; flex: 1; }
-.sp-hero-title1 {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.2;
-  margin-bottom: 2px;
-}
-.sp-hero-title2 {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #e879f9;
-  line-height: 1.2;
-  margin-bottom: 10px;
-}
-.sp-hero-sub {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.5;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.sp-hero-sub .heart { color: #f43f5e; }
-.sp-hero-avatar {
-  width: 110px;
-  height: 110px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sp-hero-3d {
-  font-size: 80px;
-  line-height: 1;
-  filter: drop-shadow(0 8px 20px rgba(139,92,246,0.5));
-  animation: spFloat 3s ease-in-out infinite;
-}
-@keyframes spFloat {
-  0%,100%{ transform:translateY(0) rotate(-3deg); }
-  50%{ transform:translateY(-8px) rotate(3deg); }
-}
-.sp-hero-bubbles {
-  position: absolute;
-  top: 12px; right: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  z-index: 3;
-}
-.sp-bubble {
-  background: rgba(139,92,246,0.8);
-  border-radius: 12px;
-  padding: 4px 7px;
-  font-size: 14px;
-  box-shadow: 0 4px 12px rgba(139,92,246,0.4);
-}
-.sp-bubble.mail {
-  background: rgba(168,85,247,0.85);
-  border-radius: 10px;
-  padding: 4px 7px;
-  font-size: 13px;
-  margin-left: 10px;
-}
-
-.sp-section-lbl {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.sp-section-lbl .sp-lbl-icon { color: #c084fc; font-size: 16px; }
-
-.sp-quick-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 9px;
-  margin-bottom: 20px;
-}
-.sp-quick-card {
-  background: #0e0b1e;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 14px;
-  padding: 14px 8px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all .2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.sp-quick-card:active { transform: scale(.94); }
-.sp-quick-ic {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-.sp-quick-ic.purple { background: linear-gradient(135deg, #7c3aed, #4c1d95); }
-.sp-quick-ic.green  { background: linear-gradient(135deg, #16a34a, #166534); }
-.sp-quick-ic.orange { background: linear-gradient(135deg, #ea580c, #9a3412); }
-.sp-quick-ic.blue   { background: linear-gradient(135deg, #0284c7, #075985); }
-.sp-quick-name {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  line-height: 1.2;
-}
-.sp-quick-sub {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 9.5px;
-  color: rgba(255,255,255,0.45);
-  text-align: center;
-  line-height: 1.2;
-}
-
-.sp-contact-card {
-  background: #0c0818;
-  border: 1px solid rgba(139,92,246,0.25);
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-.sp-contact-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.sp-contact-head-ic {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: rgba(124,111,253,0.15);
-  border: 1px solid rgba(124,111,253,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; flex-shrink: 0;
-}
-.sp-contact-head-txt { flex: 1; }
-.sp-contact-head-title {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 15px; font-weight: 700; color: #fff;
-}
-.sp-contact-head-sub {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 11px; color: rgba(255,255,255,0.45);
-  margin-top: 2px;
-}
-.sp-contact-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.sp-contact-row:last-child { border-bottom: none; padding-bottom: 0; }
-.sp-contact-row:first-of-type { padding-top: 0; }
-.sp-cicon {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
-}
-.sp-cicon.tg  { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
-.sp-cicon.em  { background: linear-gradient(135deg, #e2136e, #9a0e4b); }
-.sp-cicon.lv  { background: linear-gradient(135deg, #22c55e, #166534); }
-.sp-cinfo { flex: 1; min-width: 0; }
-.sp-cname {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 13px; font-weight: 700; color: #fff;
-}
-.sp-chandle {
-  font-size: 11px; color: rgba(255,255,255,0.45);
-  margin-top: 2px; font-family: 'Poppins', sans-serif;
-}
-.sp-cbtn {
-  background: linear-gradient(135deg, #6d28d9, #7c3aed);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 9px 14px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Hind Siliguri', sans-serif;
-  white-space: nowrap;
-  display: flex; align-items: center; gap: 5px;
-  transition: all .2s;
-  flex-shrink: 0;
-}
-.sp-cbtn:active { transform: scale(.94); }
-
-.sp-faq-card {
-  background: #0c0818;
-  border: 1px solid rgba(139,92,246,0.2);
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-.sp-faq-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.sp-faq-title {
-  display: flex; align-items: center; gap: 9px;
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 15px; font-weight: 700; color: #fff;
-}
-.sp-faq-ic {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #4c1d95);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; color: #fff; font-weight: 700;
-  flex-shrink: 0;
-}
-.sp-faq-all {
-  font-family: 'Poppins', sans-serif;
-  font-size: 12px;
-  color: #c084fc;
-  font-weight: 600;
-  text-decoration: none;
-  display: flex; align-items: center; gap: 3px;
-  cursor: pointer;
-}
-.sp-faq-item {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 13px 14px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: all .2s;
-}
-.sp-faq-item:last-child { margin-bottom: 0; }
-.sp-faq-item:active { background: rgba(124,111,253,0.08); }
-.sp-faq-q {
-  font-family: 'Hind Siliguri', sans-serif;
-  font-size: 13px; color: rgba(255,255,255,0.85);
-  font-weight: 500;
-  flex: 1;
-}
-.sp-faq-arrow {
-  color: rgba(255,255,255,0.4);
-  font-size: 12px;
-  flex-shrink: 0;
-  margin-left: 8px;
-}
-.sp-admin-cards-wrap { margin-bottom: 16px; }
-.sgrid { display:none !important; }
-
-/* ===================== REFERRAL ===================== */
-.rhero { background:linear-gradient(135deg,#0d1117,#1a1f35); border:1px solid rgba(124,111,253,.2); border-radius:20px; padding:24px 20px; text-align:center; margin-bottom:14px; position:relative; overflow:hidden; }
-.rhero::before { content:'👥'; position:absolute; font-size:110px; opacity:.04; top:-10px; right:-20px; }
-.remo { font-size:40px; margin-bottom:8px; }
-.rht { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; margin-bottom:5px; }
-.rhs { font-size:12px; color:var(--muted); font-family:'Poppins',sans-serif; }
-.rstats { display:flex; gap:10px; margin-top:18px; }
-.rstat { flex:1; background:var(--as); border:1px solid rgba(124,111,253,.2); border-radius:12px; padding:12px; text-align:center; }
-.rsv { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:var(--accent); }
-.rsl { font-size:10px; color:var(--muted); margin-top:3px; font-family:'Poppins',sans-serif; letter-spacing:.2px; }
-.rlc { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:12px; }
-.flbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; font-weight:700; margin-bottom:8px; display:block; font-family:'Poppins',sans-serif; }
-.rbox { display:flex; gap:8px; align-items:center; }
-.rtxt { flex:1; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:12px; color:var(--accent); font-family:monospace; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.cbtn { background:var(--accent); color:#fff; border:none; border-radius:10px; padding:10px 16px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; flex-shrink:0; }
-.cbtn:active { transform:scale(.94); }
-.sbtn { width:100%; background:linear-gradient(135deg,#25D366,#128C7E); color:#fff; border:none; border-radius:12px; padding:14px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:10px; }
-.ritem { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
-.ritem:last-child { border-bottom:none; }
-.rava { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--accent),#b06bff); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#fff; flex-shrink:0; }
-.run { font-size:13px; font-weight:600; color:#fff; font-family:'Poppins',sans-serif; }
-.rdt { font-size:11px; color:var(--muted); margin-top:2px; font-family:'Poppins',sans-serif; }
-.re { font-size:13px; font-weight:700; color:var(--green); margin-left:auto; white-space:nowrap; font-family:'Poppins',sans-serif; }
-
-/* ===================== WALLET PAGE ===================== */
-.wbal-card {
-  background:linear-gradient(145deg,#0d0a1f 0%,#130a3a 50%,#0a0818 100%);
-  border:1px solid rgba(124,111,253,0.3);
-  border-radius:20px;
-  padding:22px 20px 20px;
-  margin-bottom:12px;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 8px 32px rgba(80,40,200,0.25);
-}
-.wbal-card::after {
-  content:'';
-  position:absolute;
-  bottom:-50px; right:-50px;
-  width:180px; height:180px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(124,111,253,0.18),transparent 70%);
-  pointer-events:none;
-}
-.wbal-top {
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:16px;
-}
-.wbal-label {
-  display:flex; align-items:center; gap:8px;
-  font-size:13px; font-weight:600; color:#c4b5fd;
-  font-family:'Poppins',sans-serif;
-}
+/* ── WALLET PAGE ── */
+.wbal-card { background:linear-gradient(145deg,#0d0a1f 0%,#130a3a 50%,#0a0818 100%); border:1px solid rgba(124,111,253,0.3); border-radius:20px; padding:22px 20px 20px; margin-bottom:12px; position:relative; overflow:hidden; box-shadow:0 8px 32px rgba(80,40,200,0.25); }
+.wbal-card::after { content:''; position:absolute; bottom:-50px; right:-50px; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle,rgba(124,111,253,0.18),transparent 70%); pointer-events:none; }
+.wbal-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.wbal-label { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#c4b5fd; font-family:'Poppins',sans-serif; }
 .wbal-label i { font-size:16px; color:#a855f7; }
-.wbal-3d {
-  position:relative; width:88px; height:68px;
-  transform:perspective(260px) rotateY(-12deg) rotateX(8deg);
-  flex-shrink:0;
-}
-.wbal-body {
-  position:absolute; bottom:0; right:0;
-  width:72px; height:52px;
-  background:linear-gradient(135deg,#9333ea,#4c1d95);
-  border-radius:9px;
-  box-shadow:-5px 8px 14px rgba(0,0,0,0.6),inset 1px 1px 4px rgba(255,255,255,0.25);
-  border:1px solid #7c3aed;
-}
-.wbal-flap {
-  position:absolute; top:0; right:0;
-  width:50px; height:100%;
-  background:linear-gradient(135deg,#a855f7,#6d28d9);
-  border-radius:0 9px 9px 0;
-  border-left:1px solid #5b21b6;
-  box-shadow:inset 1px 1px 3px rgba(255,255,255,0.2);
-}
-.wbal-btn {
-  position:absolute; left:-7px; top:50%; transform:translateY(-50%);
-  width:14px; height:14px;
-  background:radial-gradient(circle at 30% 30%,#fef08a,#ca8a04);
-  border-radius:50%;
-  box-shadow:1px 2px 5px rgba(0,0,0,0.5);
-}
-.wbal-c {
-  position:absolute;
-  width:24px; height:24px;
-  background:radial-gradient(circle at 30% 30%,#fef08a,#eab308,#854d0e);
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:11px; font-weight:700; color:#713f12;
-  border:1.5px solid #facc15;
-  box-shadow:1px 3px 7px rgba(0,0,0,0.45);
-  font-family:'Hind Siliguri',sans-serif;
-}
+.wbal-3d { position:relative; width:88px; height:68px; transform:perspective(260px) rotateY(-12deg) rotateX(8deg); flex-shrink:0; }
+.wbal-body { position:absolute; bottom:0; right:0; width:72px; height:52px; background:linear-gradient(135deg,#9333ea,#4c1d95); border-radius:9px; box-shadow:-5px 8px 14px rgba(0,0,0,0.6),inset 1px 1px 4px rgba(255,255,255,0.25); border:1px solid #7c3aed; }
+.wbal-flap { position:absolute; top:0; right:0; width:50px; height:100%; background:linear-gradient(135deg,#a855f7,#6d28d9); border-radius:0 9px 9px 0; border-left:1px solid #5b21b6; box-shadow:inset 1px 1px 3px rgba(255,255,255,0.2); }
+.wbal-btn { position:absolute; left:-7px; top:50%; transform:translateY(-50%); width:14px; height:14px; background:radial-gradient(circle at 30% 30%,#fef08a,#ca8a04); border-radius:50%; box-shadow:1px 2px 5px rgba(0,0,0,0.5); }
+.wbal-c { position:absolute; width:24px; height:24px; background:radial-gradient(circle at 30% 30%,#fef08a,#eab308,#854d0e); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#713f12; border:1.5px solid #facc15; box-shadow:1px 3px 7px rgba(0,0,0,0.45); font-family:'Hind Siliguri',sans-serif; }
 .wbal-c1 { top:-12px; left:16px; transform:rotate(15deg); }
 .wbal-c2 { top:0; right:-2px; transform:rotate(-20deg); width:20px; height:20px; font-size:9px; }
 .wbal-amount-row { margin-bottom:10px; }
 .wbal-taka { font-size:30px; font-weight:700; color:#fff; font-family:'Poppins',sans-serif; vertical-align:middle; line-height:1; }
 .wbal-num { font-size:40px; font-weight:800; color:#fff; font-family:'Poppins',sans-serif; line-height:1; }
-.wbal-badge {
-  display:inline-flex; align-items:center; gap:7px;
-  background:rgba(0,200,120,0.12);
-  border:1px solid rgba(0,200,120,0.28);
-  border-radius:20px;
-  padding:6px 14px;
-  font-size:12px; font-weight:600; color:#00e096;
-  font-family:'Poppins',sans-serif;
-}
+.wbal-badge { display:inline-flex; align-items:center; gap:7px; background:rgba(0,200,120,0.12); border:1px solid rgba(0,200,120,0.28); border-radius:20px; padding:6px 14px; font-size:12px; font-weight:600; color:#00e096; font-family:'Poppins',sans-serif; }
 .wbal-badge i { font-size:13px; }
-
-.wstats-row {
-  display:grid; grid-template-columns:1fr 1fr;
-  background:#0c0a1e;
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:16px;
-  overflow:hidden;
-  margin-bottom:16px;
-}
-.wstat-item {
-  padding:16px 18px;
-  display:flex; flex-direction:column; gap:8px;
-}
+.wstats-row { display:grid; grid-template-columns:1fr 1fr; background:#0c0a1e; border:1px solid rgba(255,255,255,0.07); border-radius:16px; overflow:hidden; margin-bottom:16px; }
+.wstat-item { padding:16px 18px; display:flex; flex-direction:column; gap:8px; }
 .wstat-item:first-child { border-right:1px solid rgba(255,255,255,0.07); }
-.wstat-top {
-  display:flex; align-items:center; gap:8px;
-  font-size:12px; color:#8e88a8; font-weight:500;
-  font-family:'Poppins',sans-serif;
-}
-.wstat-ic {
-  width:28px; height:28px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:12px; flex-shrink:0;
-}
+.wstat-top { display:flex; align-items:center; gap:8px; font-size:12px; color:#8e88a8; font-weight:500; font-family:'Poppins',sans-serif; }
+.wstat-ic { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
 .wstat-ic.green { background:rgba(0,224,150,0.15); color:#00e096; }
 .wstat-ic.orange { background:rgba(255,160,50,0.15); color:#ffb347; }
-.wstat-val {
-  font-size:22px; font-weight:700; color:#fff;
-  font-family:'Poppins',sans-serif;
-}
-
-.wdform-card {
-  background:#0c0a1e;
-  border:1px solid rgba(124,111,253,0.18);
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:16px;
-}
-.wdform-head {
-  display:flex; align-items:center; gap:10px;
-  margin-bottom:20px;
-}
-.wdform-head-ic {
-  width:36px; height:36px; border-radius:10px;
-  background:linear-gradient(135deg,#7c3aed,#4c1d95);
-  display:flex; align-items:center; justify-content:center;
-  font-size:15px; color:#fff;
-}
-.wdform-head-txt {
-  font-size:17px; font-weight:700; color:#a855f7;
-  font-family:'Poppins',sans-serif;
-}
-
-.pm-grid {
-  display:grid; grid-template-columns:repeat(4,1fr);
-  gap:10px; margin-bottom:20px;
-}
-.pm-item {
-  background:#13102a;
-  border:2px solid rgba(255,255,255,0.07);
-  border-radius:14px;
-  padding:12px 6px 9px;
-  display:flex; flex-direction:column; align-items:center; gap:7px;
-  cursor:pointer;
-  transition:border-color .2s, background .2s, box-shadow .2s;
-  -webkit-tap-highlight-color:transparent;
-}
+.wstat-val { font-size:22px; font-weight:700; color:#fff; font-family:'Poppins',sans-serif; }
+.wdform-card { background:#0c0a1e; border:1px solid rgba(124,111,253,0.18); border-radius:20px; padding:20px; margin-bottom:16px; }
+.wdform-head { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+.wdform-head-ic { width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#7c3aed,#4c1d95); display:flex; align-items:center; justify-content:center; font-size:15px; color:#fff; }
+.wdform-head-txt { font-size:17px; font-weight:700; color:#a855f7; font-family:'Poppins',sans-serif; }
+.pm-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:20px; }
+.pm-item { background:#13102a; border:2px solid rgba(255,255,255,0.07); border-radius:14px; padding:12px 6px 9px; display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; transition:border-color .2s,background .2s,box-shadow .2s; -webkit-tap-highlight-color:transparent; }
 .pm-item:active { transform:scale(.93); }
-.pm-item.active {
-  border-color:#7c3aed;
-  background:rgba(124,111,253,0.14);
-  box-shadow:0 0 14px rgba(124,111,253,0.38), inset 0 0 8px rgba(124,111,253,0.08);
-}
-.pm-ic {
-  width:46px; height:46px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:11px; font-weight:800; color:#fff;
-  overflow:hidden; flex-shrink:0;
-}
+.pm-item.active { border-color:#7c3aed; background:rgba(124,111,253,0.14); box-shadow:0 0 14px rgba(124,111,253,0.38),inset 0 0 8px rgba(124,111,253,0.08); }
+.pm-ic { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff; overflow:hidden; flex-shrink:0; }
 .pm-ic.bkash  { background:linear-gradient(135deg,#e2136e,#9a0e4b); }
 .pm-ic.nagad  { background:linear-gradient(135deg,#f6821f,#c8510d); }
 .pm-ic.rocket { background:linear-gradient(135deg,#8b1db8,#5a0f7a); }
 .pm-ic.binance{ background:linear-gradient(135deg,#f0b90b,#c8900a); color:#1a1200; }
 .pm-ic.crypto { background:linear-gradient(135deg,#f7931a,#b56010); }
-.pm-lbl {
-  font-size:10px; font-weight:600; color:#9ca3af;
-  font-family:'Poppins',sans-serif; text-align:center;
-}
+.pm-lbl { font-size:10px; font-weight:600; color:#9ca3af; font-family:'Poppins',sans-serif; text-align:center; }
 .pm-item.active .pm-lbl { color:#c4b5fd; }
-
 .wdinput-g { margin-bottom:14px; }
-.wdinput-lbl {
-  font-size:11px; font-weight:700; color:#6b7280;
-  font-family:'Poppins',sans-serif;
-  text-transform:uppercase; letter-spacing:0.9px;
-  display:block; margin-bottom:8px;
-}
+.wdinput-lbl { font-size:11px; font-weight:700; color:#6b7280; font-family:'Poppins',sans-serif; text-transform:uppercase; letter-spacing:0.9px; display:block; margin-bottom:8px; }
 .wdinput-wrap { position:relative; }
-.wdinput {
-  width:100%;
-  background:#0f0c22;
-  border:1.5px solid rgba(255,255,255,0.09);
-  border-radius:12px;
-  padding:14px 44px 14px 16px;
-  font-size:14px; color:#fff;
-  font-family:'Poppins',sans-serif;
-  outline:none;
-  transition:border-color .2s;
-  -webkit-appearance:none; appearance:none;
-}
+.wdinput { width:100%; background:#0f0c22; border:1.5px solid rgba(255,255,255,0.09); border-radius:12px; padding:14px 44px 14px 16px; font-size:14px; color:#fff; font-family:'Poppins',sans-serif; outline:none; transition:border-color .2s; -webkit-appearance:none; appearance:none; }
 .wdinput:focus { border-color:rgba(124,111,253,0.55); }
 .wdinput::placeholder { color:#3d3a58; }
-.wdinput-icon {
-  position:absolute; right:15px; top:50%; transform:translateY(-50%);
-  color:#3d3a58; font-size:16px; pointer-events:none;
-}
-.wdinput-taka {
-  position:absolute; right:15px; top:50%; transform:translateY(-50%);
-  color:#4a5070; font-size:20px; font-weight:700; pointer-events:none;
-  font-family:'Hind Siliguri',sans-serif;
-}
-.wdmin-info {
-  display:flex; align-items:center; gap:5px;
-  font-size:11px; color:#4a5070;
-  font-family:'Poppins',sans-serif;
-  margin-top:7px;
-}
-.wdmin-info i { color:#7c6ffd; font-size:12px; }
-.wdmin-info .mn-val { color:#8b7fd4; font-weight:600; }
-
-.wd-btn {
-  width:100%;
-  background:linear-gradient(90deg,#6d28d9 0%,#9333ea 50%,#7c3aed 100%);
-  border:none;
-  border-radius:14px;
-  padding:0 20px;
-  height:54px;
-  display:flex; align-items:center; justify-content:space-between;
-  cursor:pointer;
-  box-shadow:0 6px 24px rgba(109,40,217,0.45);
-  transition:all .2s;
-  margin-top:4px;
-}
+.wdinput-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#3d3a58; font-size:16px; pointer-events:none; }
+.wdinput-taka { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#4a5070; font-size:20px; font-weight:700; pointer-events:none; font-family:'Hind Siliguri',sans-serif; }
+.wd-btn { width:100%; background:linear-gradient(90deg,#6d28d9 0%,#9333ea 50%,#7c3aed 100%); border:none; border-radius:14px; padding:0 20px; height:54px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; box-shadow:0 6px 24px rgba(109,40,217,0.45); transition:all .2s; margin-top:4px; }
 .wd-btn:active { transform:scale(.97); box-shadow:0 2px 12px rgba(109,40,217,0.35); }
 .wd-btn:disabled { opacity:.6; pointer-events:none; }
-.wd-btn-txt {
-  font-size:16px; font-weight:700; color:#fff;
-  font-family:'Poppins',sans-serif; letter-spacing:.3px;
-}
-.wd-btn-arrow {
-  width:38px; height:38px; border-radius:50%;
-  background:rgba(255,255,255,0.18);
-  display:flex; align-items:center; justify-content:center;
-  font-size:16px; color:#fff;
-  flex-shrink:0;
-}
-
-.wd-ad-info {
-  background:rgba(124,111,253,.08); border:1px solid rgba(124,111,253,.2);
-  border-radius:12px; padding:12px 14px; margin-top:12px;
-  font-size:12px; color:rgba(255,255,255,.7); display:none;
-  line-height:1.6; font-family:'Poppins',sans-serif;
-}
-
-.wdhist-head {
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:14px;
-}
-.wdhist-title {
-  display:flex; align-items:center; gap:8px;
-  font-size:16px; font-weight:700; color:#fff;
-  font-family:'Poppins',sans-serif;
-}
+.wd-btn-txt { font-size:16px; font-weight:700; color:#fff; font-family:'Poppins',sans-serif; letter-spacing:.3px; }
+.wd-btn-arrow { width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; flex-shrink:0; }
+.wd-ad-info { background:rgba(124,111,253,.08); border:1px solid rgba(124,111,253,.2); border-radius:12px; padding:12px 14px; margin-top:12px; font-size:12px; color:rgba(255,255,255,.7); display:none; line-height:1.6; font-family:'Poppins',sans-serif; }
+.wdhist-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.wdhist-title { display:flex; align-items:center; gap:8px; font-size:16px; font-weight:700; color:#fff; font-family:'Poppins',sans-serif; }
 .wdhist-title i { color:#a855f7; }
-.wdhist-all {
-  display:flex; align-items:center; gap:4px;
-  font-size:12px; color:#6b7280;
-  font-family:'Poppins',sans-serif;
-  text-decoration:none; cursor:pointer;
-}
-.wdhist-all i { font-size:10px; }
-
-.hitem-new {
-  background:#0c0a1e;
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:10px;
-  display:flex; align-items:center; gap:12px;
-}
-.hitem-logo {
-  width:46px; height:46px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:20px; font-weight:800; flex-shrink:0;
-  color:#fff;
-}
+.hitem-new { background:#0c0a1e; border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px; margin-bottom:10px; display:flex; align-items:center; gap:12px; }
+.hitem-logo { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800; flex-shrink:0; color:#fff; }
 .hitem-logo.bkash  { background:linear-gradient(135deg,#e2136e,#9a0e4b); }
 .hitem-logo.nagad  { background:linear-gradient(135deg,#f6821f,#c8510d); }
 .hitem-logo.rocket { background:linear-gradient(135deg,#8b1db8,#5a0f7a); }
@@ -1195,36 +317,67 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .hitem-name { font-size:14px; font-weight:600; color:#fff; font-family:'Poppins',sans-serif; }
 .hitem-acc  { font-size:11px; color:#4a5070; font-family:monospace; margin-top:2px; }
 .hitem-date { font-size:10px; color:#3d3a58; margin-top:2px; font-family:'Poppins',sans-serif; }
+.hitem-reject-reason { font-size:10px; color:#ff5f5f; font-family:'Poppins',sans-serif; margin-top:4px; }
 .hitem-right { text-align:right; flex-shrink:0; }
 .hstatus { font-size:12px; font-weight:600; margin-bottom:4px; }
 .hstatus.approved { color:#00e096; }
 .hstatus.pending  { color:#ffc84a; }
 .hstatus.rejected { color:#ff5f5f; }
 .hitem-amt { font-size:15px; font-weight:700; color:#fff; font-family:'Poppins',sans-serif; }
-.hitem-reject-reason {
-  font-size:10px; color:#ff5f5f;
-  font-family:'Poppins',sans-serif; margin-top:4px;
-}
 
-/* ===================== BOTTOM NAV ===================== */
-.bottom-bar {
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
-  width:100%; max-width:420px; background:#090514;
-  border-top:1px solid rgba(255,255,255,0.05);
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px 10px; z-index:100;
-}
-.nav-link {
-  display:flex; align-items:center; gap:5px; color:var(--text-muted);
-  text-decoration:none; font-size:11px; font-weight:500;
-  padding:8px 10px; border-radius:30px; white-space:nowrap;
-  cursor:pointer; border:1px solid transparent; transition:all .2s;
-  font-family:'Poppins',sans-serif;
-}
-.nav-link.active {
-  background:linear-gradient(90deg,rgba(88,28,135,1) 0%,rgba(59,7,100,1) 100%);
-  color:white; border:1px solid #7c3aed;
-}
+/* ── AD OVERLAY ── */
+.adov { position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:500; display:none; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:28px; }
+.adov.open { display:flex; }
+.adov-card { background:linear-gradient(155deg,#6e65f5 0%,#5548d9 100%); border-radius:28px; padding:38px 28px 28px; width:100%; max-width:340px; display:flex; flex-direction:column; align-items:center; gap:0; box-shadow:0 24px 64px rgba(0,0,0,.55); }
+.adov-spinner-wrap { width:86px; height:86px; display:flex; align-items:center; justify-content:center; margin:0 0 22px; }
+.adov-spinner-ring { width:80px; height:80px; border:4px solid rgba(255,255,255,.22); border-top-color:rgba(255,255,255,.88); border-right-color:rgba(255,255,255,.55); border-radius:50%; animation:adovSpin .95s linear infinite; }
+@keyframes adovSpin { to{transform:rotate(360deg)} }
+.adov-steps { display:flex; gap:6px; width:100%; margin:0 0 20px; }
+.adov-s { height:4px; border-radius:4px; background:rgba(255,255,255,.22); transition:background .35s; flex:1; }
+.adov-s.done   { background:rgba(255,255,255,.9); }
+.adov-s.active { background:#fff; animation:adovPuls .85s infinite; }
+.adov-s.skip   { background:rgba(255,255,255,.12); }
+@keyframes adovPuls { 0%,100%{opacity:1} 50%{opacity:.4} }
+.adov-waiting { font-family:'Hind Siliguri','Poppins',sans-serif; font-size:17px; font-weight:600; color:#fff; display:none; text-align:center; line-height:1.65; margin-bottom:18px; width:100%; }
+.adov-waiting.show { display:block; }
+.adov-divider { width:100%; height:2px; background:rgba(255,255,255,.38); border-radius:2px; margin-bottom:20px; display:none; }
+.adov-continue { background:#fff; color:#4840c8; border:none; border-radius:50px; padding:16px 0; width:100%; font-size:16px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; display:none; letter-spacing:.2px; box-shadow:0 4px 18px rgba(0,0,0,.18); transition:transform .14s,box-shadow .14s; }
+.adov-continue.show { display:block; }
+.adov-continue:active { transform:scale(.97); box-shadow:0 2px 8px rgba(0,0,0,.18); }
+.adov-wd-loading { display:none; flex-direction:column; align-items:center; gap:16px; }
+.adov-wd-loading.show { display:flex; }
+.adov-wd-spinner { width:52px; height:52px; border:4px solid rgba(255,255,255,.2); border-top-color:#fff; border-radius:50%; animation:adovSpin .8s linear infinite; }
+.adov-wd-txt { font-size:14px; color:rgba(255,255,255,.75); font-family:'Poppins',sans-serif; }
+@keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+.adov-complete { text-align:center; padding:8px 0; display:none; flex-direction:column; align-items:center; gap:10px; }
+.adov-complete.show { display:flex; }
+.adov-complete-ic  { font-size:54px; animation:popIn .4s cubic-bezier(.34,1.56,.64,1); }
+.adov-complete-txt { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
+.adov-complete-sub { font-size:13px; color:rgba(255,255,255,.7); font-family:'Poppins',sans-serif; }
+
+/* ── TASK OVERLAY ── */
+.task-ov { position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:600; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(8px); }
+.task-ov.open { display:flex; }
+.task-box { background:linear-gradient(145deg,#0f111a,#171a2e); border:1px solid rgba(124,111,253,.25); border-radius:22px; padding:28px 22px; width:100%; max-width:360px; text-align:center; animation:popIn .35s cubic-bezier(.34,1.56,.64,1); }
+.task-box-ic { font-size:46px; margin-bottom:10px; }
+.task-box-title { font-family:'Poppins',sans-serif; font-size:18px; font-weight:800; color:#fff; margin-bottom:8px; }
+.task-box-sub { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:20px; }
+.task-box-btns { display:flex; flex-direction:column; gap:10px; }
+.tbig { width:100%; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; transition:all .2s; }
+.tbig:active { transform:scale(.97); }
+.tbig.join   { background:linear-gradient(135deg,#229ed9,#1a7fbf); color:#fff; }
+.tbig.check  { background:linear-gradient(135deg,var(--green),#00b377); color:#fff; }
+.tbig.cancel { background:rgba(255,255,255,.06); color:var(--muted); border:1px solid var(--border); }
+.task-verify-status { font-size:12px; margin-top:8px; min-height:18px; font-family:'Poppins',sans-serif; }
+
+/* ── TASK SLIDER (hidden on home) ── */
+.task-header { display:none !important; }
+#taskList { display:none !important; }
+
+/* ── BOTTOM NAV ── */
+.bottom-bar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:420px; background:#090514; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center; padding:10px 10px; z-index:100; }
+.nav-link { display:flex; align-items:center; gap:5px; color:var(--text-muted); text-decoration:none; font-size:11px; font-weight:500; padding:8px 10px; border-radius:30px; white-space:nowrap; cursor:pointer; border:1px solid transparent; transition:all .2s; font-family:'Poppins',sans-serif; }
+.nav-link.active { background:linear-gradient(90deg,rgba(88,28,135,1) 0%,rgba(59,7,100,1) 100%); color:white; border:1px solid #7c3aed; }
 .nav-link i { font-size:15px; }
 .nav-link.active i { color:#e9d5ff; }
 
@@ -1232,21 +385,12 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 .eic { font-size:36px; margin-bottom:8px; }
 .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px); background:rgba(20,24,38,.97); border:1px solid rgba(124,111,253,.3); color:#fff; padding:12px 20px; border-radius:30px; font-size:13px; font-weight:500; z-index:9999; transition:transform .3s cubic-bezier(.34,1.4,.64,1); backdrop-filter:blur(20px); white-space:nowrap; font-family:'Poppins',sans-serif; }
 .toast.show { transform:translateX(-50%) translateY(0); }
-
-/* Hide Home Task Section */
-.task-header,
-#taskList {
-  display: none !important;
-}
-
-.wdmin-info {
-  display: none !important;
-}
+.wdmin-info { display:none !important; }
 </style>
 </head>
 <body>
-
 <script src="https://oatstuckalfred.com/53/6d/3d/536d3d8b300c75b70e4d683a25ca7e20.js"></script>
+
 <div id="welcomeScreen">
   <div class="welcome-box">
     <div class="welcome-emoji" id="welcomeEmoji">🎉</div>
@@ -1258,12 +402,13 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 
 <div id="blockedScreen">
   <div class="blocked-ic">🚫</div>
-  <div class="blocked-title">No internet connection...</div>
-  <div class="blocked-sub">Check your Network and try again</div>
+  <div class="blocked-title">একাউন্ট ব্লক হয়েছে</div>
+  <div class="blocked-sub">আপনার একাউন্ট Admin কর্তৃক ব্লক করা হয়েছে।<br>সাপোর্টে যোগাযোগ করুন।</div>
 </div>
 
 <div class="mobile-container">
 
+  <!-- HOME PAGE -->
   <div class="page active" id="page-home">
     <div class="header">
       <div class="profile-sec">
@@ -1306,9 +451,7 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
       </div>
       <div class="css-3d-wallet-container">
         <div class="css-wallet-body">
-          <div class="css-wallet-flap">
-            <div class="css-wallet-button"></div>
-          </div>
+          <div class="css-wallet-flap"><div class="css-wallet-button"></div></div>
         </div>
         <div class="css-coin coin-1">৳</div>
         <div class="css-coin coin-2">৳</div>
@@ -1316,7 +459,6 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
       </div>
     </div>
 
-    <!-- ====== RULES BANNER — balance card এর পর, ad section এর আগে ====== -->
     <div class="rules-banner" onclick="openRulesPopup()">
       <div class="rules-banner-pulse"></div>
       <div class="rules-banner-ic">📋</div>
@@ -1325,39 +467,6 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         <div class="rules-banner-sub">নতুন ইউজার এখানে ক্লিক করুন</div>
       </div>
       <div class="rules-banner-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-    </div>
-
-    <div class="mid-stats" style="display:none;">
-      <div class="m-stat">
-        <div class="m-icon purple"><i class="fa-solid fa-user-group"></i></div>
-        <div class="m-info">
-          <h3 id="sRef">0</h3>
-          <p>Referrals</p>
-          <div class="highlight-green" id="refEarnedLbl">+৳0.00 Earned</div>
-        </div>
-      </div>
-      <div class="m-stat">
-        <div class="m-icon orange"><i class="fa-solid fa-play"></i></div>
-        <div class="m-info">
-          <h3 id="wcToday">0</h3>
-          <p>Ads Watched</p>
-          <div class="highlight-purple">Today</div>
-        </div>
-      </div>
-      <div class="m-stat">
-        <div class="m-icon teal"><i class="fa-solid fa-gift"></i></div>
-        <div class="m-info">
-          <h3 id="limitProgress2">0/5</h3>
-          <p>Daily Limit</p>
-          <div class="highlight-green" id="limitStatusLbl">In Progress</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="marquee-wrap" style="display:none;">
-      <marquee behavior="scroll" direction="left" scrollamount="3">
-        🛑একমাত্র আমাদের সাইটেই পাবেন ১০০% পেমেন্ট গ্যারান্টি।🛑।🛑অ্যাডের টাইমার সম্পূর্ণ শেষ না হওয়া পর্যন্ত পেজ কাটবেন না।নিয়ম মেনে কাজ না করলে পেমেন্ট রিজেক্ট করা হবে।🛑
-      </marquee>
     </div>
 
     <div class="ad-section">
@@ -1369,10 +478,6 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
           <div class="ad-s-item">
             <h4><i class="fa-solid fa-eye purple"></i> <span id="wcTodayAd">0</span></h4>
             <p>আজ দেখছেন</p>
-          </div>
-          <div class="ad-s-item" style="display:none;">
-            <h4><i class="fa-solid fa-crosshairs purple"></i> <span id="wcLimit">5</span></h4>
-            <p>আজকের লিমিট</p>
           </div>
           <div class="ad-s-item">
             <h4><i class="fa-solid fa-coins gold"></i> <span id="adRewardLbl">৳0.50</span></h4>
@@ -1397,61 +502,28 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         <i class="fa-solid fa-shield-halved"></i> পুরো বিজ্ঞাপন দেখুন এবং পুরস্কার পান
       </div>
       <div class="css-3d-play-container">
-        <div class="css-play-box">
-          <div class="css-play-triangle"></div>
-        </div>
+        <div class="css-play-box"><div class="css-play-triangle"></div></div>
         <div class="css-coin play-coin-1">৳</div>
         <div class="css-coin play-coin-2">৳</div>
       </div>
     </div>
 
-    <div class="minicard" style="display:none;">
-      <div class="minicard-ic" style="background:rgba(34,158,217,.15)">📢</div>
-      <div class="minicard-inf">
-        <div class="minicard-t">পেমেন্ট প্রুফ গ্রুপ</div>
-        <div class="minicard-d">পেমেন্টের সকল প্রমাণ দেখতে পারবেন গ্রুপে</div>
-      </div>
-      <button class="minicard-btn" onclick="openMiniLink(MINI_LINKS.group)">জয়েন করুন</button>
-    </div>
-    <div class="minicard" style="display:none;">
-      <div class="minicard-ic" style="background:rgba(255,200,74,.15)">🎬</div>
-      <div class="minicard-inf">
-        <div class="minicard-t">কাজের সঠিক নিয়মের ভিডিও</div>
-        <div class="minicard-d">কিভাবে কাজ করবেন দেখে নিন</div>
-      </div>
-      <button class="minicard-btn" onclick="openMiniLink(MINI_LINKS.tutorial)">দেখুন</button>
-    </div>
-
-    <div class="task-header">
-      <h3><i class="fa-solid fa-bolt" style="color:#c084fc"></i> Tasks</h3>
-      <a href="#">সব দেখুন <i class="fa-solid fa-angle-right"></i></a>
-    </div>
-    <div class="task-slider" id="taskList">
-      <div class="empty" style="min-width:100%"><div class="eic">📋</div>No tasks yet</div>
-    </div>
+    <!-- hidden task slider -->
+    <div class="task-header"><h3></h3></div>
+    <div class="task-slider" id="taskList"></div>
   </div>
 
-  <!-- ===================== SUPPORT PAGE ===================== -->
+  <!-- SUPPORT PAGE -->
   <div class="page" id="page-support">
-    <div class="vcard" style="display:none!important">
-      <div class="vph" id="vph" onclick="openTutorial()"></div>
-      <div class="vbar"><div class="vbart" id="vtitle"></div></div>
-    </div>
-    <div class="sec2" style="display:none!important"></div>
-    <div class="sgrid" id="supGrid" style="display:none!important"></div>
-
     <div class="pgt">
       <div class="pgtitle" style="font-family:'Hind Siliguri',sans-serif">সাপোর্ট</div>
     </div>
-
     <div class="sp-hero">
       <div class="sp-hero-dots"></div>
       <div class="sp-hero-text">
         <div class="sp-hero-title1">আমরা আছি</div>
         <div class="sp-hero-title2">আপনার পাশে!</div>
-        <div class="sp-hero-sub">
-          যেকোনো সমস্যা বা সহায়তার জন্য<br>আমাদের সাথে যোগাযোগ করুন <span class="heart">❤️</span>
-        </div>
+        <div class="sp-hero-sub">যেকোনো সমস্যা বা সহায়তার জন্য<br>আমাদের সাথে যোগাযোগ করুন <span>❤️</span></div>
       </div>
       <div class="sp-hero-avatar">
         <div class="sp-hero-3d">🎧</div>
@@ -1461,10 +533,7 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         </div>
       </div>
     </div>
-
-    <div class="sp-section-lbl">
-      <span class="sp-lbl-icon">✦</span> দ্রুত সহায়তা
-    </div>
+    <div class="sp-section-lbl"><span class="sp-lbl-icon">✦</span> দ্রুত সহায়তা</div>
     <div class="sp-quick-grid" id="spQuickGrid">
       <div class="sp-quick-card" onclick="spQuickAction('chat')">
         <div class="sp-quick-ic purple">💬</div>
@@ -1472,9 +541,7 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         <div class="sp-quick-sub" id="sqs0">এখনই কথা বলুন</div>
       </div>
       <div class="sp-quick-card" onclick="spQuickAction('telegram')">
-        <div class="sp-quick-ic green">
-          <i class="fa-brands fa-telegram" style="font-size:22px;color:#fff;"></i>
-        </div>
+        <div class="sp-quick-ic green"><i class="fa-brands fa-telegram" style="font-size:22px;color:#fff;"></i></div>
         <div class="sp-quick-name" id="sqn1">টেলিগ্রাম</div>
         <div class="sp-quick-sub" id="sqs1">আমাদের চ্যানেল</div>
       </div>
@@ -1489,7 +556,6 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         <div class="sp-quick-sub" id="sqs3">প্রশ্নের উত্তর দেখুন</div>
       </div>
     </div>
-
     <div class="sp-contact-card">
       <div class="sp-contact-head">
         <div class="sp-contact-head-ic">🎧</div>
@@ -1498,83 +564,51 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
           <div class="sp-contact-head-sub">আপনার পছন্দের মাধ্যমে আমাদের সাথে যোগাযোগ করুন</div>
         </div>
       </div>
-      <div class="sp-contact-row" id="spContactTg">
-        <div class="sp-cicon tg">
-          <i class="fa-brands fa-telegram" style="color:#fff;font-size:20px;"></i>
-        </div>
+      <div class="sp-contact-row">
+        <div class="sp-cicon tg"><i class="fa-brands fa-telegram" style="color:#fff;font-size:20px;"></i></div>
         <div class="sp-cinfo">
           <div class="sp-cname" id="spTgName">টেলিগ্রাম সাপোর্ট</div>
           <div class="sp-chandle" id="spTgHandle">@ZomatoSupport</div>
         </div>
-        <button class="sp-cbtn" onclick="spContactAction('telegram')">
-          <i class="fa-brands fa-telegram" style="font-size:12px;"></i> চ্যাট শুরু
-        </button>
+        <button class="sp-cbtn" onclick="spContactAction('telegram')"><i class="fa-brands fa-telegram" style="font-size:12px;"></i> চ্যাট শুরু</button>
       </div>
-      <div class="sp-contact-row" id="spContactEmail">
+      <div class="sp-contact-row">
         <div class="sp-cicon em">✉️</div>
         <div class="sp-cinfo">
           <div class="sp-cname" id="spEmailName">ইমেইল সাপোর্ট</div>
           <div class="sp-chandle" id="spEmailHandle">support@zomato-platform.com</div>
         </div>
-        <button class="sp-cbtn" onclick="spContactAction('email')">
-          ✉️ ইমেইল পাঠান
-        </button>
+        <button class="sp-cbtn" onclick="spContactAction('email')">✉️ ইমেইল পাঠান</button>
       </div>
-      <div class="sp-contact-row" id="spContactLive">
+      <div class="sp-contact-row">
         <div class="sp-cicon lv">💬</div>
         <div class="sp-cinfo">
           <div class="sp-cname" id="spLiveName">লাইভ সাপোর্ট</div>
           <div class="sp-chandle" id="spLiveHandle">সকাল ১০টা - রাত ১০টা (প্রতিদিন)</div>
         </div>
-        <button class="sp-cbtn" onclick="spContactAction('live')">
-          💬 এখনই চ্যাট
-        </button>
+        <button class="sp-cbtn" onclick="spContactAction('live')">💬 এখনই চ্যাট</button>
       </div>
     </div>
-
     <div class="sp-faq-card" id="spFaqCard">
       <div class="sp-faq-head">
-        <div class="sp-faq-title">
-          <div class="sp-faq-ic">?</div>
-          সাধারণ প্রশ্নাবলী
-        </div>
+        <div class="sp-faq-title"><div class="sp-faq-ic">?</div> সাধারণ প্রশ্নাবলী</div>
         <div class="sp-faq-all">সব দেখুন →</div>
       </div>
-      <div class="sp-faq-item" onclick="spToggleFaq(this)">
-        <div class="sp-faq-q">কিভাবে কাজ করে?</div>
-        <i class="fa-solid fa-chevron-down sp-faq-arrow"></i>
-      </div>
-      <div class="sp-faq-item" onclick="spToggleFaq(this)">
-        <div class="sp-faq-q">পেমেন্ট কিভাবে পাবো?</div>
-        <i class="fa-solid fa-chevron-down sp-faq-arrow"></i>
-      </div>
-      <div class="sp-faq-item" onclick="spToggleFaq(this)">
-        <div class="sp-faq-q">অ্যাড না দেখালে কি হবে?</div>
-        <i class="fa-solid fa-chevron-down sp-faq-arrow"></i>
-      </div>
-      <div class="sp-faq-item" onclick="spToggleFaq(this)">
-        <div class="sp-faq-q">আমার একাউন্ট সমস্যা হলে কি করবো?</div>
-        <i class="fa-solid fa-chevron-down sp-faq-arrow"></i>
-      </div>
+      <div class="sp-faq-item" onclick="spToggleFaq(this)"><div class="sp-faq-q">কিভাবে কাজ করে?</div><i class="fa-solid fa-chevron-down sp-faq-arrow"></i></div>
+      <div class="sp-faq-item" onclick="spToggleFaq(this)"><div class="sp-faq-q">পেমেন্ট কিভাবে পাবো?</div><i class="fa-solid fa-chevron-down sp-faq-arrow"></i></div>
+      <div class="sp-faq-item" onclick="spToggleFaq(this)"><div class="sp-faq-q">অ্যাড না দেখালে কি হবে?</div><i class="fa-solid fa-chevron-down sp-faq-arrow"></i></div>
+      <div class="sp-faq-item" onclick="spToggleFaq(this)"><div class="sp-faq-q">আমার একাউন্ট সমস্যা হলে কি করবো?</div><i class="fa-solid fa-chevron-down sp-faq-arrow"></i></div>
     </div>
   </div>
 
-  
-
+  <!-- WALLET PAGE -->
   <div class="page" id="page-wallet">
     <div class="pgt"><div class="pgtitle">Wallet</div></div>
-
     <div class="wbal-card">
       <div class="wbal-top">
-        <div class="wbal-label">
-          <i class="fa-solid fa-wallet"></i> Wallet Balance
-        </div>
+        <div class="wbal-label"><i class="fa-solid fa-wallet"></i> Wallet Balance</div>
         <div class="wbal-3d">
-          <div class="wbal-body">
-            <div class="wbal-flap">
-              <div class="wbal-btn"></div>
-            </div>
-          </div>
+          <div class="wbal-body"><div class="wbal-flap"><div class="wbal-btn"></div></div></div>
           <div class="wbal-c wbal-c1">৳</div>
           <div class="wbal-c wbal-c2">৳</div>
         </div>
@@ -1583,54 +617,30 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         <span class="wbal-taka">৳ </span><span class="wbal-num" id="wdBal">0.00</span>
       </div>
       <div style="margin-top:10px;">
-        <div class="wbal-badge">
-          <i class="fa-solid fa-wallet"></i> Total Balance
-        </div>
+        <div class="wbal-badge"><i class="fa-solid fa-wallet"></i> Total Balance</div>
       </div>
     </div>
-
     <div class="wstats-row">
       <div class="wstat-item">
-        <div class="wstat-top">
-          <div class="wstat-ic green"><i class="fa-solid fa-arrow-down"></i></div>
-          Withdrawn
-        </div>
+        <div class="wstat-top"><div class="wstat-ic green"><i class="fa-solid fa-arrow-down"></i></div>Withdrawn</div>
         <div class="wstat-val">৳ <span id="wStatWd">0.00</span></div>
       </div>
       <div class="wstat-item">
-        <div class="wstat-top">
-          <div class="wstat-ic orange"><i class="fa-regular fa-clock"></i></div>
-          Pending
-        </div>
+        <div class="wstat-top"><div class="wstat-ic orange"><i class="fa-regular fa-clock"></i></div>Pending</div>
         <div class="wstat-val">৳ <span id="wStatPending">0.00</span></div>
       </div>
     </div>
-
     <div class="wdform-card">
       <div class="wdform-head">
         <div class="wdform-head-ic"><i class="fa-solid fa-upload"></i></div>
         <div class="wdform-head-txt">Withdraw Money</div>
       </div>
-
       <div class="pm-grid" id="pmGrid">
-        <div class="pm-item active" onclick="selectPM(this,'bkash')">
-          <div class="pm-ic bkash">bKash</div>
-          <div class="pm-lbl">bKash</div>
-        </div>
-        <div class="pm-item" onclick="selectPM(this,'nagad')">
-          <div class="pm-ic nagad">Nagad</div>
-          <div class="pm-lbl">Nagad</div>
-        </div>
-        <div class="pm-item" onclick="selectPM(this,'rocket')">
-          <div class="pm-ic rocket">Rocket</div>
-          <div class="pm-lbl">Rocket</div>
-        </div>
-        <div class="pm-item" onclick="selectPM(this,'binance')">
-          <div class="pm-ic binance">BNB</div>
-          <div class="pm-lbl">Binance</div>
-        </div>
+        <div class="pm-item active" onclick="selectPM(this,'bkash')"><div class="pm-ic bkash">bKash</div><div class="pm-lbl">bKash</div></div>
+        <div class="pm-item" onclick="selectPM(this,'nagad')"><div class="pm-ic nagad">Nagad</div><div class="pm-lbl">Nagad</div></div>
+        <div class="pm-item" onclick="selectPM(this,'rocket')"><div class="pm-ic rocket">Rocket</div><div class="pm-lbl">Rocket</div></div>
+        <div class="pm-item" onclick="selectPM(this,'binance')"><div class="pm-ic binance">BNB</div><div class="pm-lbl">Binance</div></div>
       </div>
-
       <select id="wdWallet" style="display:none;">
         <option value="bkash" selected>bKash</option>
         <option value="nagad">Nagad</option>
@@ -1638,68 +648,49 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         <option value="binance">Binance (USDT)</option>
         <option value="crypto">Crypto</option>
       </select>
-
       <div class="wdinput-g">
         <label class="wdinput-lbl">Account Number</label>
         <div class="wdinput-wrap">
-          <input class="wdinput" type="text" id="wdAcc"
-            placeholder="Enter your account number"
-            inputmode="numeric"
-            oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+          <input class="wdinput" type="text" id="wdAcc" placeholder="Enter your account number" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
           <span class="wdinput-icon"><i class="fa-regular fa-user"></i></span>
         </div>
       </div>
-
       <div class="wdinput-g">
         <label class="wdinput-lbl">Withdraw Amount</label>
         <div class="wdinput-wrap">
-          <input class="wdinput" type="number" id="wdAmt"
-            placeholder="Enter amount"
-            inputmode="numeric" min="0">
+          <input class="wdinput" type="number" id="wdAmt" placeholder="Enter amount" inputmode="numeric" min="0">
           <span class="wdinput-taka">৳</span>
         </div>
-        <div class="wdmin-info">
-          <i class="fa-solid fa-circle-info"></i>
-          Minimum withdraw amount is <span class="mn-val" id="minWd">৳50</span>
-        </div>
       </div>
-
       <button class="wd-btn" id="wdBtn" onclick="handleWithdraw()">
         <span class="wd-btn-txt">Withdraw Now</span>
         <div class="wd-btn-arrow"><i class="fa-solid fa-paper-plane"></i></div>
       </button>
-
       <div class="wd-ad-info" id="wdAdInfo">⚡ <span id="wdAdInfoTxt">Watch ads before withdrawal</span></div>
     </div>
-
     <div class="wdhist-head">
-      <div class="wdhist-title">
-        <i class="fa-regular fa-clock"></i> Withdrawal History
-      </div>
-      <div class="wdhist-all">View All <i class="fa-solid fa-angle-right"></i></div>
+      <div class="wdhist-title"><i class="fa-regular fa-clock"></i> Withdrawal History</div>
     </div>
     <div id="wdHist">
       <div class="empty"><div class="eic">📭</div>No withdrawals yet</div>
     </div>
-
   </div>
 
-</div>
+</div><!-- /mobile-container -->
 
 <div class="bottom-bar">
   <div class="nav-link" id="nav-support" onclick="showPage('support',this)">
     <i class="fa-solid fa-headset"></i> <span>Support</span>
   </div>
-
   <div class="nav-link active" id="nav-home" onclick="showPage('home',this)">
     <i class="fa-solid fa-house"></i> <span>Home</span>
   </div>
-
   <div class="nav-link" id="nav-wallet" onclick="showPage('wallet',this)">
     <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
   </div>
 </div>
 
+<!-- TASK OVERLAY -->
 <div class="task-ov" id="taskOv">
   <div class="task-box">
     <div class="task-box-ic" id="tovIc">📢</div>
@@ -1714,12 +705,11 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
   </div>
 </div>
 
+<!-- AD OVERLAY -->
 <div class="adov" id="adOverlay">
   <div class="adov-card">
     <div class="adov-steps" id="adovSteps"></div>
-    <div class="adov-spinner-wrap">
-      <div class="adov-spinner-ring"></div>
-    </div>
+    <div class="adov-spinner-wrap"><div class="adov-spinner-ring"></div></div>
     <div class="adov-waiting" id="adovWaiting">বিজ্ঞাপন দেখুন, তারপর পরবর্তী চাপুন</div>
     <div class="adov-divider" id="adovDivider"></div>
     <button class="adov-continue" id="adovContinue" onclick="onAdsterraBack()">▶ পরবর্তী</button>
@@ -1732,21 +722,10 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
       <div class="adov-complete-txt" id="adovCompleteTxt">+৳ 0.50 Added!</div>
       <div class="adov-complete-sub" id="adovCompleteSub">Balance updated automatically</div>
     </div>
-    <div class="adov-type" id="adovType"></div>
-    <div class="adov-title" id="adovTitle"></div>
-    <div class="adov-reward-wrap">
-      <div class="adov-reward" id="adovReward">0.50</div>
-      <div class="adov-taka">টাকা</div>
-    </div>
-    <div class="adov-rsub" id="adovRSub"></div>
-    <div class="adov-msg" id="adovMsg"></div>
-    <div class="adov-status" id="adovStatus"></div>
-    <div class="adov-step-lbl" id="adovStepLbl"></div>
-    <div class="adov-net-name" id="adovNetName"></div>
   </div>
 </div>
 
-<!-- ====== RULES POPUP ====== -->
+<!-- RULES POPUP -->
 <div class="rules-ov" id="rulesOv" onclick="closeRulesPopup(event)">
   <div class="rules-box" id="rulesBox">
     <div class="rules-header">
@@ -1758,33 +737,18 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
       </div>
       <div class="rules-close-btn" onclick="closeRulesPopupBtn()">✕</div>
     </div>
-
     <div class="rules-shield-divider">🛡️</div>
-
     <div class="rules-section">
       <div class="rules-section-img">🎬</div>
       <div class="rules-section-header">
         <div class="rules-section-num">01</div>
         <div class="rules-section-title">এড দেখুন (প্রধান আয়)</div>
       </div>
-      <div class="rules-item">
-        <div class="rules-check">✓</div>
-        <div class="rules-item-txt">হলুদ <span>এড দেখুন</span>বাটনে ক্লিক করলে এড আসবে</div>
-      </div>
-      <div class="rules-item">
-        <div class="rules-check">✓</div>
-        <div class="rules-item-txt">এডে কিছুক্ষন <span>অপেক্ষা </span>করতে হবে</div>
-      </div>
-      <div class="rules-item">
-        <div class="rules-check">✓</div>
-        <div class="rules-item-txt">এড শেষ না হতেই<span>এড কাটবেন না।</span>অপেক্ষা না করে এড পেজ কাটলে পেমেন্ট রিজেক্ট হবে</div>
-      </div>
-      <div class="rules-tip">
-        <span class="rules-tip-ic">💡</span>
-        <span>এড দেখুন টাচ করুন → <b>এড দেখুন</b> বিকাশ নগদ রকেটে টাকা নিন</span>
-      </div>
+      <div class="rules-item"><div class="rules-check">✓</div><div class="rules-item-txt">হলুদ <span>এড দেখুন</span> বাটনে ক্লিক করলে এড আসবে</div></div>
+      <div class="rules-item"><div class="rules-check">✓</div><div class="rules-item-txt">এডে কিছুক্ষন <span>অপেক্ষা</span> করতে হবে</div></div>
+      <div class="rules-item"><div class="rules-check">✓</div><div class="rules-item-txt">এড শেষ না হতেই <span>এড কাটবেন না।</span> অপেক্ষা না করে এড পেজ কাটলে পেমেন্ট রিজেক্ট হবে</div></div>
+      <div class="rules-tip"><span class="rules-tip-ic">💡</span><span>এড দেখুন টাচ করুন → <b>এড দেখুন</b> বিকাশ নগদ রকেটে টাকা নিন</span></div>
     </div>
-
     <div class="rules-warning">
       <div class="rules-warning-ic">🛡️</div>
       <div class="rules-warning-txt">
@@ -1799,11 +763,11 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
 <div class="toast" id="toast"></div>
 
 <script>
+// ══ CONFIG ══
 const MINI_LINKS = {
   group: 'https://t.me/zomato_app_payment_proof',
   tutorial: 'https://youtube.com/shorts/q8499pfArbg?si=ag7wd6uFlN0NfFPP'
 };
-
 const firebaseConfig = {
   apiKey: "AIzaSyCSQmJnvmp_BU7YdLcj9jNeCiNxY7eIZXA",
   authDomain: "takar-dorja.firebaseapp.com",
@@ -1814,425 +778,679 @@ const firebaseConfig = {
   appId: "1:718504576681:web:cf742146f8ddf1c1a38bb8"
 };
 firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
+const db = firebase.database();
 
-let APP={userId:null,userName:null,userPhoto:null,balance:0,totalEarned:0,totalWithdrawn:0,referralCode:null,referrals:[],completedTasks:[],watchedAds:[],settings:{referralBonus:5,minWithdraw:50,welcomeBonus:0,botUsername:'YourBot',botToken:'',watchChain:{count:3,reward:0.5,slots:[],cooldownSec:30,dailyLimit:5},withdrawChain:{enabled:false,count:2,message:'Watch ads before withdrawal',slots:[]},credentials:{adsgram:{},monetag:{},adsterra:{}},tasks:[],supportCards:[],video:{},welcome:{enabled:false,emoji:'🎉',title:'Welcome!',message:'Start watching ads and earn money every day!'}}};
-
-let CS={active:false,type:null,queue:[],idx:0,total:0,reward:0,done:false,wdData:null};
-let cooldownInterval=null,cooldownEndTime=0;
-let TOV={taskId:null,link:null,channelId:null};
-let _selectedPM='bkash';
-
-const MONETAG_ZONE='10900318';
-const MONETAG_SDK_FN='show_'+MONETAG_ZONE;
-
-function toArr(v){if(!v)return[];if(Array.isArray(v))return v;return Object.values(v);}
-
-/* ===== RULES POPUP FUNCTIONS ===== */
-function openRulesPopup(){document.getElementById('rulesOv').classList.add('open');}
-function closeRulesPopup(e){if(e.target===document.getElementById('rulesOv'))document.getElementById('rulesOv').classList.remove('open');}
-function closeRulesPopupBtn(){document.getElementById('rulesOv').classList.remove('open');}
-
-function openMiniLink(link){
-  if(!link){showToast('⚠️ Link set করা নেই');return;}
-  const tg=window.Telegram?.WebApp;
-  if(tg){if(link.includes('t.me')||link.includes('telegram'))tg.openTelegramLink(link);else tg.openLink(link);}
-  else window.open(link,'_blank');
-}
-
-function _openLink(link){
-  if(!link)return;
-  const tg=window.Telegram?.WebApp;
-  if(tg){
-    if(link.startsWith('mailto:')){tg.openLink(link);}
-    else if(link.includes('t.me')||link.includes('telegram.me')){tg.openTelegramLink(link);}
-    else{tg.openLink(link);}
-  }else{
-    window.open(link,'_blank');
+// ══ APP STATE ══
+let APP = {
+  userId: null, userName: null, userPhoto: null,
+  balance: 0, totalEarned: 0, totalWithdrawn: 0,
+  referralCode: null, referrals: [], completedTasks: [], watchedAds: [],
+  settings: {
+    referralBonus: 5, minWithdraw: 50, welcomeBonus: 0,
+    botUsername: 'YourBot', botToken: '',
+    watchChain: { count: 3, reward: 0.5, slots: [], cooldownSec: 30, dailyLimit: 5 },
+    withdrawChain: { enabled: false, count: 2, message: 'Watch ads before withdrawal', slots: [] },
+    credentials: { adsgram: {}, monetag: {}, adsterra: {} },
+    tasks: [], supportCards: [], video: {},
+    welcome: { enabled: false, emoji: '🎉', title: 'Welcome!', message: 'Start watching ads and earn money every day!' }
   }
+};
+
+let CS = { active: false, type: null, queue: [], idx: 0, total: 0, reward: 0, done: false, wdData: null };
+let cooldownInterval = null, cooldownEndTime = 0;
+let TOV = { taskId: null, link: null, channelId: null };
+let _selectedPM = 'bkash';
+const MONETAG_ZONE = '10900318';
+const MONETAG_SDK_FN = 'show_' + MONETAG_ZONE;
+
+// ══ HELPERS ══
+// FIX: Firebase arrays কে object হিসেবে store করে → always convert
+function toArr(v) {
+  if (!v) return [];
+  if (Array.isArray(v)) return v;
+  return Object.values(v);
 }
 
-function spQuickAction(type){
-  const cards=APP.settings.supportCards||[];
-  if(type==='chat'){const c=cards[0];if(c&&c.link){_openLink(c.link);}else showToast('⚠️ লাইভ চ্যাট link set করা নেই');}
-  else if(type==='telegram'){const c=cards[1];if(c&&c.link){_openLink(c.link);}else showToast('⚠️ Telegram link set করা নেই');}
-  else if(type==='email'){const c=cards[2];if(c&&c.link){_openLink(c.link);}else showToast('⚠️ Email link set করা নেই');}
-  else if(type==='faq'){document.getElementById('spFaqCard')?.scrollIntoView({behavior:'smooth',block:'start'});}
+// FIX: null-safe element setter — crash prevent করে
+function _set(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
 }
 
-function spContactAction(type){
-  const cards=APP.settings.supportCards||[];
-  if(type==='telegram'){const c=cards[1];if(c&&c.link){_openLink(c.link);}else showToast('⚠️ Telegram link set করা নেই');}
-  else if(type==='email'){const c=cards[2];if(c&&c.link){_openLink(c.link);}else showToast('⚠️ Email link set করা নেই');}
-  else if(type==='live'){const c=cards[0];if(c&&c.link){_openLink(c.link);}else showToast('⚠️ লাইভ চ্যাট link set করা নেই');}
+function maskAccount(acc) {
+  if (!acc || String(acc).length < 5) return acc;
+  const s = String(acc), front = 3, back = 2;
+  return s.slice(0, front) + '*'.repeat(Math.max(s.length - front - back, 3)) + s.slice(-back);
 }
 
-function renderSupport(){
-  const cards=APP.settings.supportCards||[];
-  const qMeta=[
-    {nameId:'sqn0',subId:'sqs0',fallbackName:'লাইভ চ্যাট',fallbackSub:'এখনই কথা বলুন'},
-    {nameId:'sqn1',subId:'sqs1',fallbackName:'টেলিগ্রাম',fallbackSub:'আমাদের চ্যানেল'},
-    {nameId:'sqn2',subId:'sqs2',fallbackName:'ইমেইল করুন',fallbackSub:'সরাসরি মেইল পাঠান'},
+// ══ RULES POPUP ══
+function openRulesPopup() { document.getElementById('rulesOv').classList.add('open'); }
+function closeRulesPopup(e) { if (e.target === document.getElementById('rulesOv')) document.getElementById('rulesOv').classList.remove('open'); }
+function closeRulesPopupBtn() { document.getElementById('rulesOv').classList.remove('open'); }
+
+// ══ WELCOME ══
+function checkWelcomePopup() {
+  const wp = APP.settings.welcome || {};
+  if (!wp.enabled) return;
+  _set('welcomeEmoji', wp.emoji || '🎉');
+  _set('welcomeTitle', wp.title || 'Welcome!');
+  _set('welcomeMsg', wp.message || 'Start earning today!');
+  document.getElementById('welcomeScreen').classList.add('open');
+}
+function closeWelcome() { document.getElementById('welcomeScreen').classList.remove('open'); }
+
+// ══ SUPPORT ══
+function _openLink(link) {
+  if (!link) return;
+  const tg = window.Telegram?.WebApp;
+  if (tg) {
+    if (link.startsWith('mailto:')) tg.openLink(link);
+    else if (link.includes('t.me') || link.includes('telegram.me')) tg.openTelegramLink(link);
+    else tg.openLink(link);
+  } else window.open(link, '_blank');
+}
+
+function spQuickAction(type) {
+  const cards = APP.settings.supportCards || [];
+  if (type === 'chat')     { const c = cards[0]; c?.link ? _openLink(c.link) : showToast('⚠️ লাইভ চ্যাট link set করা নেই'); }
+  else if (type === 'telegram') { const c = cards[1]; c?.link ? _openLink(c.link) : showToast('⚠️ Telegram link set করা নেই'); }
+  else if (type === 'email')    { const c = cards[2]; c?.link ? _openLink(c.link) : showToast('⚠️ Email link set করা নেই'); }
+  else if (type === 'faq') document.getElementById('spFaqCard')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function spContactAction(type) {
+  const cards = APP.settings.supportCards || [];
+  if (type === 'telegram') { const c = cards[1]; c?.link ? _openLink(c.link) : showToast('⚠️ Telegram link set করা নেই'); }
+  else if (type === 'email')  { const c = cards[2]; c?.link ? _openLink(c.link) : showToast('⚠️ Email link set করা নেই'); }
+  else if (type === 'live')   { const c = cards[0]; c?.link ? _openLink(c.link) : showToast('⚠️ লাইভ চ্যাট link set করা নেই'); }
+}
+
+function renderSupport() {
+  const cards = APP.settings.supportCards || [];
+  const qMeta = [
+    { nameId: 'sqn0', subId: 'sqs0', fn: 'লাইভ চ্যাট', fs: 'এখনই কথা বলুন' },
+    { nameId: 'sqn1', subId: 'sqs1', fn: 'টেলিগ্রাম', fs: 'আমাদের চ্যানেল' },
+    { nameId: 'sqn2', subId: 'sqs2', fn: 'ইমেইল করুন', fs: 'সরাসরি মেইল পাঠান' },
   ];
-  qMeta.forEach((m,i)=>{
-    const c=cards[i];
-    const nm=document.getElementById(m.nameId);const sb=document.getElementById(m.subId);
-    if(nm)nm.textContent=c?.title||m.fallbackName;if(sb)sb.textContent=c?.desc||m.fallbackSub;
+  qMeta.forEach((m, i) => {
+    const c = cards[i];
+    _set(m.nameId, c?.title || m.fn);
+    _set(m.subId, c?.desc || m.fs);
   });
-  const tgCard=cards[1];const tgNameEl=document.getElementById('spTgName');const tgHandleEl=document.getElementById('spTgHandle');
-  if(tgNameEl)tgNameEl.textContent=tgCard?.title||'টেলিগ্রাম সাপোর্ট';if(tgHandleEl)tgHandleEl.textContent=tgCard?.desc||tgCard?.link||'@ZomatoSupport';
-  const emCard=cards[2];const emNameEl=document.getElementById('spEmailName');const emHandleEl=document.getElementById('spEmailHandle');
-  if(emNameEl)emNameEl.textContent=emCard?.title||'ইমেইল সাপোর্ট';if(emHandleEl)emHandleEl.textContent=emCard?.desc||emCard?.link||'support@zomato-platform.com';
-  const lvCard=cards[0];const lvNameEl=document.getElementById('spLiveName');const lvHandleEl=document.getElementById('spLiveHandle');
-  if(lvNameEl)lvNameEl.textContent=lvCard?.title||'লাইভ সাপোর্ট';if(lvHandleEl)lvHandleEl.textContent=lvCard?.desc||'সকাল ১০টা - রাত ১০টা (প্রতিদিন)';
-  const el=document.getElementById('supGrid');
-  if(el){if(!cards.length){el.innerHTML=`<div class="empty" style="grid-column:span 2;font-family:'Hind Siliguri',sans-serif">কোনো সাপোর্ট লিংক নেই</div>`;return;}el.innerHTML=cards.map(c=>`<a href="${c.link||'#'}" class="scard" target="_blank"><div class="sic" style="background:${c.bg||'var(--as)'}">${c.icon||'💬'}</div><div class="st">${c.title}</div><div class="sd">${c.desc||''}</div></a>`).join('');}
+  const tgC = cards[1]; _set('spTgName', tgC?.title || 'টেলিগ্রাম সাপোর্ট'); _set('spTgHandle', tgC?.desc || tgC?.link || '@ZomatoSupport');
+  const emC = cards[2]; _set('spEmailName', emC?.title || 'ইমেইল সাপোর্ট'); _set('spEmailHandle', emC?.desc || emC?.link || 'support@zomato-platform.com');
+  const lvC = cards[0]; _set('spLiveName', lvC?.title || 'লাইভ সাপোর্ট'); _set('spLiveHandle', lvC?.desc || 'সকাল ১০টা - রাত ১০টা (প্রতিদিন)');
 }
 
-function spToggleFaq(el){
-  const arrow=el.querySelector('.sp-faq-arrow');
-  if(arrow){arrow.style.transform=arrow.style.transform==='rotate(180deg)'?'':'rotate(180deg)';}
+function spToggleFaq(el) {
+  const arrow = el.querySelector('.sp-faq-arrow');
+  if (arrow) arrow.style.transform = arrow.style.transform === 'rotate(180deg)' ? '' : 'rotate(180deg)';
 }
 
-function selectPM(el,val){
-  document.querySelectorAll('.pm-item').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');_selectedPM=val;document.getElementById('wdWallet').value=val;
+// ══ PAYMENT METHOD ══
+function selectPM(el, val) {
+  document.querySelectorAll('.pm-item').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  _selectedPM = val;
+  document.getElementById('wdWallet').value = val;
 }
 
-function maskAccount(acc){
-  if(!acc||String(acc).length<5)return acc;
-  var s=String(acc);var front=3,back=2;
-  var stars='*'.repeat(Math.max(s.length-front-back,3));
-  return s.slice(0,front)+stars+s.slice(-back);
-}
-
-window.addEventListener('DOMContentLoaded',async()=>{
-  setTimeout(async()=>{
-    try{
-      const cfgSnap=await db.ref('settings/autoReject').get();const cfg=cfgSnap.val();
-      if(!cfg||!cfg.enabled)return;
-      const cutoff=Date.now()-((cfg.hours||1)*3600000);const wSnap=await db.ref('withdrawals').get();
-      if(!wSnap.exists())return;const tasks=[];
-      wSnap.forEach(c=>{const w=c.val();if(w.status==='pending'&&new Date(w.createdAt).getTime()<cutoff)tasks.push({id:c.key,userId:w.userId,amount:w.amount});});
-      for(const w of tasks){
-        await db.ref('withdrawals/'+w.id).update({status:'rejected',reason:'[Auto] '+(cfg.reason||'সময়মতো প্রসেস করা হয়নি')});
-        const uSnap=await db.ref('users/'+w.userId).get();
-        if(uSnap.exists()){const d=uSnap.val();await db.ref('users/'+w.userId).update({balance:(d.balance||0)+w.amount,totalWithdrawn:Math.max(0,(d.totalWithdrawn||0)-w.amount)});}
+// ══ AUTO REJECT (client-side) ══
+async function runClientAutoReject() {
+  try {
+    const cfgSnap = await db.ref('settings/autoReject').get();
+    const cfg = cfgSnap.val();
+    if (!cfg || !cfg.enabled) return;
+    const cutoff = Date.now() - ((cfg.hours || 1) * 3600000);
+    const wSnap = await db.ref('withdrawals').get();
+    if (!wSnap.exists()) return;
+    const tasks = [];
+    wSnap.forEach(c => {
+      const w = c.val();
+      if (w.status === 'pending' && new Date(w.createdAt).getTime() < cutoff)
+        tasks.push({ id: c.key, userId: w.userId, amount: w.amount });
+    });
+    for (const w of tasks) {
+      await db.ref('withdrawals/' + w.id).update({ status: 'rejected', reason: '[Auto] ' + (cfg.reason || 'সময়মতো প্রসেস করা হয়নি') });
+      const uSnap = await db.ref('users/' + w.userId).get();
+      if (uSnap.exists()) {
+        const d = uSnap.val();
+        await db.ref('users/' + w.userId).update({ balance: (d.balance || 0) + w.amount, totalWithdrawn: Math.max(0, (d.totalWithdrawn || 0) - w.amount) });
       }
-    }catch(e){}
-  },3000);
+    }
+  } catch (e) { }
+}
 
-  const tg=window.Telegram?.WebApp;
-  if(tg){tg.ready();tg.expand();tg.setBackgroundColor('#06030c');}
-  const user=tg?.initDataUnsafe?.user;
-  if(user){APP.userId=String(user.id);APP.userName=[user.first_name,user.last_name].filter(Boolean).join(' ');APP.userPhoto=user.photo_url||null;}
-  else{APP.userId='demo_001';APP.userName='Demo User';}
-  APP.referralCode=APP.userId;
-  const startParam=tg?.initDataUnsafe?.start_param;
+// ══ MAIN INIT ══
+window.addEventListener('DOMContentLoaded', async () => {
+  setTimeout(runClientAutoReject, 3000);
 
-  try{
-    let welcomeShown=false;
-    db.ref('settings').on('value',snap=>{
-      const s=snap.val()||{};APP.settings={...APP.settings,...s};
-      renderTasks();renderSupport();renderVideo();
-      updateWatchCard();updateWdBtn();updateUI();
-      document.getElementById('rbLbl').textContent=`৳ ${(APP.settings.referralBonus||5).toFixed(2)}`;
-      document.getElementById('minWd').textContent=`৳ ${(APP.settings.minWithdraw||50).toFixed(2)}`;
-      if(!welcomeShown){welcomeShown=true;setTimeout(checkWelcomePopup,800);}
+  const tg = window.Telegram?.WebApp;
+  if (tg) { tg.ready(); tg.expand(); tg.setBackgroundColor('#06030c'); }
+  const user = tg?.initDataUnsafe?.user;
+  if (user) {
+    APP.userId = String(user.id);
+    APP.userName = [user.first_name, user.last_name].filter(Boolean).join(' ');
+    APP.userPhoto = user.photo_url || null;
+  } else {
+    APP.userId = 'demo_001';
+    APP.userName = 'Demo User';
+  }
+  APP.referralCode = APP.userId;
+  const startParam = tg?.initDataUnsafe?.start_param;
+
+  try {
+    let welcomeShown = false;
+
+    // ── Settings listener — FIX: null-safe _set() দিয়ে crash prevent ──
+    db.ref('settings').on('value', snap => {
+      const s = snap.val() || {};
+      APP.settings = { ...APP.settings, ...s };
+
+      renderTasks();
+      renderSupport();
+
+      // FIX: null-safe element access (rbLbl এই HTML এ নেই, তাই _set() use করছি)
+      _set('minWd', `৳ ${(APP.settings.minWithdraw || 50).toFixed(2)}`);
+
+      updateWatchCard();
+      updateWdBtn();
+      updateUI();
+
+      if (!welcomeShown) { welcomeShown = true; setTimeout(checkWelcomePopup, 800); }
     });
 
-    const uRef=db.ref('users/'+APP.userId);const snap=await uRef.get();
-    if(!snap.exists()){
-      const settingsSnap=await db.ref('settings').get();const settingsData=settingsSnap.val()||{};
-      const wb=settingsData.welcomeBonus??0;const rb=settingsData.referralBonus??5;
-      await uRef.set({userId:APP.userId,userName:APP.userName,balance:wb,totalEarned:wb,totalWithdrawn:0,referredBy:startParam||null,referrals:[],completedTasks:[],watchedAds:[],blocked:false,cooldownEndTime:0,joinedAt:new Date().toISOString()});
-      if(startParam&&startParam!==APP.userId){
-        const rs=await db.ref('users/'+startParam).get();
-        if(rs.exists()){const rd=rs.val();const existingRefs=toArr(rd.referrals);await db.ref('users/'+startParam).update({balance:(rd.balance||0)+rb,totalEarned:(rd.totalEarned||0)+rb,referrals:[...existingRefs,{userId:APP.userId,name:APP.userName,date:new Date().toISOString()}]});}
+    const uRef = db.ref('users/' + APP.userId);
+    const snap = await uRef.get();
+    if (!snap.exists()) {
+      const settingsSnap = await db.ref('settings').get();
+      const settingsData = settingsSnap.val() || {};
+      const wb = settingsData.welcomeBonus ?? 0;
+      const rb = settingsData.referralBonus ?? 5;
+      await uRef.set({
+        userId: APP.userId, userName: APP.userName,
+        balance: wb, totalEarned: wb, totalWithdrawn: 0,
+        referredBy: startParam || null, referrals: [],
+        completedTasks: [], watchedAds: [], blocked: false,
+        cooldownEndTime: 0, joinedAt: new Date().toISOString()
+      });
+      if (startParam && startParam !== APP.userId) {
+        const rs = await db.ref('users/' + startParam).get();
+        if (rs.exists()) {
+          const rd = rs.val();
+          const existingRefs = toArr(rd.referrals);
+          await db.ref('users/' + startParam).update({
+            balance: (rd.balance || 0) + rb,
+            totalEarned: (rd.totalEarned || 0) + rb,
+            referrals: [...existingRefs, { userId: APP.userId, name: APP.userName, date: new Date().toISOString() }]
+          });
+        }
       }
     }
 
-    uRef.on('value',snap=>{
-      const d=snap.val();if(!d)return;
-      if(d.blocked===true){document.getElementById('blockedScreen').style.display='flex';const ls=document.getElementById('ls');if(ls)ls.style.display='none';if(window.Telegram?.WebApp)setTimeout(()=>window.Telegram.WebApp.close(),400);return;}
-      APP.balance=d.balance||0;APP.totalEarned=d.totalEarned||0;APP.totalWithdrawn=d.totalWithdrawn||0;
-      APP.referrals=toArr(d.referrals);APP.completedTasks=toArr(d.completedTasks);APP.watchedAds=toArr(d.watchedAds);
-      cooldownEndTime=d.cooldownEndTime||0;
-      updateUI();updateWatchCard();checkCooldown();
+    uRef.on('value', snap => {
+      const d = snap.val();
+      if (!d) return;
+      // ── BLOCKED CHECK ──
+      if (d.blocked === true) {
+        document.getElementById('blockedScreen').style.display = 'flex';
+        const ls = document.getElementById('ls');
+        if (ls) ls.style.display = 'none';
+        if (window.Telegram?.WebApp) setTimeout(() => window.Telegram.WebApp.close(), 1500);
+        return;
+      }
+      APP.balance = d.balance || 0;
+      APP.totalEarned = d.totalEarned || 0;
+      APP.totalWithdrawn = d.totalWithdrawn || 0;
+      // FIX: toArr() দিয়ে Firebase object→array
+      APP.referrals = toArr(d.referrals);
+      APP.completedTasks = toArr(d.completedTasks);
+      APP.watchedAds = toArr(d.watchedAds);
+      cooldownEndTime = d.cooldownEndTime || 0;
+      updateUI();
+      updateWatchCard();
+      checkCooldown();
     });
 
-    db.ref('withdrawals').on('value',snap=>{
-      const items=[];
-      snap.forEach(c=>{const v=c.val();if(v&&String(v.userId)===String(APP.userId))items.push({id:c.key,...v});});
-      items.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+    db.ref('withdrawals').on('value', snap => {
+      const items = [];
+      snap.forEach(c => {
+        const v = c.val();
+        if (v && String(v.userId) === String(APP.userId)) items.push({ id: c.key, ...v });
+      });
+      items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       renderWdHist(items);
     });
 
-  }catch(e){console.error(e);showToast('⚠️ Connection error');}
+  } catch (e) {
+    console.error(e);
+    showToast('⚠️ Connection error');
+  }
 
-  updateProfile();updateUI();
+  updateProfile();
+  updateUI();
 });
 
-function checkWelcomePopup(){const wp=APP.settings.welcome||{};if(!wp.enabled)return;document.getElementById('welcomeEmoji').textContent=wp.emoji||'🎉';document.getElementById('welcomeTitle').textContent=wp.title||'Welcome!';document.getElementById('welcomeMsg').textContent=wp.message||'Start earning today!';document.getElementById('welcomeScreen').classList.add('open');}
-function closeWelcome(){document.getElementById('welcomeScreen').classList.remove('open');}
-
-function renderTasks(){
-  const tasks=(APP.settings.tasks||[]).filter(t=>t.active!==false);
-  const el=document.getElementById('taskList');
-  if(!tasks.length){el.innerHTML=`<div class="empty" style="min-width:100%"><div class="eic">📋</div>No tasks yet</div>`;return;}
-  function getIconEl(t){
-    const link=(t.link||'').toLowerCase();
-    if(link.includes('t.me')||link.includes('telegram'))return`<div class="t-icon t-tg"><i class="fa-brands fa-telegram"></i></div>`;
-    if(link.includes('youtube')||link.includes('youtu.be'))return`<div class="t-icon t-yt"><i class="fa-brands fa-youtube"></i></div>`;
-    if(link.includes('whatsapp'))return`<div class="t-icon t-msg"><i class="fa-brands fa-whatsapp"></i></div>`;
-    return`<div class="t-icon t-gen" style="background:${t.bg||'rgba(124,111,253,.8)'}">${t.icon||'✅'}</div>`;
+// ══ TASKS ══
+function renderTasks() {
+  const tasks = (APP.settings.tasks || []).filter(t => t.active !== false);
+  const el = document.getElementById('taskList');
+  if (!el) return;
+  if (!tasks.length) { el.innerHTML = `<div class="empty" style="min-width:100%"><div class="eic">📋</div>No tasks yet</div>`; return; }
+  function getIconEl(t) {
+    const link = (t.link || '').toLowerCase();
+    if (link.includes('t.me') || link.includes('telegram')) return `<div class="t-icon t-tg"><i class="fa-brands fa-telegram"></i></div>`;
+    if (link.includes('youtube') || link.includes('youtu.be')) return `<div class="t-icon t-yt"><i class="fa-brands fa-youtube"></i></div>`;
+    return `<div class="t-icon t-gen" style="background:${t.bg || 'rgba(124,111,253,.8)'}">${t.icon || '✅'}</div>`;
   }
-  el.innerHTML=tasks.map(t=>{
-    const done=APP.completedTasks.includes(t.id);const hasCh=t.channelId||t.channelUsername;
-    const actionEl=done?`<div class="t-done-check">✓</div>`:hasCh?`<div class="t-arrow" onclick="openTaskVerify('${t.id}')"><i class="fa-solid fa-arrow-right"></i></div>`:`<div class="t-arrow" onclick="doTaskDirect('${t.id}')"><i class="fa-solid fa-arrow-right"></i></div>`;
-    return`<div class="task-slide-item ${done?'done':''}">${getIconEl(t)}<div class="t-info"><h4>${t.name}</h4><p>${t.desc||''}</p><div class="t-reward-txt">+৳ ${Number(t.reward).toFixed(2)}</div></div>${actionEl}</div>`;
+  el.innerHTML = tasks.map(t => {
+    const done = APP.completedTasks.includes(t.id);
+    const hasCh = t.channelId || t.channelUsername;
+    const actionEl = done
+      ? `<div class="t-done-check">✓</div>`
+      : hasCh
+        ? `<div class="t-arrow" onclick="openTaskVerify('${t.id}')"><i class="fa-solid fa-arrow-right"></i></div>`
+        : `<div class="t-arrow" onclick="doTaskDirect('${t.id}')"><i class="fa-solid fa-arrow-right"></i></div>`;
+    return `<div class="task-slide-item ${done ? 'done' : ''}">${getIconEl(t)}<div class="t-info"><h4>${t.name}</h4><p>${t.desc || ''}</p><div class="t-reward-txt">+৳ ${Number(t.reward).toFixed(2)}</div></div>${actionEl}</div>`;
   }).join('');
 }
 
-async function doTaskDirect(id){const t=(APP.settings.tasks||[]).find(x=>x.id===id);if(!t||APP.completedTasks.includes(id))return;if(t.link){const tg=window.Telegram?.WebApp;if(tg&&t.link.includes('t.me'))tg.openTelegramLink(t.link);else window.open(t.link,'_blank');await new Promise(r=>setTimeout(r,2000));}await completeTask(id,t);}
-
-function openTaskVerify(id){const t=(APP.settings.tasks||[]).find(x=>x.id===id);if(!t||APP.completedTasks.includes(id))return;TOV={taskId:id,link:t.link||'',channelId:t.channelId||t.channelUsername||''};document.getElementById('tovIc').textContent=t.icon||'📢';document.getElementById('tovTitle').textContent=t.name;document.getElementById('tovSub').textContent=`Join the channel to earn ৳${Number(t.reward).toFixed(2)}. After joining, tap "Verify" to claim.`;document.getElementById('tovStatus').textContent='';document.getElementById('tovVerifyBtn').textContent="✅ I've Joined — Verify";document.getElementById('tovVerifyBtn').classList.remove('verifying');document.getElementById('taskOv').classList.add('open');}
-function tovOpenLink(){if(!TOV.link)return;const tg=window.Telegram?.WebApp;if(tg&&TOV.link.includes('t.me'))tg.openTelegramLink(TOV.link);else window.open(TOV.link,'_blank');}
-
-async function tovVerify(){
-  const id=TOV.taskId;const t=(APP.settings.tasks||[]).find(x=>x.id===id);if(!t)return;
-  const botToken=APP.settings.botToken||'';const channelId=TOV.channelId;
-  if(!botToken||!channelId){await completeTask(id,t);tovClose();return;}
-  const btn=document.getElementById('tovVerifyBtn');const status=document.getElementById('tovStatus');
-  btn.textContent='⏳ Verifying...';btn.classList.add('verifying');
-  status.style.color='var(--muted)';status.textContent='Checking membership...';
-  try{
-    const cid=channelId.startsWith('@')?channelId:'@'+channelId;
-    const res=await fetch(`https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(cid)}&user_id=${APP.userId}`);
-    const data=await res.json();
-    if(data.ok){
-      const st=data.result?.status;
-      if(['member','administrator','creator','restricted'].includes(st)){status.style.color='var(--green)';status.textContent='✅ Verified! Reward added.';await completeTask(id,t);setTimeout(tovClose,1200);}
-      else{status.style.color='var(--red)';status.textContent='❌ Not a member yet. Please join first!';btn.textContent="✅ I've Joined — Verify";btn.classList.remove('verifying');}
-    }else{status.style.color='var(--yellow)';status.textContent='⚠️ Could not verify. Reward added anyway.';await completeTask(id,t);setTimeout(tovClose,1400);}
-  }catch(e){status.style.color='var(--yellow)';status.textContent='⚠️ Verify failed. Reward added.';await completeTask(id,t);setTimeout(tovClose,1400);}
+async function doTaskDirect(id) {
+  const t = (APP.settings.tasks || []).find(x => x.id === id);
+  if (!t || APP.completedTasks.includes(id)) return;
+  if (t.link) {
+    const tg = window.Telegram?.WebApp;
+    if (tg && t.link.includes('t.me')) tg.openTelegramLink(t.link);
+    else window.open(t.link, '_blank');
+    await new Promise(r => setTimeout(r, 2000));
+  }
+  await completeTask(id, t);
 }
 
-function tovClose(){document.getElementById('taskOv').classList.remove('open');TOV={taskId:null,link:null,channelId:null};}
+function openTaskVerify(id) {
+  const t = (APP.settings.tasks || []).find(x => x.id === id);
+  if (!t || APP.completedTasks.includes(id)) return;
+  TOV = { taskId: id, link: t.link || '', channelId: t.channelId || t.channelUsername || '' };
+  _set('tovIc', t.icon || '📢');
+  _set('tovTitle', t.name);
+  _set('tovSub', `Join the channel to earn ৳${Number(t.reward).toFixed(2)}. After joining, tap "Verify" to claim.`);
+  _set('tovStatus', '');
+  _set('tovVerifyBtn', "✅ I've Joined — Verify");
+  document.getElementById('taskOv').classList.add('open');
+}
+function tovOpenLink() {
+  if (!TOV.link) return;
+  const tg = window.Telegram?.WebApp;
+  if (tg && TOV.link.includes('t.me')) tg.openTelegramLink(TOV.link);
+  else window.open(TOV.link, '_blank');
+}
+async function tovVerify() {
+  const id = TOV.taskId;
+  const t = (APP.settings.tasks || []).find(x => x.id === id);
+  if (!t) return;
+  const botToken = APP.settings.botToken || '';
+  const channelId = TOV.channelId;
+  if (!botToken || !channelId) { await completeTask(id, t); tovClose(); return; }
+  const btn = document.getElementById('tovVerifyBtn');
+  const status = document.getElementById('tovStatus');
+  _set('tovVerifyBtn', '⏳ Verifying...');
+  status.style.color = 'var(--muted)'; _set('tovStatus', 'Checking membership...');
+  try {
+    const cid = channelId.startsWith('@') ? channelId : '@' + channelId;
+    const res = await fetch(`https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(cid)}&user_id=${APP.userId}`);
+    const data = await res.json();
+    if (data.ok) {
+      const st = data.result?.status;
+      if (['member', 'administrator', 'creator', 'restricted'].includes(st)) {
+        status.style.color = 'var(--green)'; _set('tovStatus', '✅ Verified! Reward added.');
+        await completeTask(id, t); setTimeout(tovClose, 1200);
+      } else {
+        status.style.color = 'var(--red)'; _set('tovStatus', '❌ Not a member yet. Please join first!');
+        _set('tovVerifyBtn', "✅ I've Joined — Verify");
+      }
+    } else {
+      status.style.color = 'var(--yellow)'; _set('tovStatus', '⚠️ Could not verify. Reward added anyway.');
+      await completeTask(id, t); setTimeout(tovClose, 1400);
+    }
+  } catch (e) {
+    status.style.color = 'var(--yellow)'; _set('tovStatus', '⚠️ Verify failed. Reward added.');
+    await completeTask(id, t); setTimeout(tovClose, 1400);
+  }
+}
+function tovClose() { document.getElementById('taskOv').classList.remove('open'); TOV = { taskId: null, link: null, channelId: null }; }
 
-async function completeTask(id,t){
-  if(APP.completedTasks.includes(id))return;
-  const s=await db.ref('users/'+APP.userId).get();const d=s.val();
-  const existingTasks=toArr(d.completedTasks);
-  await db.ref('users/'+APP.userId).update({balance:(d.balance||0)+Number(t.reward),totalEarned:(d.totalEarned||0)+Number(t.reward),completedTasks:[...existingTasks,id]});
+async function completeTask(id, t) {
+  if (APP.completedTasks.includes(id)) return;
+  const s = await db.ref('users/' + APP.userId).get();
+  const d = s.val();
+  const existingTasks = toArr(d.completedTasks);
+  await db.ref('users/' + APP.userId).update({
+    balance: (d.balance || 0) + Number(t.reward),
+    totalEarned: (d.totalEarned || 0) + Number(t.reward),
+    completedTasks: [...existingTasks, id]
+  });
   showToast(`+৳ ${Number(t.reward).toFixed(2)} টাকা added!`);
 }
 
-function checkCooldown(){if(cooldownEndTime>Date.now())startCooldownUI(cooldownEndTime-Date.now());else clearCooldownUI();}
-function startCooldownUI(remainingMs){
+// ══ COOLDOWN ══
+function checkCooldown() { if (cooldownEndTime > Date.now()) startCooldownUI(cooldownEndTime - Date.now()); else clearCooldownUI(); }
+function startCooldownUI(remainingMs) {
   clearInterval(cooldownInterval);
-  const btn=document.getElementById('watchBtn');const barWrap=document.getElementById('cooldownBarWrap');const bar=document.getElementById('cooldownBar');
-  const totalSec=APP.settings.watchChain?.cooldownSec||30;
-  barWrap.style.display='block';btn.disabled=true;btn.className='watch-ad-btn cooldown';
-  cooldownInterval=setInterval(()=>{const left=Math.max(0,cooldownEndTime-Date.now());const sec=Math.ceil(left/1000);bar.style.width=((left/(totalSec*1000))*100)+'%';if(sec>0){document.getElementById('watchBtnTxt').textContent=`⏳ Wait ${sec}s...`;}else clearCooldownUI();},500);
+  const btn = document.getElementById('watchBtn');
+  const barWrap = document.getElementById('cooldownBarWrap');
+  const bar = document.getElementById('cooldownBar');
+  const totalSec = APP.settings.watchChain?.cooldownSec || 30;
+  barWrap.style.display = 'block';
+  btn.disabled = true;
+  btn.className = 'watch-ad-btn cooldown';
+  cooldownInterval = setInterval(() => {
+    const left = Math.max(0, cooldownEndTime - Date.now());
+    const sec = Math.ceil(left / 1000);
+    bar.style.width = ((left / (totalSec * 1000)) * 100) + '%';
+    if (sec > 0) { _set('watchBtnTxt', `⏳ Wait ${sec}s...`); }
+    else clearCooldownUI();
+  }, 500);
 }
-function clearCooldownUI(){
-  clearInterval(cooldownInterval);const btn=document.getElementById('watchBtn');
-  document.getElementById('cooldownBarWrap').style.display='none';
-  if(isDailyLimitReached()){btn.disabled=true;btn.className='watch-ad-btn limit-done';document.getElementById('watchBtnTxt').textContent="✅ Today's limit reached";return;}
-  btn.disabled=false;btn.className='watch-ad-btn';document.getElementById('watchBtnTxt').textContent='বিজ্ঞাপন দেখুন';
+function clearCooldownUI() {
+  clearInterval(cooldownInterval);
+  const btn = document.getElementById('watchBtn');
+  document.getElementById('cooldownBarWrap').style.display = 'none';
+  if (isDailyLimitReached()) {
+    btn.disabled = true; btn.className = 'watch-ad-btn limit-done';
+    _set('watchBtnTxt', "✅ Today's limit reached");
+    return;
+  }
+  btn.disabled = false; btn.className = 'watch-ad-btn';
+  _set('watchBtnTxt', 'বিজ্ঞাপন দেখুন');
 }
-function isDailyLimitReached(){const limit=APP.settings.watchChain?.dailyLimit||5;const today=new Date().toDateString();return APP.watchedAds.filter(w=>w.type==='watch_chain'&&new Date(w.date).toDateString()===today).length>=limit;}
 
-function updateWatchCard(){
-  const wc=APP.settings.watchChain||{};const reward=wc.reward||0.5;const limit=wc.dailyLimit||5;
-  document.getElementById('wcRB').textContent=`+৳ ${reward.toFixed(2)}`;
-  document.getElementById('wcLimit').textContent=limit;
-  document.getElementById('adovReward').textContent=reward.toFixed(2);
-  document.getElementById('adRewardLbl').textContent=`৳${reward.toFixed(2)}`;
-  document.getElementById('watchBtnReward').textContent=`৳${reward.toFixed(2)}`;
-  const today=new Date().toDateString();
-  const todayCount=APP.watchedAds.filter(w=>w.type==='watch_chain'&&new Date(w.date).toDateString()===today).length;
-  document.getElementById('wcToday').textContent=todayCount;
-  document.getElementById('wcTodayAd').textContent=todayCount;
-  document.getElementById('limitProgress2').textContent=`${todayCount}/${limit}`;
-  document.getElementById('limitStatusLbl').textContent=todayCount>=limit?'✅ Completed':'In Progress';
+// FIX: watchedAds already is Array (set via toArr in listener)
+// but we double-check with toArr here for safety
+function isDailyLimitReached() {
+  const limit = APP.settings.watchChain?.dailyLimit || 5;
+  const today = new Date().toDateString();
+  return toArr(APP.watchedAds).filter(w => w.type === 'watch_chain' && new Date(w.date).toDateString() === today).length >= limit;
+}
+
+// ── Today count (same fix) ──
+function getTodayWatchCount() {
+  const today = new Date().toDateString();
+  return toArr(APP.watchedAds).filter(w => w.type === 'watch_chain' && new Date(w.date).toDateString() === today).length;
+}
+
+function updateWatchCard() {
+  const wc = APP.settings.watchChain || {};
+  const reward = wc.reward || 0.5;
+  const limit  = wc.dailyLimit || 5;
+  _set('wcRB', `+৳ ${reward.toFixed(2)}`);
+  _set('adRewardLbl', `৳${reward.toFixed(2)}`);
+  _set('watchBtnReward', `৳${reward.toFixed(2)}`);
+  const todayCount = getTodayWatchCount();
+  _set('wcTodayAd', todayCount);
+  _set('wcToday', todayCount);
+  _set('limitProgress2', `${todayCount}/${limit}`);
+  _set('limitStatusLbl', todayCount >= limit ? '✅ Completed' : 'In Progress');
   checkCooldown();
 }
 
-function buildQueue(chainData){const slots=chainData.slots||[];const creds=APP.settings.credentials||{};return slots.map(n=>({name:n,...(creds[n]||{})}));}
+// ══ AD CHAIN ══
+function buildQueue(chainData) {
+  const slots = chainData.slots || [];
+  const creds = APP.settings.credentials || {};
+  return slots.map(n => ({ name: n, ...(creds[n] || {}) }));
+}
 
-function startChain(type,wdData=null){
-  if(type==='watch'&&isDailyLimitReached()){showToast("✅ Today's limit reached");return;}
-  if(type==='watch'&&cooldownEndTime>Date.now()){showToast(`⏳ Wait ${Math.ceil((cooldownEndTime-Date.now())/1000)}s`);return;}
-  const chainData=type==='watch'?(APP.settings.watchChain||{}):(APP.settings.withdrawChain||{});
-  const queue=buildQueue(chainData);
-  if(!queue.length){if(type==='watch'){showToast('⚠️ No ads configured');return;}else{submitWithdrawDirect(wdData);return;}}
-  CS={active:true,type,queue,idx:0,total:queue.length,reward:chainData.reward||0.5,done:false,wdData};
-  _slotAdvanced=false;
+function startChain(type, wdData = null) {
+  if (type === 'watch' && isDailyLimitReached()) { showToast("✅ Today's limit reached"); return; }
+  if (type === 'watch' && cooldownEndTime > Date.now()) { showToast(`⏳ Wait ${Math.ceil((cooldownEndTime - Date.now()) / 1000)}s`); return; }
+  const chainData = type === 'watch' ? (APP.settings.watchChain || {}) : (APP.settings.withdrawChain || {});
+  const queue = buildQueue(chainData);
+  if (!queue.length) {
+    if (type === 'watch') { showToast('⚠️ No ads configured'); return; }
+    else { submitWithdrawDirect(wdData); return; }
+  }
+  CS = { active: true, type, queue, idx: 0, total: queue.length, reward: chainData.reward || 0.5, done: false, wdData };
+  _slotAdvanced = false;
   document.getElementById('adovComplete').classList.remove('show');
   document.getElementById('adovWdLoading').classList.remove('show');
   _hideContinueBtn();
-  if(type==='watch'){document.getElementById('adovReward').textContent=CS.reward.toFixed(2);document.getElementById('adovSteps').style.display='flex';}
-  else{document.getElementById('adovTitle').textContent='Processing...';document.getElementById('adovSteps').style.display='none';document.getElementById('adovWdLoading').classList.add('show');}
-  document.getElementById('adovSteps').innerHTML=queue.map((_,i)=>`<div class="adov-s" id="as_${i}"></div>`).join('');
+  if (type === 'watch') document.getElementById('adovSteps').style.display = 'flex';
+  else { document.getElementById('adovSteps').style.display = 'none'; document.getElementById('adovWdLoading').classList.add('show'); }
+  document.getElementById('adovSteps').innerHTML = queue.map((_, i) => `<div class="adov-s" id="as_${i}"></div>`).join('');
   document.getElementById('adOverlay').classList.add('open');
   playSlot();
 }
 
-let _slotAdvanced=false;
-function _showContinueBtn(){document.getElementById('adovWaiting').classList.add('show');document.getElementById('adovDivider').style.display='block';document.getElementById('adovContinue').classList.add('show');}
-function _hideContinueBtn(){document.getElementById('adovWaiting').classList.remove('show');document.getElementById('adovDivider').style.display='none';document.getElementById('adovContinue').classList.remove('show');}
-function onAdsterraBack(){_hideContinueBtn();_next();}
+let _slotAdvanced = false;
+function _showContinueBtn() {
+  document.getElementById('adovWaiting').classList.add('show');
+  document.getElementById('adovDivider').style.display = 'block';
+  document.getElementById('adovContinue').classList.add('show');
+}
+function _hideContinueBtn() {
+  document.getElementById('adovWaiting').classList.remove('show');
+  document.getElementById('adovDivider').style.display = 'none';
+  document.getElementById('adovContinue').classList.remove('show');
+}
+function onAdsterraBack() { _hideContinueBtn(); _next(); }
 
-function _next(){
-  if(_slotAdvanced||!CS.active)return;_slotAdvanced=true;
-  const el=document.getElementById('as_'+CS.idx);if(el)el.className='adov-s done';
-  CS.idx++;playSlot();
+function _next() {
+  if (_slotAdvanced || !CS.active) return;
+  _slotAdvanced = true;
+  const el = document.getElementById('as_' + CS.idx);
+  if (el) el.className = 'adov-s done';
+  CS.idx++;
+  playSlot();
 }
 
-function playSlot(){
-  if(!CS.active)return;if(CS.idx>=CS.total){chainAllDone();return;}
-  _slotAdvanced=false;_hideContinueBtn();
-  const net=CS.queue[CS.idx];
-  document.querySelectorAll('.adov-s').forEach((el,i)=>{el.className='adov-s'+(i<CS.idx?' done':i===CS.idx?' active':'');});
-  if(net.name==='adsgram'){
-    if(!net.blockId){_next();return;}
-    try{const ctrl=window.Adsgram?.init({blockId:String(net.blockId)});if(!ctrl){_next();return;}ctrl.show().then(()=>_next()).catch(()=>_next());}catch(e){_next();}
-  }else if(net.name==='monetag'){
-    try{
-      const showFn=window[MONETAG_SDK_FN];
-      if(typeof showFn==='function'){showFn().then(()=>{_next();}).catch(()=>{_next();});}
-      else{let retryCount=0;const retryInterval=setInterval(()=>{retryCount++;const fn=window[MONETAG_SDK_FN];if(typeof fn==='function'){clearInterval(retryInterval);fn().then(()=>_next()).catch(()=>_next());}else if(retryCount>=5){clearInterval(retryInterval);_next();}},1000);}
-    }catch(e){_next();}
-  }else if(net.name==='adsterra'){
-    if(!net.link&&!net.script){_next();return;}
-    try{
-      if(net.link){const tg=window.Telegram?.WebApp;if(tg)tg.openLink(net.link);else window.open(net.link,'_blank','noopener');}
-      else if(net.script){const div=document.createElement('div');div.innerHTML=net.script;div.querySelectorAll('script').forEach(sc=>{const ns=document.createElement('script');if(sc.src){ns.src=sc.src;ns.async=true;}else ns.textContent=sc.textContent;document.body.appendChild(ns);});}
-    }catch(e){}
-    _showContinueBtn();
-  }else{_next();}
-}
-
-function onSlotDone(){_next();}
-function onSlotSkip(){_next();}
-
-async function chainAllDone(){
-  if(CS.done)return;CS.done=true;CS.active=false;_slotAdvanced=true;
+function playSlot() {
+  if (!CS.active) return;
+  if (CS.idx >= CS.total) { chainAllDone(); return; }
+  _slotAdvanced = false;
   _hideContinueBtn();
-  document.querySelectorAll('.adov-s').forEach(el=>{if(!el.classList.contains('skip'))el.className='adov-s done';});
-  if(CS.type==='watch'){
-    const reward=CS.reward;const cooldownSec=APP.settings.watchChain?.cooldownSec||30;const newCooldownEnd=Date.now()+(cooldownSec*1000);
-    try{
-      const snap=await db.ref('users/'+APP.userId).get();const d=snap.val();
-      const existingWatched=toArr(d.watchedAds);
-      const nw=[...existingWatched,{date:new Date().toISOString(),reward,type:'watch_chain'}];
-      await db.ref('users/'+APP.userId).update({balance:(d.balance||0)+reward,totalEarned:(d.totalEarned||0)+reward,watchedAds:nw,cooldownEndTime:newCooldownEnd});
-      cooldownEndTime=newCooldownEnd;
-      document.getElementById('adovCompleteTxt').textContent=`+৳ ${reward.toFixed(2)} টাকা Added!`;
-      document.getElementById('adovCompleteSub').textContent='Your balance has been updated';
+  const net = CS.queue[CS.idx];
+  document.querySelectorAll('.adov-s').forEach((el, i) => {
+    el.className = 'adov-s' + (i < CS.idx ? ' done' : i === CS.idx ? ' active' : '');
+  });
+  if (net.name === 'adsgram') {
+    if (!net.blockId) { _next(); return; }
+    try {
+      const ctrl = window.Adsgram?.init({ blockId: String(net.blockId) });
+      if (!ctrl) { _next(); return; }
+      ctrl.show().then(() => _next()).catch(() => _next());
+    } catch (e) { _next(); }
+  } else if (net.name === 'monetag') {
+    try {
+      const showFn = window[MONETAG_SDK_FN];
+      if (typeof showFn === 'function') {
+        showFn().then(() => _next()).catch(() => _next());
+      } else {
+        let retryCount = 0;
+        const retryInterval = setInterval(() => {
+          retryCount++;
+          const fn = window[MONETAG_SDK_FN];
+          if (typeof fn === 'function') { clearInterval(retryInterval); fn().then(() => _next()).catch(() => _next()); }
+          else if (retryCount >= 5) { clearInterval(retryInterval); _next(); }
+        }, 1000);
+      }
+    } catch (e) { _next(); }
+  } else if (net.name === 'adsterra') {
+    if (!net.link && !net.script) { _next(); return; }
+    try {
+      if (net.link) {
+        const tg = window.Telegram?.WebApp;
+        if (tg) tg.openLink(net.link); else window.open(net.link, '_blank', 'noopener');
+      } else if (net.script) {
+        const div = document.createElement('div');
+        div.innerHTML = net.script;
+        div.querySelectorAll('script').forEach(sc => {
+          const ns = document.createElement('script');
+          if (sc.src) { ns.src = sc.src; ns.async = true; } else ns.textContent = sc.textContent;
+          document.body.appendChild(ns);
+        });
+      }
+    } catch (e) { }
+    _showContinueBtn();
+  } else { _next(); }
+}
+
+async function chainAllDone() {
+  if (CS.done) return;
+  CS.done = true; CS.active = false; _slotAdvanced = true;
+  _hideContinueBtn();
+  document.querySelectorAll('.adov-s').forEach(el => { if (!el.classList.contains('skip')) el.className = 'adov-s done'; });
+  if (CS.type === 'watch') {
+    const reward = CS.reward;
+    const cooldownSec = APP.settings.watchChain?.cooldownSec || 30;
+    const newCooldownEnd = Date.now() + (cooldownSec * 1000);
+    try {
+      const snap = await db.ref('users/' + APP.userId).get();
+      const d = snap.val();
+      // FIX: toArr() ensure করছি
+      const existingWatched = toArr(d.watchedAds);
+      const nw = [...existingWatched, { date: new Date().toISOString(), reward, type: 'watch_chain' }];
+      await db.ref('users/' + APP.userId).update({
+        balance: (d.balance || 0) + reward,
+        totalEarned: (d.totalEarned || 0) + reward,
+        watchedAds: nw,
+        cooldownEndTime: newCooldownEnd
+      });
+      cooldownEndTime = newCooldownEnd;
+      _set('adovCompleteTxt', `+৳ ${reward.toFixed(2)} টাকা Added!`);
+      _set('adovCompleteSub', 'Your balance has been updated');
       document.getElementById('adovComplete').classList.add('show');
-      setTimeout(()=>{document.getElementById('adOverlay').classList.remove('open');startCooldownUI(newCooldownEnd-Date.now());showToast(`+৳ ${reward.toFixed(2)} টাকা added!`);CS={active:false,type:null,queue:[],idx:0,total:0,reward:0,done:false,wdData:null};},2000);
-    }catch(e){setTimeout(()=>document.getElementById('adOverlay').classList.remove('open'),2000);}
-  }else{
-    const savedWdData={...CS.wdData};
-    document.getElementById('adovComplete').classList.remove('show');document.getElementById('adovWdLoading').classList.add('show');
-    CS={active:false,type:null,queue:[],idx:0,total:0,reward:0,done:false,wdData:null};
-    try{await submitWithdrawDirect(savedWdData);}catch(e){showToast('❌ Submit error: '+e.message);}
-    document.getElementById('adOverlay').classList.remove('open');document.getElementById('adovWdLoading').classList.remove('show');
+      setTimeout(() => {
+        document.getElementById('adOverlay').classList.remove('open');
+        startCooldownUI(newCooldownEnd - Date.now());
+        showToast(`+৳ ${reward.toFixed(2)} টাকা added!`);
+        CS = { active: false, type: null, queue: [], idx: 0, total: 0, reward: 0, done: false, wdData: null };
+      }, 2000);
+    } catch (e) {
+      setTimeout(() => document.getElementById('adOverlay').classList.remove('open'), 2000);
+    }
+  } else {
+    const savedWdData = { ...CS.wdData };
+    document.getElementById('adovComplete').classList.remove('show');
+    document.getElementById('adovWdLoading').classList.add('show');
+    CS = { active: false, type: null, queue: [], idx: 0, total: 0, reward: 0, done: false, wdData: null };
+    try { await submitWithdrawDirect(savedWdData); } catch (e) { showToast('❌ Submit error: ' + e.message); }
+    document.getElementById('adOverlay').classList.remove('open');
+    document.getElementById('adovWdLoading').classList.remove('show');
   }
 }
 
-function updateWdBtn(){document.getElementById('wdAdInfo').style.display='none';}
+// ══ WITHDRAWAL ══
+function updateWdBtn() { document.getElementById('wdAdInfo').style.display = 'none'; }
 
-function handleWithdraw(){
-  const wallet=document.getElementById('wdWallet').value||_selectedPM;
-  const account=document.getElementById('wdAcc').value.trim();
-  const amount=parseFloat(document.getElementById('wdAmt').value);
-  const minWd=APP.settings.minWithdraw||50;
-  if(!wallet)return showToast('⚠️ Select payment method');
-  if(!account)return showToast('⚠️ Enter account number');
-  if(!amount||amount<minWd)return showToast(`⚠️ Minimum ৳${minWd.toFixed(2)}`);
-  if(amount>APP.balance)return showToast('⚠️ Insufficient balance');
-  const wlMap={bkash:'bKash',nagad:'Nagad',rocket:'Rocket',binance:'Binance (USDT)',crypto:'Crypto'};
-  const wdData={wallet,walletLabel:wlMap[wallet]||wallet,account,amount};
-  const wdc=APP.settings.withdrawChain||{};
-  if(wdc.enabled&&(wdc.slots||[]).length>0)startChain('withdraw',wdData);else submitWithdrawDirect(wdData);
+function handleWithdraw() {
+  const wallet  = document.getElementById('wdWallet').value || _selectedPM;
+  const account = document.getElementById('wdAcc').value.trim();
+  const amount  = parseFloat(document.getElementById('wdAmt').value);
+  const minWd   = APP.settings.minWithdraw || 50;
+  if (!wallet)  return showToast('⚠️ Select payment method');
+  if (!account) return showToast('⚠️ Enter account number');
+  if (!amount || amount < minWd) return showToast(`⚠️ Minimum ৳${minWd.toFixed(2)}`);
+  if (amount > APP.balance) return showToast('⚠️ Insufficient balance');
+  const wlMap = { bkash: 'bKash', nagad: 'Nagad', rocket: 'Rocket', binance: 'Binance (USDT)', crypto: 'Crypto' };
+  const wdData = { wallet, walletLabel: wlMap[wallet] || wallet, account, amount };
+  const wdc = APP.settings.withdrawChain || {};
+  if (wdc.enabled && (wdc.slots || []).length > 0) startChain('withdraw', wdData);
+  else submitWithdrawDirect(wdData);
 }
 
-async function submitWithdrawDirect(wdData){
-  if(!wdData)return;
-  const btn=document.getElementById('wdBtn');const origHTML=btn.innerHTML;
-  btn.disabled=true;btn.innerHTML='<span class="wd-btn-txt">Processing...</span><div class="wd-btn-arrow"><i class="fa-solid fa-spinner fa-spin"></i></div>';
-  try{
-    const snap=await db.ref('users/'+APP.userId).get();const d=snap.val()||{};
-    await db.ref('users/'+APP.userId).update({balance:(d.balance||0)-wdData.amount,totalWithdrawn:(d.totalWithdrawn||0)+wdData.amount});
-    await db.ref('withdrawals').push({userId:APP.userId,userName:APP.userName,wallet:wdData.wallet,walletLabel:wdData.walletLabel,account:wdData.account,amount:wdData.amount,status:'pending',reason:'',createdAt:new Date().toISOString()});
-    document.getElementById('wdWallet').value='bkash';document.getElementById('wdAcc').value='';document.getElementById('wdAmt').value='';
-    document.querySelectorAll('.pm-item').forEach(b=>b.classList.remove('active'));
-    const first=document.querySelector('.pm-item');if(first){first.classList.add('active');_selectedPM='bkash';}
+async function submitWithdrawDirect(wdData) {
+  if (!wdData) return;
+  const btn = document.getElementById('wdBtn');
+  const origHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="wd-btn-txt">Processing...</span><div class="wd-btn-arrow"><i class="fa-solid fa-spinner fa-spin"></i></div>';
+  try {
+    const snap = await db.ref('users/' + APP.userId).get();
+    const d = snap.val() || {};
+    await db.ref('users/' + APP.userId).update({
+      balance: (d.balance || 0) - wdData.amount,
+      totalWithdrawn: (d.totalWithdrawn || 0) + wdData.amount
+    });
+    await db.ref('withdrawals').push({
+      userId: APP.userId, userName: APP.userName,
+      wallet: wdData.wallet, walletLabel: wdData.walletLabel,
+      account: wdData.account, amount: wdData.amount,
+      status: 'pending', reason: '', createdAt: new Date().toISOString()
+    });
+    document.getElementById('wdWallet').value = 'bkash';
+    document.getElementById('wdAcc').value = '';
+    document.getElementById('wdAmt').value = '';
+    document.querySelectorAll('.pm-item').forEach(b => b.classList.remove('active'));
+    const first = document.querySelector('.pm-item');
+    if (first) { first.classList.add('active'); _selectedPM = 'bkash'; }
     showToast('✅ Withdrawal request submitted!');
-  }catch(e){showToast('❌ Error: '+e.message);}
-  btn.disabled=false;btn.innerHTML=origHTML;
+  } catch (e) { showToast('❌ Error: ' + e.message); }
+  btn.disabled = false;
+  btn.innerHTML = origHTML;
 }
 
-function renderVideo(){const v=APP.settings.video||{};document.getElementById('vtitle').textContent=v.title||'কিভাবে কাজ করবেন তার ভিডিও';document.getElementById('vph').innerHTML=`<div style="display:none"></div>`;}
-function openTutorial(){const v=APP.settings.video||{};if(!v.url){showToast('⚠️ Tutorial link set করা নেই');return;}const tg=window.Telegram?.WebApp;if(tg){if(v.url.includes('t.me')||v.url.includes('telegram'))tg.openTelegramLink(v.url);else tg.openLink(v.url);}else window.open(v.url,'_blank');}
-
-function renderRefList(){const el=document.getElementById('rList');const refs=APP.referrals;if(!refs.length){el.innerHTML=`<div class="empty"><div class="eic">👤</div>No referrals yet</div>`;return;}el.innerHTML=[...refs].reverse().map(r=>`<div class="ritem"><div class="rava">${(r.name||'?').charAt(0).toUpperCase()}</div><div><div class="run">${r.name||'Unknown'}</div><div class="rdt">${ta(r.date)}</div></div><div class="re">+৳ ${Number(APP.settings.referralBonus||5).toFixed(2)}</div></div>`).join('');}
-
-function copyRef(){const l=`https://t.me/${APP.settings.botUsername||'YourBot'}?start=${APP.referralCode}`;navigator.clipboard?.writeText(l).catch(()=>{});showToast('📋 Referral link copied!');}
-function shareRef(){const l=`https://t.me/${APP.settings.botUsername||'YourBot'}?start=${APP.referralCode}`;const tg=window.Telegram?.WebApp;const u=`https://t.me/share/url?url=${encodeURIComponent(l)}&text=${encodeURIComponent('🚀 Join Zomato Platform & earn money daily!')}`;if(tg)tg.openTelegramLink(u);else window.open(u,'_blank');}
-
-function renderWdHist(items){
-  const el=document.getElementById('wdHist');
-  const pendingTotal=items.filter(h=>h.status==='pending').reduce((s,h)=>s+Number(h.amount),0);
-  const wStatWd=document.getElementById('wStatWd');const wStatPending=document.getElementById('wStatPending');
-  if(wStatWd)wStatWd.textContent=APP.totalWithdrawn.toFixed(2);if(wStatPending)wStatPending.textContent=pendingTotal.toFixed(2);
-  if(!items.length){el.innerHTML=`<div class="empty"><div class="eic">📭</div>No withdrawals yet</div>`;return;}
-  const logoClass={bkash:'bkash',nagad:'nagad',rocket:'rocket',binance:'binance',crypto:'crypto'};
-  const logoText={bkash:'bK',nagad:'N',rocket:'R',binance:'B',crypto:'₿'};
-  el.innerHTML=items.map(h=>{
-    const lc=logoClass[h.wallet]||'default';const lt=logoText[h.wallet]||'💰';
-    const stClass=h.status==='approved'?'approved':h.status==='rejected'?'rejected':'pending';
-    const stLabel=h.status==='approved'?'Approved':h.status==='rejected'?'Rejected':'Pending';
-    return`<div class="hitem-new"><div class="hitem-logo ${lc}">${lt}</div><div class="hitem-inf"><div class="hitem-name">${h.walletLabel||h.wallet}</div><div class="hitem-acc">${maskAccount(h.account)}</div><div class="hitem-date">${fd(h.createdAt)}</div>${h.status==='rejected'&&h.reason?`<div class="hitem-reject-reason">⚠️ ${h.reason}</div>`:''}</div><div class="hitem-right"><div class="hstatus ${stClass}">${stLabel}</div><div class="hitem-amt">৳ ${Number(h.amount).toFixed(2)}</div></div></div>`;
+function renderWdHist(items) {
+  const pendingTotal = items.filter(h => h.status === 'pending').reduce((s, h) => s + Number(h.amount), 0);
+  _set('wStatWd', APP.totalWithdrawn.toFixed(2));
+  _set('wStatPending', pendingTotal.toFixed(2));
+  const el = document.getElementById('wdHist');
+  if (!items.length) { el.innerHTML = `<div class="empty"><div class="eic">📭</div>No withdrawals yet</div>`; return; }
+  const logoClass = { bkash: 'bkash', nagad: 'nagad', rocket: 'rocket', binance: 'binance', crypto: 'crypto' };
+  const logoText  = { bkash: 'bK', nagad: 'N', rocket: 'R', binance: 'B', crypto: '₿' };
+  el.innerHTML = items.map(h => {
+    const lc = logoClass[h.wallet] || 'default';
+    const lt = logoText[h.wallet] || '💰';
+    const stClass = h.status === 'approved' ? 'approved' : h.status === 'rejected' ? 'rejected' : 'pending';
+    const stLabel = h.status === 'approved' ? 'Approved' : h.status === 'rejected' ? 'Rejected' : 'Pending';
+    return `<div class="hitem-new"><div class="hitem-logo ${lc}">${lt}</div><div class="hitem-inf"><div class="hitem-name">${h.walletLabel || h.wallet}</div><div class="hitem-acc">${maskAccount(h.account)}</div><div class="hitem-date">${fd(h.createdAt)}</div>${h.status === 'rejected' && h.reason ? `<div class="hitem-reject-reason">⚠️ ${h.reason}</div>` : ''}</div><div class="hitem-right"><div class="hstatus ${stClass}">${stLabel}</div><div class="hitem-amt">৳ ${Number(h.amount).toFixed(2)}</div></div></div>`;
   }).join('');
 }
 
-function updateProfile(){
-  document.getElementById('uname').textContent='Hello, '+APP.userName+' 👋';
-  document.getElementById('uid').textContent='ID: '+APP.userId;
-  const wrap=document.getElementById('uava-wrap');
-  if(APP.userPhoto){wrap.innerHTML=`<div class="avatar-wrap"><img src="${APP.userPhoto}" alt="avatar"></div>`;}
-  else{wrap.innerHTML=`<div class="avatar-wrap-text">${APP.userName.charAt(0).toUpperCase()}</div>`;}
+// ══ PROFILE & UI ══
+function updateProfile() {
+  _set('uname', 'Hello, ' + APP.userName + ' 👋');
+  _set('uid', 'ID: ' + APP.userId);
+  const wrap = document.getElementById('uava-wrap');
+  if (APP.userPhoto) wrap.innerHTML = `<div class="avatar-wrap"><img src="${APP.userPhoto}" alt="avatar"></div>`;
+  else wrap.innerHTML = `<div class="avatar-wrap-text">${APP.userName.charAt(0).toUpperCase()}</div>`;
 }
 
-function updateUI(){
-  const refCount=APP.referrals.length;
-  document.getElementById('hbal').textContent=APP.balance.toFixed(2);
-  document.getElementById('sEarned').textContent=APP.totalEarned.toFixed(2);
-  document.getElementById('sWd').textContent=APP.totalWithdrawn.toFixed(2);
-  document.getElementById('sRef').textContent=refCount;
-  document.getElementById('refEarnedLbl').textContent=`+৳${(refCount*(APP.settings.referralBonus||5)).toFixed(2)} Earned`;
-  document.getElementById('wdBal').textContent=APP.balance.toFixed(2);
-  document.getElementById('rTotal').textContent=refCount;
-  document.getElementById('rCoins').textContent=`৳${(refCount*(APP.settings.referralBonus||5)).toFixed(2)}`;
-  document.getElementById('rActive').textContent=refCount;
-  document.getElementById('rLink').textContent=`https://t.me/${APP.settings.botUsername||'YourBot'}?start=${APP.referralCode}`;
-  const wStatWd=document.getElementById('wStatWd');if(wStatWd)wStatWd.textContent=APP.totalWithdrawn.toFixed(2);
-  renderRefList();renderTasks();
+function updateUI() {
+  _set('hbal',    APP.balance.toFixed(2));
+  _set('sEarned', APP.totalEarned.toFixed(2));
+  _set('sWd',     APP.totalWithdrawn.toFixed(2));
+  _set('wdBal',   APP.balance.toFixed(2));
+  _set('wStatWd', APP.totalWithdrawn.toFixed(2));
+  renderTasks();
 }
 
-function showPage(p,el){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(x=>x.classList.remove('active'));
-  document.getElementById('page-'+p).classList.add('active');el.classList.add('active');
+// ══ PAGE NAV ══
+function showPage(p, el) {
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(x => x.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  el.classList.add('active');
 }
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
-function ta(iso){if(!iso)return'';const m=Math.floor((Date.now()-new Date(iso))/60000);if(m<1)return'Just now';if(m<60)return`${m}m ago`;const h=Math.floor(m/60);if(h<24)return`${h}h ago`;return`${Math.floor(h/24)}d ago`;}
-function fd(iso){if(!iso)return'—';return new Date(iso).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});}
+
+// ══ UTILS ══
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+function fd(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+}
+function ta(iso) {
+  if (!iso) return '';
+  const m = Math.floor((Date.now() - new Date(iso)) / 60000);
+  if (m < 1) return 'Just now';
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  return `${Math.floor(h / 24)}d ago`;
+}
 </script>
 </body>
 </html>
