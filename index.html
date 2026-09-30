@@ -1290,7 +1290,13 @@ function playSlot() {
             if (ctrl.removeEventListener && handlers[ev]) ctrl.removeEventListener(ev, handlers[ev]);
           });
         } catch (e) {}
-        _showContinueBtn();
+        // Last Adsgram slot: finish the chain immediately and add the reward.
+        // Earlier Adsgram slots: only show Continue; never auto-advance.
+        if (slotIndex === CS.total - 1) {
+          chainAllDone();
+        } else {
+          _showContinueBtn();
+        }
       };
       const handlers = {
         onReward: finish,
@@ -1323,7 +1329,7 @@ function playSlot() {
       }
     } catch (e) { _showContinueBtn(); }
   } else if (net.name === 'adsterra') {
-    if (!net.link && !net.script) { _next(); return; }
+    if (!net.link && !net.script) { _showContinueBtn(); return; }
     try {
       if (net.link) {
         const tg = window.Telegram?.WebApp;
