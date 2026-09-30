@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<meta name="bengalads-site-verification" content="593724e7ae2aee1e1c57134bab0b1c7fc5411ab8fdfbc451">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Z টাকা আয়</title>
@@ -1271,8 +1271,46 @@ function playSlot() {
     try {
       const ctrl = window.Adsgram?.init({ blockId: String(net.blockId) });
       if (!ctrl) { _next(); return; }
-      ctrl.show().then(() => _next()).catch(() => _next());
-    } catch (e) { _next(); }
+
+      // Adsgram can finish an ad through SDK events (for example,
+      // interstitial auto-complete/close) without relying only on
+      // the show() promise. Advance the chain exactly once.
+      let adsgramAdvanced = false;
+
+      const advanceAdsgram = () => {
+        if (adsgramAdvanced) return;
+        adsgramAdvanced = true;
+
+        // Remove our listeners so a late SDK event cannot advance
+        // a later slot in the chain.
+        try {
+          ctrl.removeEventListener?.('onComplete', onComplete);
+          ctrl.removeEventListener?.('onSkip', onSkip);
+          ctrl.removeEventListener?.('onError', onError);
+        } catch (e) {}
+
+        _next();
+      };
+
+      const onComplete = () => advanceAdsgram();
+      const onSkip = () => advanceAdsgram();
+      const onError = () => advanceAdsgram();
+
+      // onComplete is important when the Adsgram interstitial closes
+      // automatically after its playback time ends.
+      try {
+        ctrl.addEventListener?.('onComplete', onComplete);
+        ctrl.addEventListener?.('onSkip', onSkip);
+        ctrl.addEventListener?.('onError', onError);
+      } catch (e) {}
+
+      Promise.resolve(ctrl.show())
+        .then(() => advanceAdsgram())
+        .catch(() => advanceAdsgram());
+
+    } catch (e) {
+      _next();
+    }
   } else if (net.name === 'monetag') {
     try {
       const showFn = window[MONETAG_SDK_FN];
