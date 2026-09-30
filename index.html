@@ -1267,38 +1267,30 @@ function playSlot() {
     el.className = 'adov-s' + (i < CS.idx ? ' done' : i === CS.idx ? ' active' : '');
   });
   if (net.name === 'adsgram') {
-    // Adsgram is intentionally MANUAL-ADVANCE: never auto-open the next slot.
-    // Once the ad closes/completes (or fails), show the same Continue button.
-    if (!net.blockId) { _showContinueBtn(); return; }
+    if (!net.blockId) { _next(); return; }
     try {
       const ctrl = window.Adsgram?.init({ blockId: String(net.blockId) });
-      if (!ctrl) { _showContinueBtn(); return; }
-      ctrl.show()
-        .then(() => { _showContinueBtn(); })
-        .catch(() => { _showContinueBtn(); });
-    } catch (e) { _showContinueBtn(); }
+      if (!ctrl) { _next(); return; }
+      // Adsgram শেষ/close হওয়ার পরে কখনোই auto-next নয়।
+      // Promise resolve/reject — দুই ক্ষেত্রেই শুধু Continue button দেখাবে।
+      ctrl.show().then(() => { if (CS.active && !_slotAdvanced) _showContinueBtn(); })
+        .catch(() => { if (CS.active && !_slotAdvanced) _showContinueBtn(); });
+    } catch (e) { _next(); }
   } else if (net.name === 'monetag') {
-    // Monetag is also MANUAL-ADVANCE.
-    const showMonetagContinue = () => _showContinueBtn();
     try {
       const showFn = window[MONETAG_SDK_FN];
       if (typeof showFn === 'function') {
-        showFn().then(showMonetagContinue).catch(showMonetagContinue);
+        showFn().then(() => _next()).catch(() => _next());
       } else {
         let retryCount = 0;
         const retryInterval = setInterval(() => {
           retryCount++;
           const fn = window[MONETAG_SDK_FN];
-          if (typeof fn === 'function') {
-            clearInterval(retryInterval);
-            fn().then(showMonetagContinue).catch(showMonetagContinue);
-          } else if (retryCount >= 5) {
-            clearInterval(retryInterval);
-            showMonetagContinue();
-          }
+          if (typeof fn === 'function') { clearInterval(retryInterval); fn().then(() => _next()).catch(() => _next()); }
+          else if (retryCount >= 5) { clearInterval(retryInterval); _next(); }
         }, 1000);
       }
-    } catch (e) { showMonetagContinue(); }
+    } catch (e) { _next(); }
   } else if (net.name === 'adsterra') {
     if (!net.link && !net.script) { _next(); return; }
     try {
