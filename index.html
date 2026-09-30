@@ -1237,11 +1237,16 @@ function startChain(type, wdData = null) {
 
 let _slotAdvanced = false;
 function _showContinueBtn() {
+  // Stop the loading spinner and show the manual Continue button.
+  const spinner = document.querySelector('#adOverlay .adov-spinner-wrap');
+  if (spinner) spinner.style.display = 'none';
   document.getElementById('adovWaiting').classList.add('show');
   document.getElementById('adovDivider').style.display = 'block';
   document.getElementById('adovContinue').classList.add('show');
 }
 function _hideContinueBtn() {
+  const spinner = document.querySelector('#adOverlay .adov-spinner-wrap');
+  if (spinner) spinner.style.display = 'flex';
   document.getElementById('adovWaiting').classList.remove('show');
   document.getElementById('adovDivider').style.display = 'none';
   document.getElementById('adovContinue').classList.remove('show');
@@ -1267,30 +1272,56 @@ function playSlot() {
     el.className = 'adov-s' + (i < CS.idx ? ' done' : i === CS.idx ? ' active' : '');
   });
   if (net.name === 'adsgram') {
-    if (!net.blockId) { _next(); return; }
+    if (!net.blockId) { _showContinueBtn(); return; }
     try {
       const ctrl = window.Adsgram?.init({ blockId: String(net.blockId) });
-      if (!ctrl) { _next(); return; }
-      // Adsgram শেষ/close হওয়ার পরে কখনোই auto-next নয়।
-      // Promise resolve/reject — দুই ক্ষেত্রেই শুধু Continue button দেখাবে।
-      ctrl.show().then(() => { if (CS.active && !_slotAdvanced) _showContinueBtn(); })
-        .catch(() => { if (CS.active && !_slotAdvanced) _showContinueBtn(); });
-    } catch (e) { _next(); }
+      if (!ctrl) { _showContinueBtn(); return; }
+
+      // IMPORTANT: Adsgram must NEVER advance the chain automatically.
+      // Show the manual Continue button when the ad is rewarded, skipped,
+      // completed, or errors. The button itself advances to the next slot.
+      const slotIndex = CS.idx;
+      let finished = false;
+      const finish = () => {
+        if (finished || !CS.active || CS.idx !== slotIndex) return;
+        finished = true;
+        try {
+          ['onReward','onComplete','onSkip','onError','onBannerNotFound'].forEach(ev => {
+            if (ctrl.removeEventListener && handlers[ev]) ctrl.removeEventListener(ev, handlers[ev]);
+          });
+        } catch (e) {}
+        _showContinueBtn();
+      };
+      const handlers = {
+        onReward: finish,
+        onComplete: finish,
+        onSkip: finish,
+        onError: finish,
+        onBannerNotFound: finish
+      };
+      Object.keys(handlers).forEach(ev => {
+        try { if (ctrl.addEventListener) ctrl.addEventListener(ev, handlers[ev]); } catch (e) {}
+      });
+
+      // Promise is also handled because Adsgram documents resolution/rejection
+      // for end/skip/error. It is only used to reveal Continue, never _next().
+      ctrl.show().then(finish).catch(finish);
+    } catch (e) { _showContinueBtn(); }
   } else if (net.name === 'monetag') {
     try {
       const showFn = window[MONETAG_SDK_FN];
       if (typeof showFn === 'function') {
-        showFn().then(() => _next()).catch(() => _next());
+        showFn().then(() => _showContinueBtn()).catch(() => _showContinueBtn());
       } else {
         let retryCount = 0;
         const retryInterval = setInterval(() => {
           retryCount++;
           const fn = window[MONETAG_SDK_FN];
-          if (typeof fn === 'function') { clearInterval(retryInterval); fn().then(() => _next()).catch(() => _next()); }
-          else if (retryCount >= 5) { clearInterval(retryInterval); _next(); }
+          if (typeof fn === 'function') { clearInterval(retryInterval); fn().then(() => _showContinueBtn()).catch(() => _showContinueBtn()); }
+          else if (retryCount >= 5) { clearInterval(retryInterval); _showContinueBtn(); }
         }, 1000);
       }
-    } catch (e) { _next(); }
+    } catch (e) { _showContinueBtn(); }
   } else if (net.name === 'adsterra') {
     if (!net.link && !net.script) { _next(); return; }
     try {
@@ -1308,7 +1339,7 @@ function playSlot() {
       }
     } catch (e) { }
     _showContinueBtn();
-  } else { _next(); }
+  } else { _showContinueBtn(); }
 }
 
 async function chainAllDone() {
