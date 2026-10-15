@@ -560,7 +560,7 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
       </div>
     </div>
 
-    <!-- YouTube tutorial video: directly below the Big Ad Card -->
+    <!-- Cloudinary MP4 tutorial video: directly below the Big Ad Card -->
     <section class="tutorial-video-card" aria-label="ভিডিও টিউটোরিয়াল">
       <div class="tutorial-video-heading">
         <span class="tutorial-video-icon">▶</span>
@@ -570,14 +570,16 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         </div>
       </div>
       <div class="tutorial-video-frame">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/OS9RsZTrvmQ?playsinline=1&rel=0"
+        <video
+          controls
+          playsinline
+          preload="metadata"
           title="ভিডিও টিউটোরিয়াল"
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;"
+        >
+          <source src="https://res.cloudinary.com/dinpm41sc/video/upload/v1792055901/lv_0_20261015112215_1.mp4" type="video/mp4">
+          আপনার ব্রাউজার ভিডিও চালাতে পারছে না।
+        </video>
       </div>
     </section>
     <style>
@@ -628,7 +630,7 @@ body { background:var(--bg-dark); color:var(--text-main); min-height:100vh; over
         border-radius: 10px;
         overflow: hidden;
       }
-      .tutorial-video-frame iframe {
+      .tutorial-video-frame video {
         position: absolute;
         inset: 0;
         width: 100%;
