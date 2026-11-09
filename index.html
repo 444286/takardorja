@@ -1345,7 +1345,10 @@ function updateWatchCard() {
 function buildQueue(chainData) {
   const slots = chainData.slots || [];
   const creds = APP.settings.credentials || {};
-  return slots.map(n => ({ name: n, ...(creds[n] || {}) }));
+  return slots.map(slot => {
+    const item = typeof slot === 'string' ? { name: slot } : (slot || { name: 'adsgram' });
+    return { ...(creds[item.name] || {}), ...item, name: item.name };
+  });
 }
 
 function startChain(type, wdData = null) {
